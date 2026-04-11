@@ -118,9 +118,9 @@ html{touch-action:pan-x pan-y;-ms-touch-action:pan-x pan-y}
 #prestige-badge{display:none;background:linear-gradient(135deg,#4a0080,#9333ea);border-radius:12px;padding:2px 8px;font-size:11px;font-weight:800;color:#fff;margin-left:4px}
 
 /* Shop tab locked initially */
-#nv-shop.locked{opacity:.3;pointer-events:none;cursor:not-allowed}
+#nv-shop.locked{opacity:.4}
 /* Stats tab locked until 1M coins */
-#nv-stats.locked{opacity:.3;pointer-events:none;cursor:not-allowed}
+#nv-stats.locked{opacity:.4}
 
 /* Pause all background animations while a mini-game modal is open
    (blackjack/roulette/slots). The mini-game's own modal stays animated. */
@@ -459,6 +459,82 @@ body.minigame-paused #coin-el{
 .best-win-bar{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;
   margin-top:6px;width:100%}
 .best-win-bar span{font-size:12px;font-weight:800;color:var(--g)}
+
+/* invite / referral */
+.invite-card{width:100%;background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(232,180,0,.08));
+  border:1.5px solid rgba(139,92,246,.3);border-radius:var(--rm);
+  padding:12px 14px;text-align:center;margin-top:4px}
+.invite-title{font-size:12px;font-weight:900;color:#c084fc;letter-spacing:.3px;margin-bottom:2px}
+.invite-sub{font-size:10px;color:var(--txm);margin-bottom:10px}
+.invite-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;border-radius:10px;
+  color:#fff;font-size:12px;font-weight:900;cursor:pointer;font-family:'Inter',sans-serif;
+  letter-spacing:.3px;transition:transform .1s;box-shadow:0 2px 12px rgba(124,58,237,.3)}
+.invite-btn:active{transform:scale(.95)}
+.invite-count{font-size:9px;color:var(--txd);margin-top:8px;font-weight:700}
+/* referral welcome banner */
+.ref-banner{width:100%;background:linear-gradient(135deg,rgba(22,199,132,.15),rgba(22,199,132,.05));
+  border:1px solid rgba(22,199,132,.35);border-radius:var(--rm);padding:10px 14px;
+  text-align:center;margin-bottom:6px;animation:refPop .5s cubic-bezier(.34,1.5,.64,1)}
+.ref-banner b{color:var(--win);font-size:14px}
+.ref-banner span{font-size:11px;color:var(--txm);display:block;margin-top:2px}
+@keyframes refPop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+/* share after milestone popup */
+.share-popup{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--bg2);border:1.5px solid rgba(139,92,246,.4);border-radius:16px;
+  padding:14px 20px;text-align:center;z-index:850;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.34,1.4,.64,1);box-shadow:0 8px 30px rgba(0,0,0,.5);
+  max-width:320px;width:calc(100% - 40px)}
+.share-popup.on{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.share-popup-title{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--g);letter-spacing:1px}
+.share-popup-sub{font-size:11px;color:var(--txm);margin:4px 0 10px}
+.share-popup-btns{display:flex;gap:8px;justify-content:center}
+.share-popup-btns button{padding:8px 16px;border-radius:8px;border:none;font-size:11px;
+  font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;transition:transform .1s}
+.share-popup-btns button:active{transform:scale(.94)}
+.share-popup-share{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff}
+.share-popup-close{background:var(--bg3);border:1px solid var(--br)!important;color:var(--txm)}
+
+/* ─── PROFILE / ACCOUNT ─── */
+#profile-modal .ms{background:linear-gradient(160deg,var(--bg1),#0d0a1a)}
+.profile-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 10px;
+  border:2px solid rgba(139,92,246,.5);box-shadow:0 0 16px rgba(139,92,246,.3)}
+.profile-name{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--g);text-align:center;letter-spacing:1px}
+.profile-input{width:100%;padding:12px 14px;background:var(--bg3);border:1.5px solid var(--br);
+  border-radius:var(--rm);color:var(--tx);font-size:14px;outline:none;font-family:'Inter',sans-serif;
+  margin-bottom:8px;transition:border-color .2s}
+.profile-input:focus{border-color:var(--g3)}
+.profile-input::placeholder{color:var(--txd)}
+.profile-code-box{background:var(--bg3);border:1px solid var(--br2);border-radius:var(--rm);
+  padding:12px;text-align:center;margin:10px 0}
+.profile-code{font-family:'Bebas Neue',monospace;font-size:18px;color:var(--g);letter-spacing:3px;
+  word-break:break-all;user-select:all}
+.profile-code-label{font-size:10px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+
+/* ─── DIAMONDS ─── */
+.diamond-display{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#60a5fa}
+.diamond-ico{font-size:14px}
+#diamond-count{font-family:'Bebas Neue',sans-serif;font-size:14px;color:#60a5fa}
+/* Diamond header pill */
+.diamond-pill{display:flex;align-items:center;gap:3px;background:rgba(96,165,250,.08);
+  border:1px solid rgba(96,165,250,.25);border-radius:14px;padding:2px 8px;cursor:pointer;
+  transition:all .2s}
+.diamond-pill:active{transform:scale(.95)}
+
+/* ─── DIAMOND SHOP ─── */
+.dshop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.dshop-item{background:var(--bg2);border:1px solid rgba(96,165,250,.2);border-radius:var(--rm);
+  padding:12px 10px;text-align:center;cursor:pointer;transition:all .15s;position:relative}
+.dshop-item:active{transform:scale(.96)}
+.dshop-item.owned{opacity:.5;cursor:default;border-color:rgba(22,199,132,.3)}
+.dshop-item-ico{font-size:28px;display:block;margin-bottom:6px}
+.dshop-item-name{font-size:11px;font-weight:800;color:var(--tx)}
+.dshop-item-desc{font-size:9px;color:var(--txm);margin-top:2px}
+.dshop-item-price{display:inline-flex;align-items:center;gap:3px;margin-top:6px;
+  background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);border-radius:8px;
+  padding:3px 10px;font-size:11px;font-weight:900;color:#60a5fa}
+.dshop-item-owned{color:var(--win);font-size:10px;font-weight:800;margin-top:6px}
 
 /* buttons */
 .btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--g3),var(--g));
@@ -833,6 +909,24 @@ body.minigame-paused #coin-el{
   #hdr{padding:2px 10px 2px}
 }
 
+/* ─── GOLDEN MODE (diamond shop item) ─── */
+body.golden-mode #app{background:radial-gradient(ellipse 75% 32% at 50% 0%,rgba(232,180,0,.18) 0%,transparent 65%),
+  linear-gradient(180deg,#0a0800,#06060C)}
+body.golden-mode #hdr{background:rgba(20,16,6,.96);border-bottom-color:rgba(232,180,0,.25)}
+body.golden-mode #tap{border-color:var(--g);
+  box-shadow:0 0 0 8px rgba(232,180,0,.12),0 0 60px rgba(232,180,0,.3),inset 0 0 30px rgba(232,180,0,.1)}
+body.golden-mode .rank-pill{border-color:var(--g);background:rgba(232,180,0,.12)}
+body.golden-mode .sp{border-color:rgba(232,180,0,.2);background:rgba(232,180,0,.06)}
+body.golden-mode .gc{border-color:rgba(232,180,0,.2);background:rgba(232,180,0,.04)}
+body.golden-mode #nav{background:rgba(20,16,6,.98);border-top-color:rgba(232,180,0,.2)}
+body.golden-mode .nv.a{background:rgba(232,180,0,.12)}
+body.golden-mode .sb{border-color:rgba(232,180,0,.3)!important}
+body.golden-mode .invite-card{border-color:rgba(232,180,0,.4);background:rgba(232,180,0,.08)}
+body.golden-mode #coin-el{text-shadow:0 0 40px rgba(232,180,0,.6)}
+body.golden-mode .prog-track{border-color:rgba(232,180,0,.2)}
+body.golden-mode::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 50% 30%,rgba(232,180,0,.03),transparent 70%)}
+
 .hidden{display:none!important}
 </style>
 </head>
@@ -925,6 +1019,15 @@ body.minigame-paused #coin-el{
 <div id="sf"></div>
 <div id="mini-toast"></div>
 <div id="toast"></div>
+<!-- Share popup after milestones -->
+<div class="share-popup" id="share-popup">
+  <div class="share-popup-title" id="share-popup-title">🏆 MILESTONE!</div>
+  <div class="share-popup-sub">Challenge your friends!</div>
+  <div class="share-popup-btns">
+    <button class="share-popup-share" onclick="shareGame();closeSharePopup()">📤 Share</button>
+    <button class="share-popup-close" onclick="closeSharePopup()">✕</button>
+  </div>
+</div>
 <!-- micro-drop replaced by miniToast -->
 
 <!-- NOTIFICATION -->
@@ -1019,6 +1122,7 @@ body.minigame-paused #coin-el{
         <img id="logo-img" class="img-logo" src="" alt="CasiClicker">
       </div>
       <div class="hdr-btns">
+        <div class="diamond-pill" onclick="openM('profile-modal');updateProfileModal()">💎 <span id="diamond-count">0</span></div>
         <button class="hbtn" id="snd-btn" onclick="toggleSnd()">🔊</button>
         <button class="hbtn" onclick="renderLangPicker()" title="Language">🌐</button>
         <button class="hbtn" onclick="saveProgress()">💾</button>
@@ -1059,6 +1163,11 @@ body.minigame-paused #coin-el{
 
     <!-- HOME -->
     <div id="tab-home">
+      <!-- Referral welcome banner (hidden by default) -->
+      <div class="ref-banner" id="ref-banner" style="display:none">
+        <b>🎁 +5,000 bonus coins!</b>
+        <span>Your friend gave you a head start!</span>
+      </div>
       <div id="tw">
         <div class="pr"></div><div class="pr"></div><div class="pr"></div>
         <div id="tap"><img class="img-tap" id="tap-img" src="" alt="tap"><span class="tl">Tap to Earn</span></div>
@@ -1129,17 +1238,21 @@ body.minigame-paused #coin-el{
         </div>
       </div>
 
+      <!-- Invite Friends -->
+      <div class="invite-card" id="invite-card">
+        <div class="invite-title">🎁 INVITE FRIENDS</div>
+        <div class="invite-sub">Share & earn 💎 1 diamond + 1,000 coins!</div>
+        <button class="invite-btn" onclick="shareGame()">📤 Share Link</button>
+        <div class="invite-count" id="invite-count"></div>
+      </div>
+
       <!-- Best Win footer -->
       <div class="best-win-bar">
         <span>🏆 BEST WIN</span>
         <span>💰 <span id="best-win-val">0</span></span>
       </div>
 
-      <!-- Achievements section -->
-      <div class="ach-section reveal-section" id="reveal-ach" style="display:none;width:100%">
-        <div class="ach-title">ACHIEVEMENTS</div>
-        <div class="ach-scroll" id="ach-list"></div>
-      </div>
+      <!-- Achievements removed (cleaner UI) -->
 
     </div><!-- /tab-home -->
 
@@ -1276,7 +1389,41 @@ body.minigame-paused #coin-el{
 </div></div>
 
 <!-- RPS FINAL -->
-<!-- (reserved) -->
+<!-- PROFILE MODAL -->
+<div class="modal" id="profile-modal" onclick="ovClose(event,'profile-modal')"><div class="ms">
+  <div class="mh"></div><button class="mc2" onclick="closeM('profile-modal')">✕</button>
+  <div class="profile-avatar" id="profile-avatar">👤</div>
+  <div class="profile-name" id="profile-name-display"></div>
+  <div style="margin-top:14px">
+    <div style="font-size:10px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Pseudo</div>
+    <input class="profile-input" id="profile-pseudo" placeholder="Enter your name..." maxlength="20">
+    <button class="btn" style="margin-top:4px" onclick="saveProfile()">💾 Save Profile</button>
+  </div>
+  <div style="margin-top:16px">
+    <div class="dvr"><div class="dvrl"></div><div class="dvrt">Transfer Save</div><div class="dvrl"></div></div>
+    <div class="profile-code-box">
+      <div class="profile-code-label">Your save code (copy this!)</div>
+      <div class="profile-code" id="profile-save-code">---</div>
+    </div>
+    <button class="btn2" style="margin-top:6px" onclick="copySaveCode()">📋 Copy Code</button>
+    <div style="margin-top:12px">
+      <div style="font-size:10px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Load from code</div>
+      <input class="profile-input" id="profile-load-code" placeholder="Paste save code here...">
+      <button class="btn2" style="margin-top:4px" onclick="loadSaveCode()">📥 Load Save</button>
+    </div>
+  </div>
+  <div style="margin-top:16px">
+    <div class="dvr"><div class="dvrl"></div><div class="dvrt">💎 Diamond Shop</div><div class="dvrl"></div></div>
+    <div style="text-align:center;margin:6px 0">
+      <div class="diamond-display" style="justify-content:center;font-size:16px;gap:6px">
+        <span>💎</span><span id="profile-diamonds">0</span> <span style="font-size:11px;color:var(--txm)">diamonds</span>
+      </div>
+      <div style="font-size:9px;color:var(--txd);margin-top:2px">Earn diamonds by inviting friends!</div>
+    </div>
+    <div class="dshop-grid" id="dshop-list"></div>
+  </div>
+  <button class="m-close-bottom" onclick="closeM('profile-modal')">✕ Close</button>
+</div></div>
 
 <script>
 
@@ -1352,6 +1499,7 @@ const T = {
   emailRequired:   { en:'Enter your email to unlock the Shop!', fr:'Entre ton email pour débloquer la Boutique !', es:'¡Ingresa tu email para desbloquear la Tienda!', zh:'输入邮箱解锁商店！' },
   shopLockedMsg:   { en:'Shop unlocks after 1 minute — keep tapping!', fr:'La boutique s\'ouvre après 1 minute — continue de taper !', es:'La tienda se abre tras 1 minuto', zh:'商店1分钟后解锁' },
   statsLockedMsg:  { en:'Stats unlock at 1,000,000 coins!', fr:'Stats débloquées à 1 000 000 pièces !', es:'Estadísticas a 1,000,000 monedas', zh:'统计在1,000,000金币时解锁' },
+  statsLockedDetail:{ en:'Stats unlock at 1M coins — {n} more to go! Keep tapping & playing!', fr:'Stats à 1M pièces — encore {n} ! Continue de jouer !', es:'Estadísticas a 1M — ¡faltan {n}! ¡Sigue jugando!', zh:'统计1M解锁 — 还差{n}！继续加油！' },
   maxReached:      { en:'Maximum reached!', fr:'Maximum atteint !', es:'¡Máximo alcanzado!', zh:'已达上限！' },
   notEnoughCoins:  { en:'Not enough coins!', fr:'Pas assez de pièces !', es:'¡Monedas insuficientes!', zh:'金币不足！' },
   purchased:       { en:'{ico} {n} purchased!', fr:'{ico} {n} acheté !', es:'¡{ico} {n} comprado!', zh:'{ico} {n}已购买！' },
@@ -1621,7 +1769,7 @@ function applyTranslations() {
   // Bet labels
   document.querySelectorAll('.bl').forEach(el => el.textContent = t('betLabel'));
   // CPS
-  const cpsTxt = document.querySelector('.cps-txt'); if(cpsTxt) cpsTxt.innerHTML = '🪙 <span id="cps-n">'+G.cps.toFixed(1)+'</span>'+t('coinsPerSec');
+  // CPS label updated via refreshHUD
 }
 
 /* Language selector UI */
@@ -1865,7 +2013,7 @@ function triggerEmpireUnlockAnim(eu){
 }
 
 function recalcClickPower(){
-  G.clickPower = 1 + CLICK_UPGRADES.reduce((s,u) => s + u.bonus * G.cup[u.id], 0);
+  G.clickPower = (1 + CLICK_UPGRADES.reduce((s,u) => s + u.bonus * G.cup[u.id], 0)) * (typeof diamondMult==='function'?diamondMult():1);
   // Update cpt display
   const cptEl = document.getElementById('cpt');
   if(cptEl) cptEl.textContent = '+'+G.clickPower+' / tap';
@@ -1883,7 +2031,7 @@ function buyClickUp(id){
 function recalcCPS(){
   const shopCPS=SHOP.reduce((s,d)=>s+d.cps*G.up[d.id],0);
   const empireCPS=EMPIRE_UNLOCKS.reduce((s,eu)=>s+eu.cps*(G.empireUp[eu.id]||0),0);
-  G.cps=(shopCPS+empireCPS)*prestigeMultiplier();
+  G.cps=(shopCPS+empireCPS)*prestigeMultiplier()*(typeof diamondMult==='function'?diamondMult():1);
 }
 
 /* ═══════════════════════════════════════
@@ -1978,7 +2126,9 @@ function checkMS(prev,curr){
       // Milestone reward: small coin bonus
       const bonus=Math.floor(m.v*0.02);
       G.coins+=bonus;
-      showNotif(m.i,m.t,m.s+(bonus>0?` (+${fmtF(bonus)} bonus!)`:'')); S.milestone();confetti()
+      showNotif(m.i,m.t,m.s+(bonus>0?` (+${fmtF(bonus)} bonus!)`:'')); S.milestone();confetti();
+      // Show share popup on big milestones
+      if(m.v>=1000)setTimeout(function(){showSharePopup('🏆 '+fmtBig(m.v)+' COINS!')},2000);
     }
   }
 }
@@ -2356,7 +2506,8 @@ function submitEmail(){
   if(G.emailDone){closeM('em-m');return}
   G.emailDone=true;
   // Backup to localStorage
-  try{const em=JSON.parse(localStorage.getItem('cc_emails')||'[]');em.push({email:v,coins:G.coins,ts:new Date().toISOString(),lang:LANG});localStorage.setItem('cc_emails',JSON.stringify(em))}catch(e){}
+  var refFrom=localStorage.getItem('cc_ref_from')||'direct';
+  try{const em=JSON.parse(localStorage.getItem('cc_emails')||'[]');em.push({email:v,coins:G.coins,ts:new Date().toISOString(),lang:LANG,ref:refFrom,myCode:MY_REF_CODE});localStorage.setItem('cc_emails',JSON.stringify(em))}catch(e){}
   // POST to Google Forms (silent iframe)
   try{
     var iframe=document.createElement('iframe');iframe.name='gf_submit';iframe.style.display='none';
@@ -2370,7 +2521,11 @@ function submitEmail(){
   }catch(e){}
   if(typeof gtag==='function')gtag('event','email_submit',{method:'google_forms'});
   addC(500);S.bigwin();confetti();screenFlash('w');toast(t('emailToast'));closeM('em-m');
-  // Open shop after email submission
+  // Unlock shop permanently
+  G.shopTabUnlocked=true;
+  var nvShop=document.getElementById('nv-shop');if(nvShop)nvShop.classList.remove('locked');
+  saveSession();
+  // Open shop
   setTimeout(function(){switchTab('shop',document.getElementById('nv-shop'))},500);
 }
 
@@ -2922,10 +3077,12 @@ function slMegaSpin(){
    TABS
 ═══════════════════════════════════════ */
 function switchTab(n,btn){
-  if(n==='shop'&&!G.shopTabUnlocked){toast('🔒 '+t('shopLockedMsg'));return}
-  // Shop requires email — always block until email is given
+  // Shop requires email — no timer, just email gate
   if(n==='shop'&&!G.emailDone){openM('em-m');return}
-  if(n==='stats'&&G.coins<M1&&!G.statsUnlocked){toast('🔒 '+t('statsLockedMsg'));return}
+  if(n==='stats'&&G.coins<M1&&!G.statsUnlocked){
+    var remaining=M1-G.coins;
+    toast('🔒 '+t('statsLockedDetail',{n:fmtBig(remaining)}));return
+  }
   document.querySelectorAll('.nv').forEach(b=>b.classList.remove('a'));btn.classList.add('a');
   ['home','shop','stats'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.classList.toggle('hidden',t!==n)});
   if(n==='shop')document.getElementById('shop-pip').classList.remove('on');
@@ -3066,7 +3223,6 @@ const REVEAL_THRESHOLDS = [
   { id: 'reveal-stats',  coins: 10,  get msg(){return t('revStats')} },
   { id: 'reveal-daily',  coins: 50,  get msg(){return t('revDaily')} },
   { id: 'reveal-games',  coins: 100, get msg(){return t('revGames')} },
-  { id: 'reveal-ach',    coins: 150, get msg(){return 'Achievements unlocked!'} },
 ];
 const _revealed = new Set();
 
@@ -3114,9 +3270,17 @@ function saveSession() {
   try {
     localStorage.setItem('cc_session', JSON.stringify({
       ts: Date.now(),
-      cps: G.cps,
-      coins: G.coins,
-      clickPower: G.clickPower,
+      coins: G.coins, cps: G.cps, clickPower: G.clickPower,
+      totalClicks: G.totalClicks, totalWins: G.totalWins, totalGames: G.totalGames,
+      biggestWin: G.biggestWin,
+      up: G.up, cup: G.cup,
+      shopVisible: G.shopVisible, cpVisible: G.cpVisible,
+      shopTabUnlocked: G.shopTabUnlocked, emailDone: G.emailDone,
+      dailyDone: G.dailyDone, victoryDone: G.victoryDone, empireDone: G.empireDone, statsUnlocked: G.statsUnlocked||false,
+      empireUp: G.empireUp, prevRank: G.prevRank,
+      diamonds: G.diamonds||0, dshopOwned: G.dshopOwned||{},
+      milestones: Array.from(G.milestones||[]),
+      bets: G.bets, socialDone: G.socialDone,
     }));
   } catch(e) {}
 }
@@ -3126,12 +3290,38 @@ function checkOfflineEarnings() {
     const raw = localStorage.getItem('cc_session');
     if (!raw) return;
     const sess = JSON.parse(raw);
-    if (!sess || !sess.ts || !sess.cps || sess.cps <= 0) return;
+    if (!sess || !sess.ts) return;
+
+    // Restore full game state
+    if(sess.coins!==undefined) G.coins=sess.coins;
+    if(sess.totalClicks) G.totalClicks=sess.totalClicks;
+    if(sess.totalWins) G.totalWins=sess.totalWins;
+    if(sess.totalGames) G.totalGames=sess.totalGames;
+    if(sess.biggestWin) G.biggestWin=sess.biggestWin;
+    if(sess.up) G.up=sess.up;
+    if(sess.cup) G.cup=sess.cup;
+    if(sess.shopVisible!==undefined) G.shopVisible=sess.shopVisible;
+    if(sess.cpVisible!==undefined) G.cpVisible=sess.cpVisible;
+    if(sess.shopTabUnlocked) G.shopTabUnlocked=sess.shopTabUnlocked;
+    if(sess.emailDone) G.emailDone=sess.emailDone;
+    if(sess.dailyDone) G.dailyDone=sess.dailyDone;
+    if(sess.victoryDone) G.victoryDone=sess.victoryDone;
+    if(sess.empireDone) G.empireDone=sess.empireDone;
+    if(sess.empireUp) G.empireUp=sess.empireUp;
+    if(sess.prevRank!==undefined) G.prevRank=sess.prevRank;
+    if(sess.statsUnlocked) G.statsUnlocked=sess.statsUnlocked;
+    if(sess.diamonds!==undefined) G.diamonds=sess.diamonds;
+    if(sess.dshopOwned) G.dshopOwned=sess.dshopOwned;
+    if(sess.milestones) G.milestones=new Set(sess.milestones);
+    if(sess.bets) G.bets=sess.bets;
+    if(sess.socialDone) G.socialDone=sess.socialDone;
+
+    // Offline earnings
+    if(!sess.cps || sess.cps <= 0) return;
     const elapsed = Math.min((Date.now() - sess.ts) / 1000, OFFLINE_CAP_SECS);
-    if (elapsed < 60) return; // Less than 1 min away — skip
+    if (elapsed < 60) return;
     const earned = Math.floor(sess.cps * elapsed);
     if (earned <= 0) return;
-    // Show welcome-back modal
     setTimeout(() => showOfflineReward(earned, Math.floor(elapsed)), 800);
   } catch(e) {}
 }
@@ -3359,19 +3549,323 @@ function schedGolden() {
   setTimeout(() => { triggerGolden(); schedGolden(); }, delay);
 }
 
-/* ─── SHOP TAB UNLOCK (1 minute) ─── */
-setTimeout(()=>{
-  if(G.shopTabUnlocked)return;
+/* ─── SHOP UNLOCK — only via email ─── */
+// Shop unlocks when email is given (no timer). Check on load:
+if(G.emailDone){
   G.shopTabUnlocked=true;
-  const nvShop=document.getElementById('nv-shop');
-  if(nvShop){
-    nvShop.classList.remove('locked');
-    // Pip to draw attention
-    document.getElementById('shop-pip').classList.add('on');
-    // Small toast — not intrusive
-    toast('🏪 Shop unlocked!');
+  var nvS=document.getElementById('nv-shop');if(nvS)nvS.classList.remove('locked');
+}
+
+/* ═══════════════════════════════════════
+   PLAYER PROFILE + SAVE CODE
+═══════════════════════════════════════ */
+// Profile data
+function getProfile(){
+  try{return JSON.parse(localStorage.getItem('cc_profile')||'{}');}catch(e){return{}}
+}
+function setProfile(d){
+  try{localStorage.setItem('cc_profile',JSON.stringify(d))}catch(e){}
+}
+
+function saveProfile(){
+  var pseudo=document.getElementById('profile-pseudo').value.trim();
+  if(!pseudo){toast('Enter a name!');return}
+  var p=getProfile();p.pseudo=pseudo;
+  setProfile(p);
+  toast('✅ Profile saved: '+pseudo);
+  updateProfileModal();
+}
+
+function updateProfileModal(){
+  var p=getProfile();
+  var nameEl=document.getElementById('profile-name-display');
+  var pseudoInput=document.getElementById('profile-pseudo');
+  var avatarEl=document.getElementById('profile-avatar');
+  var diaEl=document.getElementById('profile-diamonds');
+  if(nameEl)nameEl.textContent=p.pseudo||'New Player';
+  if(pseudoInput)pseudoInput.value=p.pseudo||'';
+  if(avatarEl)avatarEl.textContent=p.pseudo?p.pseudo.charAt(0).toUpperCase():'👤';
+  if(diaEl)diaEl.textContent=G.diamonds||0;
+  generateSaveCode();
+  buildDiamondShop();
+}
+
+function generateSaveCode(){
+  // Encode full game state as base64 string
+  var data={
+    v:2, // version
+    pseudo:(getProfile().pseudo||''),
+    coins:G.coins,cps:G.cps,clickPower:G.clickPower,
+    totalClicks:G.totalClicks,totalWins:G.totalWins,totalGames:G.totalGames,
+    biggestWin:G.biggestWin,
+    up:G.up,cup:G.cup,
+    shopVisible:G.shopVisible,cpVisible:G.cpVisible,
+    diamonds:G.diamonds||0,
+    dshopOwned:G.dshopOwned||{},
+    emailDone:G.emailDone,
+    ref:MY_REF_CODE,
+    ts:Date.now()
+  };
+  var json=JSON.stringify(data);
+  var code=btoa(unescape(encodeURIComponent(json)));
+  var el=document.getElementById('profile-save-code');
+  if(el)el.textContent=code;
+}
+
+function copySaveCode(){
+  var code=document.getElementById('profile-save-code').textContent;
+  if(!code||code==='---'){toast('No save code yet');return}
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(code).then(function(){toast('📋 Save code copied!')});
+  }else{
+    var ta=document.createElement('textarea');ta.value=code;ta.style.cssText='position:fixed;left:-9999px';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');toast('📋 Copied!')}catch(e){toast('Code: '+code.substring(0,20)+'...')}
+    ta.remove();
   }
-},60000); // 60 seconds
+}
+
+function loadSaveCode(){
+  var code=document.getElementById('profile-load-code').value.trim();
+  if(!code){toast('Paste a save code first!');return}
+  try{
+    var json=decodeURIComponent(escape(atob(code)));
+    var data=JSON.parse(json);
+    if(!data.v){toast('❌ Invalid code');return}
+    // Restore state
+    G.coins=data.coins||0;G.clickPower=data.clickPower||1;
+    G.totalClicks=data.totalClicks||0;G.totalWins=data.totalWins||0;
+    G.totalGames=data.totalGames||0;G.biggestWin=data.biggestWin||0;
+    G.up=data.up||{ac:0,da:0,vt:0,mg:0,em:0,mc:0};
+    G.cup=data.cup||{cp1:0,cp2:0,cp3:0};
+    G.shopVisible=data.shopVisible||0;G.cpVisible=data.cpVisible||-1;
+    G.diamonds=data.diamonds||0;
+    G.dshopOwned=data.dshopOwned||{};
+    G.emailDone=data.emailDone||false;
+    if(data.pseudo){var p=getProfile();p.pseudo=data.pseudo;setProfile(p)}
+    // Rebuild UI
+    recalcClickPower();recalcCPS();buildShop();refreshHUD();saveSession();
+    applyDiamondEffects();
+    updateProfileModal();updateDiamondDisplay();
+    toast('✅ Save loaded! Welcome back, '+(data.pseudo||'player')+'!');
+    confetti();closeM('profile-modal');
+  }catch(e){toast('❌ Invalid save code')}
+}
+
+/* ═══════════════════════════════════════
+   DIAMOND CURRENCY
+═══════════════════════════════════════ */
+// Initialize diamonds on G
+if(typeof G.diamonds==='undefined')G.diamonds=0;
+if(typeof G.dshopOwned==='undefined')G.dshopOwned={};
+
+function addDiamonds(n){
+  G.diamonds=(G.diamonds||0)+n;
+  updateDiamondDisplay();saveSession();
+}
+
+function updateDiamondDisplay(){
+  var el=document.getElementById('diamond-count');
+  if(el)el.textContent=G.diamonds||0;
+}
+updateDiamondDisplay();
+
+/* ═══════════════════════════════════════
+   DIAMOND SHOP — 4 items
+═══════════════════════════════════════ */
+var DSHOP_ITEMS=[
+  {id:'rps',  name:'Rock Paper Scissors', desc:'New game mode!', ico:'✊', price:1},
+  {id:'x2',   name:'Double Boost', desc:'x2 all shop & click power', ico:'⚡', price:2},
+  {id:'gold', name:'Golden Mode', desc:'Full gold visual theme', ico:'👑', price:3},
+  {id:'god',  name:'GOD MODE', desc:'Ultimate game mode', ico:'🔱', price:5},
+];
+
+function buildDiamondShop(){
+  var container=document.getElementById('dshop-list');
+  if(!container)return;
+  container.innerHTML='';
+  DSHOP_ITEMS.forEach(function(item){
+    var owned=G.dshopOwned&&G.dshopOwned[item.id];
+    var div=document.createElement('div');
+    div.className='dshop-item'+(owned?' owned':'');
+    div.onclick=function(){buyDiamondItem(item.id)};
+    div.innerHTML='<span class="dshop-item-ico">'+item.ico+'</span>'
+      +'<div class="dshop-item-name">'+item.name+'</div>'
+      +'<div class="dshop-item-desc">'+item.desc+'</div>'
+      +(owned
+        ?'<div class="dshop-item-owned">✓ OWNED</div>'
+        :'<div class="dshop-item-price">💎 '+item.price+'</div>');
+    container.appendChild(div);
+  });
+}
+
+function buyDiamondItem(id){
+  var item=DSHOP_ITEMS.find(function(x){return x.id===id});
+  if(!item)return;
+  if(G.dshopOwned&&G.dshopOwned[id]){toast('Already owned!');return}
+  if((G.diamonds||0)<item.price){toast('Need '+item.price+' 💎 — invite more friends!');return}
+  G.diamonds-=item.price;
+  if(!G.dshopOwned)G.dshopOwned={};
+  G.dshopOwned[id]=true;
+  updateDiamondDisplay();saveSession();
+  confetti();S.bigwin();screenFlash('w');
+  toast('🎉 '+item.name+' unlocked!');
+  buildDiamondShop();
+  applyDiamondEffects();
+}
+
+function applyDiamondEffects(){
+  if(!G.dshopOwned)return;
+  // x2 boost — double all shop CPS and click power
+  // (applied via multiplier in recalcCPS and recalcClickPower)
+
+  // Golden mode — add gold class to body
+  if(G.dshopOwned.gold){
+    document.body.classList.add('golden-mode');
+  }else{
+    document.body.classList.remove('golden-mode');
+  }
+}
+applyDiamondEffects();
+
+// Diamond multiplier for shop CPS (x2 if owned)
+function diamondMult(){return G.dshopOwned&&G.dshopOwned.x2?2:1}
+
+/* ═══════════════════════════════════════
+   REFERRAL & INVITE SYSTEM
+═══════════════════════════════════════ */
+// Generate or retrieve unique referral code (6 chars)
+function getRefCode(){
+  var code=localStorage.getItem('cc_ref_code');
+  if(!code){
+    var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    code='';for(var i=0;i<6;i++)code+=chars[Math.floor(Math.random()*chars.length)];
+    localStorage.setItem('cc_ref_code',code);
+  }
+  return code;
+}
+var MY_REF_CODE=getRefCode();
+
+// Check if arrived via referral link
+(function checkReferral(){
+  var params=new URLSearchParams(window.location.search);
+  var ref=params.get('ref');
+  if(!ref)return;
+  // Don't apply own ref code
+  if(ref===MY_REF_CODE)return;
+  // Only apply once
+  if(localStorage.getItem('cc_ref_applied'))return;
+  localStorage.setItem('cc_ref_applied','1');
+  localStorage.setItem('cc_ref_from',ref);
+  // Give bonus coins
+  setTimeout(function(){
+    addC(5000);saveSession();refreshHUD();confetti();
+    var banner=document.getElementById('ref-banner');
+    if(banner)banner.style.display='block';
+    toast('🎁 +5,000 bonus coins from your friend!');
+    // Hide banner after 8s
+    setTimeout(function(){if(banner)banner.style.display='none'},8000);
+  },1500);
+  // Clean URL (remove ?ref= so it doesn't re-trigger)
+  if(window.history&&window.history.replaceState){
+    window.history.replaceState({},'',window.location.pathname);
+  }
+})();
+
+// Share game function
+function getShareURL(){
+  var base=window.location.origin+window.location.pathname;
+  return base+'?ref='+MY_REF_CODE;
+}
+
+function getShareText(){
+  var msgs=[
+    'I\'m building a casino empire! 🎰 Can you beat my score?',
+    'Free casino game — I just hit '+fmtBig(G.coins)+' coins! 💰',
+    'Can you reach 1 BILLION coins? 🏆 Play free!'
+  ];
+  return msgs[Math.floor(Math.random()*msgs.length)]+'\n'+getShareURL();
+}
+
+function shareGame(){
+  // Check daily share limit (5/day)
+  var shareData=getShareData();
+  if(shareData.count>=5){toast('📤 Max 5 shares per day!');return}
+
+  // Web Share API (native mobile share sheet)
+  if(navigator.share){
+    navigator.share({
+      title:'CasiClicker',
+      text:'I\'m building a casino empire! 🎰 Can you beat me?',
+      url:getShareURL()
+    }).then(function(){
+      onShareSuccess();
+    }).catch(function(){
+      // User cancelled — still try clipboard
+      copyShareLink();
+    });
+  }else{
+    copyShareLink();
+  }
+}
+
+function copyShareLink(){
+  var url=getShareURL();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){
+      toast('📋 Link copied! Share it with friends!');
+      onShareSuccess();
+    });
+  }else{
+    var ta=document.createElement('textarea');ta.value=url;ta.style.cssText='position:fixed;left:-9999px';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');toast('📋 Link copied!');onShareSuccess()}catch(e){toast('Link: '+url)}
+    ta.remove();
+  }
+}
+
+function onShareSuccess(){
+  var sd=getShareData();
+  sd.count++;sd.lastDate=new Date().toDateString();
+  localStorage.setItem('cc_shares',JSON.stringify(sd));
+  // Reward: +1 diamond + 1000 coins
+  addDiamonds(1);addC(1000);confetti();saveSession();
+  toast('💎 +1 diamond & +1,000 coins!');
+  updateInviteCount();
+}
+
+function getShareData(){
+  try{
+    var d=JSON.parse(localStorage.getItem('cc_shares')||'{}');
+    if(d.lastDate!==new Date().toDateString()){d.count=0;d.lastDate=new Date().toDateString()}
+    return d;
+  }catch(e){return{count:0,lastDate:''}}
+}
+
+function updateInviteCount(){
+  var el=document.getElementById('invite-count');
+  if(!el)return;
+  var sd=getShareData();
+  el.textContent='Shared: '+sd.count+'/5 today • Code: '+MY_REF_CODE;
+}
+updateInviteCount();
+
+// Share popup after milestones
+var _sharePopupShown={};
+function showSharePopup(title){
+  if(_sharePopupShown[title])return;
+  _sharePopupShown[title]=true;
+  var el=document.getElementById('share-popup');
+  var titleEl=document.getElementById('share-popup-title');
+  if(!el||!titleEl)return;
+  titleEl.textContent=title;
+  el.classList.add('on');
+  // Auto-hide after 8s
+  setTimeout(function(){el.classList.remove('on')},8000);
+}
+function closeSharePopup(){
+  var el=document.getElementById('share-popup');if(el)el.classList.remove('on');
+}
 
 /* ═══════════════════════════════════════
    BACKGROUND TIMERS
@@ -3385,6 +3879,11 @@ setInterval(()=>{const can=SHOP.some(d=>G.coins>=costOf(d)&&G.up[d.id]<d.max);if
    INIT
 ═══════════════════════════════════════ */
 checkOfflineEarnings();
+applyDiamondEffects(); // re-apply AFTER restore
+checkDailyReset(); // hide daily card if already claimed today
+// Restore unlocked tabs visually
+if(G.emailDone){G.shopTabUnlocked=true;var nvS=document.getElementById('nv-shop');if(nvS)nvS.classList.remove('locked')}
+if(G.statsUnlocked){var nvSt=document.getElementById('nv-stats');if(nvSt)nvSt.classList.remove('locked')}
 resetRevealState();
 buildShop();
 recalcClickPower();
