@@ -406,6 +406,12 @@ body.minigame-paused #coin-el{
 .ms::-webkit-scrollbar{display:none}
 .modal.on .ms{transform:translateY(0)}
 .mh{width:34px;height:3.5px;border-radius:3px;background:var(--bg4);margin:9px auto 14px}
+/* Bottom close button — always visible on mobile */
+.m-close-bottom{display:block;width:100%;padding:13px;margin-top:10px;
+  background:var(--bg3);border:1px solid var(--br2);border-radius:var(--rm);
+  font-size:13px;font-weight:800;color:var(--txm);cursor:pointer;
+  font-family:'Inter',sans-serif;text-align:center;transition:all .12s;letter-spacing:.5px}
+.m-close-bottom:active{background:var(--bg4);transform:scale(.97)}
 .mt{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--g);text-align:center;margin-bottom:3px;letter-spacing:1px}
 .msub{font-size:12px;color:var(--txd);text-align:center;margin-bottom:14px}
 .mc2{position:sticky;top:8px;float:right;background:var(--bg3);border:1px solid var(--br);
@@ -1117,6 +1123,7 @@ body.minigame-paused #coin-el{
   <div class="bja" id="bj-pre"><button class="bjb" onclick="bjDeal()">Deal</button><button class="bjb" onclick="bjAuto()">Auto ▶</button></div>
   <div class="bja hidden" id="bj-play"><button class="bjb h" id="bj-hit" onclick="bjHit()">Hit</button><button class="bjb s" id="bj-std" onclick="bjStand()">Stand</button></div>
   <button class="btn2 hidden" id="bj-ag" style="margin-top:8px" onclick="bjReset()">Play Again</button>
+  <button class="m-close-bottom" onclick="closeM('bj-m')">✕ Close</button>
 </div></div>
 
 <!-- ROULETTE -->
@@ -1138,6 +1145,7 @@ body.minigame-paused #coin-el{
   </div>
   <div id="rl-res" style="display:none"></div>
   <button class="btn" id="rl-sp" onclick="rlSpin()">Spin the Wheel!</button>
+  <button class="m-close-bottom" onclick="closeM('rl-m')">✕ Close</button>
 </div></div>
 
 <!-- SLOTS -->
@@ -1171,6 +1179,7 @@ body.minigame-paused #coin-el{
   <div id="sl-res" style="display:none"></div>
   <button class="btn" id="sl-sp" onclick="slSpin()">SPIN</button>
   <div style="text-align:center;font-size:9px;color:var(--txd);margin-top:4px;font-weight:700;letter-spacing:1px">HOLD FOR MEGA</div>
+  <button class="m-close-bottom" onclick="closeM('sl-m')">✕ Close</button>
 </div></div>
 
 <!-- EMAIL -->
@@ -1895,9 +1904,28 @@ function showNotif(ico,t,s){
 }
 
 /* ═══════════════════════════════════════
+   ANTI-ZOOM (iOS double-tap + pinch)
+═══════════════════════════════════════ */
+// Block double-tap zoom globally — track last tap time
+var _lastTouchEnd=0;
+document.addEventListener('touchend',function(e){
+  var now=Date.now();
+  if(now-_lastTouchEnd<300){e.preventDefault()}
+  _lastTouchEnd=now;
+},{passive:false});
+
+// Block pinch-zoom gesture
+document.addEventListener('gesturestart',function(e){e.preventDefault()},{passive:false});
+document.addEventListener('gesturechange',function(e){e.preventDefault()},{passive:false});
+document.addEventListener('gestureend',function(e){e.preventDefault()},{passive:false});
+
+/* ═══════════════════════════════════════
    TAP SYSTEM
 ═══════════════════════════════════════ */
 const tapEl=document.getElementById('tap');
+// Extra prevention on tap button area
+tapEl.addEventListener('touchstart',function(e){e.preventDefault()},{passive:false});
+
 tapEl.addEventListener('pointerdown',function(e){
   e.preventDefault();if(AC&&AC.state==='suspended')AC.resume();handleTap(e.clientX,e.clientY)
 });
