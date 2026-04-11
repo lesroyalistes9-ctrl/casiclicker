@@ -820,12 +820,12 @@ body.minigame-paused #coin-el{
 @keyframes cnf{0%{opacity:1;transform:translateY(0) rotate(0) scale(1)}80%{opacity:.8}100%{opacity:0;transform:translateY(var(--dy,200px)) rotate(var(--rt,540deg)) scale(.5)}}
 #sf{position:fixed;inset:0;pointer-events:none;z-index:400;opacity:0;transition:opacity .09s}
 #sf.w{background:rgba(22,199,132,.12);opacity:1}#sf.l{background:rgba(224,49,49,.12);opacity:1}
-#toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%) translateY(14px);
+#toast-el{position:fixed;bottom:92px;left:50%;transform:translateX(-50%) translateY(14px);
   background:var(--bg3);border:1px solid var(--br2);color:var(--tx);
-  padding:9px 18px;border-radius:22px;font-size:13px;font-weight:700;opacity:0;
+  padding:10px 18px;border-radius:16px;font-size:12px;font-weight:700;opacity:0;
   transition:all .3s cubic-bezier(.34,1.4,.64,1);z-index:900;pointer-events:none;
-  white-space:nowrap;max-width:calc(100vw - 32px);text-align:center}
-#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  white-space:normal;max-width:calc(100vw - 40px);text-align:center;line-height:1.4}
+#toast-el.on{opacity:1;transform:translateX(-50%) translateY(0)}
 /* ═══════ MOBILE FIT — everything visible without scrolling ═══════ */
 @media (max-height:900px){
   /* Header: ultra compact */
@@ -1035,7 +1035,7 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
 
 <div id="sf"></div>
 <div id="mini-toast"></div>
-<div id="toast"></div>
+<div id="toast-el"></div>
 <!-- Share popup after milestones -->
 <div class="share-popup" id="share-popup">
   <div class="share-popup-title" id="share-popup-title">🏆 MILESTONE!</div>
@@ -1133,15 +1133,17 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
 <div id="app">
   <div id="hdr">
     <div class="hr1">
-      <div style="display:flex;align-items:center;gap:5px"><div class="rank-pill" id="rank-pill"><img id="r-ico" class="img-rank" src="" alt=""><span id="r-lbl">Beginner</span></div><span id="prestige-badge">⭐ P1</span></div>
-      <!-- BRAND LOGO -->
-      <div id="brand-logo" onclick="scrollTo(0,0)" style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none">
-        <img id="logo-img" class="img-logo" src="" alt="CasiClicker">
+      <div id="brand-logo" onclick="scrollTo(0,0)" style="display:flex;align-items:center;gap:5px;cursor:pointer;user-select:none">
+        <img id="logo-img" class="img-logo" src="" alt="CasiClicker" style="height:26px">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--g);letter-spacing:1px;line-height:1">CASI<span style="color:var(--g2)">CLICKER</span></span>
+        <span id="prestige-badge">⭐ P1</span>
       </div>
+      <!-- hidden rank elements for JS compatibility -->
+      <div style="display:none"><div id="rank-pill"><img id="r-ico" src=""><span id="r-lbl"></span></div></div>
       <div class="hdr-btns">
         <div class="diamond-pill" onclick="openM('profile-modal');updateProfileModal()">💎 <span id="diamond-count">0</span></div>
         <button class="hbtn" id="snd-btn" onclick="toggleSnd()">🔊</button>
-        <button class="hbtn" onclick="renderLangPicker()" title="Language">🌐</button>
+        <button class="hbtn" onclick="renderLangPicker()">🌐</button>
         <button class="hbtn" onclick="saveProgress()">💾</button>
       </div>
     </div>
@@ -1150,9 +1152,7 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
       <img class="coin-icon" id="coin-ico" src="" alt="$">
       <span id="coin-el">0</span>
     </div>
-    <div class="cps-row">
-      <span class="cps-label">CPS: <span id="cps-n">0</span></span>
-    </div>
+    <div style="display:none"><span id="cps-n">0</span></div>
     <!-- Progress bar with labels -->
     <div class="prog-wrap">
       <div class="prog-labels">
@@ -1163,7 +1163,7 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
     </div>
     <!-- Daily streak bar -->
     <div id="streak-wrap">
-      <span class="sl">DAILY STREAK: <span class="sl-fire">🔥</span></span>
+      <span class="sl">STREAK 🔥</span>
       <div class="sdots" id="sdots"></div>
       <span id="streak-n">×0</span>
     </div>
@@ -1195,7 +1195,7 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
       <div class="s3">
         <div class="sp"><div class="spv" id="s-cl">0</div><div class="spl">Clicks</div></div>
         <div class="sp"><div class="spv" id="s-wi">0</div><div class="spl">Wins</div></div>
-        <div class="sp"><div class="spv" id="s-bw">0</div><div class="spl">Best Win</div></div>
+        <div class="sp"><div class="spv" id="s-cps">0</div><div class="spl">CPS</div></div>
       </div>
       </div><!-- /reveal-stats -->
 
@@ -1271,7 +1271,7 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
       </div>
 
       <!-- Invite Friends -->
-      <div class="invite-card" id="invite-card">
+      <div class="invite-card" id="invite-card" style="display:none">
         <div class="invite-title">🎁 INVITE FRIENDS</div>
         <div class="invite-sub">Share & earn 500 coins! Friends get +5,000 bonus</div>
         <button class="invite-btn" onclick="shareGame()">📤 Share Link</button>
@@ -1279,10 +1279,7 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
       </div>
 
       <!-- Best Win footer -->
-      <div class="best-win-bar">
-        <span>🏆 BEST WIN</span>
-        <span>💰 <span id="best-win-val">0</span></span>
-      </div>
+      <div style="display:none"><span id="best-win-val">0</span></div>
 
       <!-- Achievements removed (cleaner UI) -->
 
@@ -1525,7 +1522,7 @@ const T = {
   /* ─── STATS ─── */
   clicks:          { en:'Clicks',   fr:'Clics',   es:'Clics',    zh:'点击' },
   wins:            { en:'Wins',     fr:'Victoires',es:'Victorias',zh:'胜利' },
-  bestWin:         { en:'Best Win', fr:'Meilleur', es:'Mejor',    zh:'最佳' },
+  bestWin:         { en:'CPS', fr:'CPS', es:'CPS', zh:'CPS' },
   /* ─── DAILY ─── */
   dailyTitle:      { en:'Daily Reward',             fr:'Récompense quotidienne', es:'Recompensa diaria',     zh:'每日奖励' },
   dailyClaim:      { en:'Claim your free coins!',   fr:'Réclamez vos pièces !',  es:'¡Reclama tus monedas!', zh:'领取免费金币！' },
@@ -1545,7 +1542,39 @@ const T = {
   allIn:           { en:'💣 ALL-IN — Bet Everything', fr:'💣 TOUT MISER — Tout risquer', es:'💣 TODO — Apuesta todo', zh:'💣 全押 — 孤注一掷' },
   allInWin:        { en:'💰 ALL-IN WIN! +{n}!',      fr:'💰 TOUT GAGNÉ ! +{n} !',      es:'💰 ¡GANASTE! +{n}!',       zh:'💰 全押赢了！+{n}！' },
   allInWinTax:     { en:'💰 WIN! +{n} (−{t} house fee)', fr:'💰 GAGNÉ ! +{n} (−{t} frais)', es:'💰 ¡GANASTE! +{n} (−{t})', zh:'💰 赢了！+{n}（−{t}税）' },
-  allInLose:       { en:"💸 ALL-IN bust! Better luck next time.", fr:'💸 Tout perdu ! Bonne chance !', es:'💸 ¡Todo perdido! ¡Suerte!', zh:'💸 全押失败！下次加油！' },
+  allInLose:{en:[
+    "Elon wouldn't do that 😅","Missed it bro 💀","Coins said goodbye 👋",
+    "That hurt 🤕","Not your day 🫠","RIP your coins 🪦",
+    "Bankruptcy speedrun 💨","The house always wins 🏠","Back to zero 📉",
+    "That was painful to watch 😬","Try tapping instead 👆","Bold move... wrong one 🎲",
+    "Oof. Just oof 😶","Easy come, easy go 💸","Casino: 1, You: 0 🎰",
+    "Was it worth it? 🤔","Your wallet is crying 😢","Gambler's ruin 📊",
+    "Maybe next time champ 🏆","Broke again 💔"
+  ],fr:[
+    "Elon ferait jamais ça 😅","Rah loupé frérot 💀","Tes pièces ont dit ciao 👋",
+    "Ça pique 🤕","C'est pas ton jour 🫠","RIP tes pièces 🪦",
+    "Speedrun faillite 💨","La maison gagne toujours 🏠","Retour à zéro 📉",
+    "Dur à regarder 😬","Essaye de taper plutôt 👆","Audacieux... mais non 🎲",
+    "Aïe. Juste aïe 😶","Facile à gagner, facile à perdre 💸","Casino: 1, Toi: 0 🎰",
+    "Ça valait le coup ? 🤔","Ton portefeuille pleure 😢","All in = jamais Elon 📊",
+    "La prochaine sera la bonne 🏆","Encore fauché 💔"
+  ],es:[
+    "Elon no haría eso 😅","Fallaste bro 💀","Monedas dijeron adiós 👋",
+    "Eso dolió 🤕","No es tu día 🫠","RIP monedas 🪦",
+    "Speedrun bancarrota 💨","La casa siempre gana 🏠","Otra vez a cero 📉",
+    "Eso fue doloroso 😬","Mejor toca el botón 👆","Movimiento audaz 🎲",
+    "Uf 😶","Fácil viene, fácil va 💸","Casino: 1, Tú: 0 🎰",
+    "¿Valió la pena? 🤔","Tu cartera llora 😢","All-in = nunca rico 📊",
+    "La próxima será 🏆","Quebrado otra vez 💔"
+  ],zh:[
+    "马斯克不会这样 😅","没了兄弟 💀","金币说再见 👋",
+    "疼 🤕","今天不是你的天 🫠","RIP金币 🪦",
+    "破产速通 💨","庄家总赢 🏠","归零 📉",
+    "惨不忍睹 😬","还是点按钮吧 👆","大胆但错了 🎲",
+    "哎 😶","来得快去得快 💸","赌场1你0 🎰",
+    "值得吗？🤔","钱包在哭 😢","全押=永远穷 📊",
+    "下次一定 🏆","又破产了 💔"
+  ]},
   notEnough:       { en:'Need at least 10 coins!', fr:'Il faut au moins 10 pièces !', es:'¡Necesitas al menos 10 monedas!', zh:'至少需要10金币！' },
   /* ─── SOCIAL ─── */
   freeCoins:       { en:'Free Coins',     fr:'Pièces gratuites', es:'Monedas gratis', zh:'免费金币' },
@@ -1690,7 +1719,7 @@ const T = {
   statsMilestones: { en:'Milestones', fr:'Jalons',  es:'Hitos',     zh:'里程碑' },
   statsSave:       { en:'💾 Save Progress', fr:'💾 Sauvegarder', es:'💾 Guardar progreso', zh:'💾 保存进度' },
   statsBetWin:     { en:'Win/Game', fr:'Gagne/Partie', es:'Vic/Juego', zh:'胜/局' },
-  statsBestWin:    { en:'Best Win', fr:'Meilleur gain', es:'Mejor ganancia', zh:'最佳胜利' },
+  statsBestWin:    { en:'CPS', fr:'CPS', es:'CPS', zh:'CPS' },
   statsPlayTime:   { en:'Play Time', fr:'Temps de jeu', es:'Tiempo jugado', zh:'游戏时间' },
   /* ─── PROGRESSIVE REVEAL ─── */
   revStats:        { en:'📊 Stats unlocked!',          fr:'📊 Stats débloquées !',         es:'📊 ¡Estadísticas!',      zh:'📊 统计已解锁！' },
@@ -2022,7 +2051,7 @@ const UNL={bj:false,rl:false,sl:false};
 ═══════════════════════════════════════ */
 const fmt=n=>{n=Math.floor(n);if(n>=1e6)return(n/1e6).toFixed(2)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'k';return n.toLocaleString()};
 // Big formatter for empire-scale numbers
-const fmtBig=n=>{n=Math.floor(n);if(n>=1e9)return(n/1e9).toFixed(3)+'B';if(n>=1e6)return(n/1e6).toFixed(2)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'k';return n.toLocaleString()};
+const fmtBig=n=>{n=Math.floor(n);if(n>=1e9)return(n/1e9).toFixed(2)+'B';if(n>=1e6)return(n/1e6).toFixed(2)+'M';if(n<1e6)return n.toLocaleString();return n.toLocaleString()};
 const fmtF=n=>Math.floor(n).toLocaleString();
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const hc=()=>Math.max(5,Math.floor(G.coins/2));
@@ -2132,7 +2161,7 @@ function refreshHUD(){
   }
   document.getElementById('s-cl').textContent=fmt(G.totalClicks);
   document.getElementById('s-wi').textContent=G.totalWins;
-  document.getElementById('s-bw').textContent=fmtBig(G.biggestWin);
+  var cpsBox=document.getElementById('s-cps');if(cpsBox)cpsBox.textContent=fmtBig(G.cps);
   const tapGain=Math.floor(G.clickPower*(G.boost?G.boostMult:1)*(G.luck?2:1));
   document.getElementById('cpt').textContent='+'+tapGain+' / tap';
   // Stats tab auto-unlocks at 1M coins
@@ -2192,7 +2221,7 @@ function checkMS(prev,curr){
       G.coins+=bonus;
       showNotif(m.i,m.t,m.s+(bonus>0?` (+${fmtF(bonus)} bonus!)`:'')); S.milestone();confetti();
       // Show share popup on big milestones
-      if(m.v>=1000)setTimeout(function(){showSharePopup('🏆 '+fmtBig(m.v)+' COINS!')},2000);
+      // milestone share popup disabled
     }
   }
 }
@@ -2256,12 +2285,7 @@ function handleTap(x,y){
   if(navigator.vibrate)navigator.vibrate(16);
   spawnFlt(x,y,'+'+gain,16);spawnPts(x,y,4);
 
-  // Random events (non-stacking)
-  if(!G.luck&&!G.boost){
-    const r=Math.random();
-    if(r<.009)trigLucky();
-    else if(r<.018)trigBoost();
-  }
+  // Random events disabled (clean gameplay)
 
   // Email trigger
   if(!G.emailDone&&!G.emailFired){
@@ -2273,14 +2297,27 @@ function handleTap(x,y){
    STREAK BAR
 ═══════════════════════════════════════ */
 const MAX_DOTS=10;
+const STREAK_GOAL=100;
+var streakClaimed=false;
 function updateStreakBar(){
-  const w=document.getElementById('streak-wrap');
+  if(streakClaimed)return; // already claimed, stay hidden
+  var w=document.getElementById('streak-wrap');
   if(G.streak>2)w.classList.add('vis');
-  const dt=document.getElementById('sdots');
-  if(dt.children.length!==MAX_DOTS){const frag=document.createDocumentFragment();for(let i=0;i<MAX_DOTS;i++){const d=document.createElement('div');d.className='sd';frag.appendChild(d)}dt.innerHTML='';dt.appendChild(frag)}
-  const lit=Math.min(MAX_DOTS,G.streak%MAX_DOTS||MAX_DOTS);
-  Array.from(dt.children).forEach((d,i)=>d.classList.toggle('on',i<lit));
-  document.getElementById('streak-n').textContent='×'+G.streak
+  var dt=document.getElementById('sdots');
+  if(dt.children.length!==MAX_DOTS){var frag=document.createDocumentFragment();for(var i=0;i<MAX_DOTS;i++){var d=document.createElement('div');d.className='sd';frag.appendChild(d)}dt.innerHTML='';dt.appendChild(frag)}
+  // Fill dots based on progress toward 100
+  var progress=Math.min(MAX_DOTS,Math.floor(G.streak/STREAK_GOAL*MAX_DOTS));
+  Array.from(dt.children).forEach(function(d,i){d.classList.toggle('on',i<progress)});
+  document.getElementById('streak-n').textContent=G.streak+'/'+STREAK_GOAL;
+  // At 100 taps → reward + hide
+  if(G.streak>=STREAK_GOAL&&!streakClaimed){
+    streakClaimed=true;
+    addC(500);confetti();toast('🔥 Streak bonus! +500 coins!');
+    // Hide the streak bar smoothly
+    w.style.transition='max-height .4s,opacity .3s,margin .3s';
+    w.style.maxHeight=w.offsetHeight+'px';w.offsetHeight;
+    w.style.maxHeight='0';w.style.opacity='0';w.style.margin='0';w.style.overflow='hidden';
+  }
 }
 
 /* ═══════════════════════════════════════
@@ -2351,15 +2388,7 @@ function hideEvt(){document.getElementById('evt').className=''}
 /* ── MICRO LOOP SCHEDULER ── 
    Guarantees something happens every 10-20 seconds */
 function schedMicroLoop(){
-  const intervals=[
-    {min:10000,max:20000,fn:trigMicroDrop},   // micro drop every 10-20s
-    {min:30000,max:60000,fn:trigBonusRain},   // bonus rain 30-60s
-    {min:45000,max:90000,fn:trigJackpot},     // jackpot 45-90s
-  ];
-  intervals.forEach(({min,max,fn})=>{
-    function sched(){setTimeout(()=>{fn();sched()},rnd(min,max))}
-    setTimeout(()=>{fn();sched()},rnd(min/2,max/2)) // first one sooner
-  })
+  // Auto events disabled — cleaner gameplay
 }
 schedMicroLoop();
 
@@ -2522,28 +2551,25 @@ function claimSoc(id){
   if(G.socialDone[id]){toast(t('alreadySocial'));return}
   if(G.socialPending[id])return;
 
-  // Mark as done IMMEDIATELY (before opening link — prevents page reload losing state)
-  G.socialDone[id]=true;
-  G.socialPending[id]=false;
-  saveSocialState();
-
-  // Give reward IMMEDIATELY (before browser navigates away)
-  addC(12500);
-  saveSession(); // save coins RIGHT NOW
-
-  // Visual effects
-  S.social();screenFlash('w');
-  for(var ci=0;ci<4;ci++)setTimeout(function(){confetti()},ci*200);
-  spawnFlt(window.innerWidth/2,window.innerHeight/2,'+12,500 🪙',26);
-  toast('🎉 +12,500 coins claimed!');
-
-  // Hide button
-  var btn=document.getElementById(id+'-b');
-  if(btn)btn.classList.add('claimed');
+  G.socialPending[id]=true;
   updateSocialButtons();
+  toast('⏳ Verifying follow... 5 seconds');
 
-  // Open link AFTER saving everything (small delay so save completes)
-  setTimeout(function(){window.open(SOC_URL[id],'_blank')},300);
+  // Open link
+  setTimeout(function(){window.open(SOC_URL[id],'_blank')},200);
+
+  // 5 second delay before reward
+  setTimeout(function(){
+    G.socialDone[id]=true;
+    G.socialPending[id]=false;
+    saveSocialState();
+    addC(12500);saveSession();
+    S.social();confetti();
+    spawnFlt(window.innerWidth/2,window.innerHeight/2,'+12,500 🪙',26);
+    toast('🎉 +12,500 coins claimed!');
+    if(btn)btn.classList.add('claimed');
+    updateSocialButtons();
+  },5000);
 }
 
 /* ═══════════════════════════════════════
@@ -2557,7 +2583,10 @@ function doAllIn(){
     const tx=stake>500?Math.floor(gross*(Math.random()*.1+.1)):0;
     const net=gross-tx;addC(net);G.totalWins++;S.bigwin();confetti();screenFlash('w');
     toast(tx>0?t('allInWinTax',{n:fmtF(net),t:fmtF(tx)}):t('allInWin',{n:fmtF(net)}))
-  }else{setC(0);S.lose();screenFlash('l');if(navigator.vibrate)navigator.vibrate([80,40,120]);toast('💸 ALL-IN bust! You\'ll get \'em next time.')}
+  }else{setC(0);S.lose();screenFlash('l');if(navigator.vibrate)navigator.vibrate([80,40,120]);
+    var msgs=T.allInLose[LANG]||T.allInLose.en;
+    toast(msgs[Math.floor(Math.random()*msgs.length)])}
+
   G.totalGames++
 }
 
@@ -3324,7 +3353,7 @@ function miniToast(m){
   clearTimeout(miniT);miniT=setTimeout(()=>el.classList.remove('on'),2200);
 }
 let tT=null;
-function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>el.classList.remove('on'),2800)}
+function toast(m){const el=document.getElementById('toast-el');if(!el)return;el.textContent=m;el.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>el.classList.remove('on'),2800)}
 
 
 /* ═══════════════════════════════════════
@@ -3533,19 +3562,31 @@ function prestigeMultiplier() {
   return 1 + PRESTIGE_COUNT * PRESTIGE_MULT_PER;
 }
 
+var _lastPrestigeTime=parseInt(localStorage.getItem('cc_prestige_time')||'0');
 function showPrestigeModal(){
+  // 1h cooldown check
+  var elapsed=Date.now()-_lastPrestigeTime;
+  var cooldown=3600000; // 1 hour
+  if(_lastPrestigeTime>0&&elapsed<cooldown){
+    var remaining=Math.ceil((cooldown-elapsed)/60000);
+    toast('⏳ Prestige available in '+remaining+' min');
+    return;
+  }
   if(!canPrestige()){
     toast('🔒 Need '+fmtBig(prestigeRequirement())+' coins to prestige!');
     return;
   }
   document.getElementById('prestige-count-display').textContent = PRESTIGE_COUNT;
-  document.getElementById('prestige-next-pct').textContent = (PRESTIGE_COUNT+1)*20;
+  document.getElementById('prestige-next-pct').textContent = (PRESTIGE_COUNT+1)*10;
   const reqEl = document.getElementById('prestige-req-display');
   if(reqEl) reqEl.textContent = fmtBig(prestigeRequirement());
   openM('prestige-modal');
 }
 function doPrestige() {
   if(!canPrestige()){toast('🔒 Need '+fmtBig(prestigeRequirement())+' coins to prestige!');return;}
+  // Set cooldown
+  _lastPrestigeTime=Date.now();
+  localStorage.setItem('cc_prestige_time',String(_lastPrestigeTime));
   PRESTIGE_COUNT++;
   setPrestige(PRESTIGE_COUNT);
   // Reset game but keep social/email state and prestige count
@@ -3969,13 +4010,18 @@ function getShareText(){
   return msgs[Math.floor(Math.random()*msgs.length)]+'\n'+getShareURL();
 }
 
+var _lastShareTime=parseInt(localStorage.getItem('cc_last_share')||'0');
 function shareGame(){
-  // Check daily share limit (5/day)
-  var shareData=getShareData();
-  // Cap at 10 total invites
+  // 5 min cooldown
+  var elapsed=Date.now()-_lastShareTime;
+  if(_lastShareTime>0&&elapsed<300000){
+    var secs=Math.ceil((300000-elapsed)/1000);
+    var m=Math.floor(secs/60),s=secs%60;
+    toast('⏳ Share available in '+m+'m '+s+'s');return;
+  }
+  // Cap at 10 total
   var totalShares=parseInt(localStorage.getItem('cc_shares_total')||'0');
   if(totalShares>=10){toast('📤 Max 10 invites reached!');return}
-  if(shareData.count>=5){toast('📤 Max 5 shares per day!');return}
 
   // Web Share API (native mobile share sheet)
   if(navigator.share){
@@ -4013,11 +4059,14 @@ function onShareSuccess(){
   var sd=getShareData();
   sd.count++;sd.lastDate=new Date().toDateString();
   localStorage.setItem('cc_shares',JSON.stringify(sd));
-  // Track total shares (capped at 10)
   var total=parseInt(localStorage.getItem('cc_shares_total')||'0')+1;
   localStorage.setItem('cc_shares_total',String(total));
-  addC(500);saveSession();
-  toast('📤 Link shared! +500 coins');
+  // Set 5min cooldown
+  _lastShareTime=Date.now();
+  localStorage.setItem('cc_last_share',String(_lastShareTime));
+  // Reward: 1 diamond + 500 coins
+  addDiamonds(1);addC(500);confetti();saveSession();
+  toast('💎 +1 diamond & +500 coins!');
   updateInviteCount();
 }
 
@@ -4058,6 +4107,27 @@ function closeSharePopup(){
 /* ═══════════════════════════════════════
    BACKGROUND TIMERS
 ═══════════════════════════════════════ */
+// Reveal invite & diamond sections after 10 min (or immediately if already played 10min+)
+(function(){
+  var startTime=parseInt(localStorage.getItem('cc_start_time')||'0');
+  if(!startTime){startTime=Date.now();localStorage.setItem('cc_start_time',String(startTime))}
+  var elapsed=Date.now()-startTime;
+  var REVEAL_DELAY=600000; // 10 minutes
+  function revealInviteSection(){
+    var ic=document.getElementById('invite-card');if(ic)ic.style.display='';
+    var dp=document.querySelector('.diamond-pill');if(dp)dp.style.display='';
+  }
+  if(elapsed>=REVEAL_DELAY){
+    revealInviteSection();
+  }else{
+    // Hide diamond pill initially
+    var dp=document.querySelector('.diamond-pill');if(dp)dp.style.display='none';
+    setTimeout(function(){
+      revealInviteSection();
+      toast('🎁 Invite friends & earn diamonds!');
+    },REVEAL_DELAY-elapsed);
+  }
+})();
 // Streak decay
 setInterval(()=>{if(Date.now()-G.lastTap>2500&&G.streak>0){G.streak=Math.max(0,G.streak-1);updateStreakBar();if(G.streak===0)document.getElementById('streak-wrap').classList.remove('vis')}},500);
 // Shop pip
@@ -4419,6 +4489,7 @@ function admUnlockShop(){admExec(function(){
   G.shopVisible=SHOP.length-1;
   G.cpVisible=CLICK_UPGRADES.length-1;
   G.shopTabUnlocked=true;
+  G.emailDone=true; // bypass email gate
   var nvShop=document.getElementById('nv-shop');
   if(nvShop)nvShop.classList.remove('locked');
   buildShop();toast('Full shop unlocked!');
@@ -4473,6 +4544,7 @@ function admWinStreak(){admExec(function(){
   <button class="adm-btn" onclick="admCoins(100000000)">+100M</button>
   <button class="adm-btn" onclick="admCoins(999000000)">+999M</button>
   <button class="adm-btn" onclick="admReset()">Reset 0</button>
+  <button class="adm-btn" onclick="admExec(function(){addDiamonds(5);updateDiamondDisplay();toast('💎 +5 diamonds')})">+5 💎</button>
 
   <div class="adm-sec">effects</div>
   <button class="adm-btn" onclick="admConfettiStorm()">Confetti</button>
