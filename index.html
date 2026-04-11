@@ -910,22 +910,39 @@ body.minigame-paused #coin-el{
 }
 
 /* ─── GOLDEN MODE (diamond shop item) ─── */
-body.golden-mode #app{background:radial-gradient(ellipse 75% 32% at 50% 0%,rgba(232,180,0,.18) 0%,transparent 65%),
+body.god-mode #app{background:radial-gradient(ellipse 75% 32% at 50% 0%,rgba(232,180,0,.18) 0%,transparent 65%),
   linear-gradient(180deg,#0a0800,#06060C)}
-body.golden-mode #hdr{background:rgba(20,16,6,.96);border-bottom-color:rgba(232,180,0,.25)}
-body.golden-mode #tap{border-color:var(--g);
+body.god-mode #hdr{background:rgba(20,16,6,.96);border-bottom-color:rgba(232,180,0,.25)}
+body.god-mode #tap{border-color:var(--g);
   box-shadow:0 0 0 8px rgba(232,180,0,.12),0 0 60px rgba(232,180,0,.3),inset 0 0 30px rgba(232,180,0,.1)}
-body.golden-mode .rank-pill{border-color:var(--g);background:rgba(232,180,0,.12)}
-body.golden-mode .sp{border-color:rgba(232,180,0,.2);background:rgba(232,180,0,.06)}
-body.golden-mode .gc{border-color:rgba(232,180,0,.2);background:rgba(232,180,0,.04)}
-body.golden-mode #nav{background:rgba(20,16,6,.98);border-top-color:rgba(232,180,0,.2)}
-body.golden-mode .nv.a{background:rgba(232,180,0,.12)}
-body.golden-mode .sb{border-color:rgba(232,180,0,.3)!important}
-body.golden-mode .invite-card{border-color:rgba(232,180,0,.4);background:rgba(232,180,0,.08)}
-body.golden-mode #coin-el{text-shadow:0 0 40px rgba(232,180,0,.6)}
-body.golden-mode .prog-track{border-color:rgba(232,180,0,.2)}
-body.golden-mode::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(circle at 50% 30%,rgba(232,180,0,.03),transparent 70%)}
+body.god-mode .rank-pill{border-color:var(--g);background:rgba(232,180,0,.12)}
+body.god-mode .sp{border-color:rgba(232,180,0,.2);background:rgba(232,180,0,.06)}
+body.god-mode .gc{border-color:rgba(232,180,0,.2);background:rgba(232,180,0,.04)}
+body.god-mode #nav{background:rgba(20,16,6,.98);border-top-color:rgba(232,180,0,.2)}
+body.god-mode .nv.a{background:rgba(232,180,0,.12)}
+body.god-mode .sb{border-color:rgba(232,180,0,.3)!important}
+body.god-mode .invite-card{border-color:rgba(232,180,0,.4);background:rgba(232,180,0,.08)}
+body.god-mode #coin-el{text-shadow:0 0 40px rgba(232,180,0,.6)}
+body.god-mode .prog-track{border-color:rgba(232,180,0,.2)}
+body.god-mode::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 50% 30%,rgba(232,180,0,.05),transparent 70%)}
+/* God mode floating gold particles */
+.god-particle{position:fixed;pointer-events:none;z-index:1;width:4px;height:4px;
+  background:var(--g);border-radius:50%;opacity:0;
+  animation:godFloat 4s ease-in-out infinite}
+@keyframes godFloat{
+  0%{opacity:0;transform:translateY(100vh) scale(0)}
+  20%{opacity:.8}
+  80%{opacity:.6}
+  100%{opacity:0;transform:translateY(-20vh) scale(1.5)}}
+/* God mode shimmer on tap button */
+body.god-mode #tap::after{content:'';position:absolute;inset:-4px;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,rgba(232,180,0,.15),transparent,rgba(232,180,0,.1),transparent);
+  animation:godSpin 3s linear infinite}
+@keyframes godSpin{to{transform:rotate(360deg)}}
+body.god-mode .img-tap{filter:drop-shadow(0 0 25px rgba(232,180,0,.7))!important}
+body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infinite}
+@keyframes godCoinGlow{0%,100%{text-shadow:0 0 30px rgba(255,215,0,.5)}50%{text-shadow:0 0 50px rgba(255,215,0,.8),0 0 80px rgba(255,215,0,.3)}}
 
 .hidden{display:none!important}
 </style>
@@ -1217,8 +1234,23 @@ body.golden-mode::after{content:'';position:fixed;inset:0;pointer-events:none;z-
           <div class="glk" id="sl-lk">🔒</div>
         </div>
       </div>
+      <!-- Diamond games row -->
+      <div class="g3" style="grid-template-columns:1fr 1fr;margin-top:8px" id="diamond-games">
+        <div class="gc lk" id="rps-gc" onclick="openDiamondGame('rps')">
+          <span style="font-size:36px;display:block;margin-bottom:4px">✊</span>
+          <span class="gn">RPS</span>
+          <span class="gc-wr">💎 1 to unlock</span>
+          <span class="gc-status locked" id="rps-gc-st">🔒 1 💎</span>
+        </div>
+        <div class="gc lk" id="god-gc" onclick="openDiamondGame('god')">
+          <span style="font-size:36px;display:block;margin-bottom:4px">🔱</span>
+          <span class="gn">GOD MODE</span>
+          <span class="gc-wr">💎 3 to unlock</span>
+          <span class="gc-status locked" id="god-gc-st">🔒 3 💎</span>
+        </div>
+      </div>
       <!-- All-in -->
-      <button class="allin" style="margin-top:14px" onclick="doAllIn()">💣 ALL-IN — Risk it all!</button>
+      <button class="allin" style="margin-top:10px" onclick="doAllIn()">💣 ALL-IN — Risk it all!</button>
       </div><!-- /reveal-games -->
 
       <!-- Social — below games section -->
@@ -1241,7 +1273,7 @@ body.golden-mode::after{content:'';position:fixed;inset:0;pointer-events:none;z-
       <!-- Invite Friends -->
       <div class="invite-card" id="invite-card">
         <div class="invite-title">🎁 INVITE FRIENDS</div>
-        <div class="invite-sub">Share & earn 💎 1 diamond + 1,000 coins!</div>
+        <div class="invite-sub">Share & earn 500 coins! Friends get +5,000 bonus</div>
         <button class="invite-btn" onclick="shareGame()">📤 Share Link</button>
         <div class="invite-count" id="invite-count"></div>
       </div>
@@ -1378,6 +1410,50 @@ body.golden-mode::after{content:'';position:fixed;inset:0;pointer-events:none;z-
   <button class="m-close-bottom" onclick="closeM('sl-m')">✕ Close</button>
 </div></div>
 
+<!-- RPS GAME (diamond unlock) -->
+<div class="modal" id="rps-game-m" onclick="ovClose(event,'rps-game-m')"><div class="ms">
+  <div class="mh"></div><button class="mc2" onclick="closeM('rps-game-m')">✕</button>
+  <div class="mt">✊ ROCK PAPER SCISSORS</div><div class="msub">Beat the dealer — win 2x your bet!</div>
+  <div class="game-info">
+    <div class="game-info-item"><div class="game-info-label">Balance</div><div class="game-info-val" id="rps-bal">$ 0</div></div>
+    <div class="game-info-sep"></div>
+    <div class="game-info-item"><div class="game-info-label">Bet</div><div class="game-info-val" id="rps-bet-d">$ 10</div></div>
+  </div>
+  <div class="bctl"><span class="bl">Bet</span><button class="bb" onclick="adjB('rps',-10)">−</button><span class="bv" id="rps-bv">10</span><button class="bb" onclick="adjB('rps',10)">+</button></div>
+  <div class="qbs"><span class="qb" onclick="qb('rps',10)">10</span><span class="qb" onclick="qb('rps',50)">50</span><span class="qb" onclick="qb('rps',100)">100</span><span class="qb" onclick="qb('rps',250)">250</span><span class="qb qb-half" onclick="qb('rps',hc())">50%</span><span class="qb qb-all" onclick="qb('rps',G.coins)">ALL</span></div>
+  <div style="text-align:center;margin:14px 0 8px;font-size:12px;color:var(--txm);font-weight:700">Choose your move:</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px" id="rps-choices">
+    <button class="bjb" onclick="rpsPlay('rock')" style="font-size:28px;padding:16px">🪨</button>
+    <button class="bjb" onclick="rpsPlay('paper')" style="font-size:28px;padding:16px">📄</button>
+    <button class="bjb" onclick="rpsPlay('scissors')" style="font-size:28px;padding:16px">✂️</button>
+  </div>
+  <div id="rps-game-res" style="display:none"></div>
+  <button class="m-close-bottom" onclick="closeM('rps-game-m')">✕ Close</button>
+</div></div>
+
+<!-- GOD MODE GAME (diamond unlock) -->
+<div class="modal" id="god-game-m" onclick="ovClose(event,'god-game-m')"><div class="ms" style="background:linear-gradient(160deg,#0a0800,#1a1000)">
+  <div class="mh"></div><button class="mc2" onclick="closeM('god-game-m')">✕</button>
+  <div class="mt" style="color:#FFD700">🔱 GOD MODE</div><div class="msub">Tap the golden orb — every tap is MASSIVE</div>
+  <div class="game-info">
+    <div class="game-info-item"><div class="game-info-label">Balance</div><div class="game-info-val" id="god-bal" style="color:#FFD700">$ 0</div></div>
+    <div class="game-info-sep"></div>
+    <div class="game-info-item"><div class="game-info-label">God Taps</div><div class="game-info-val" id="god-taps" style="color:#FFD700">0</div></div>
+  </div>
+  <div style="text-align:center;margin:16px 0">
+    <div id="god-orb" onclick="godTap()" style="width:140px;height:140px;border-radius:50%;margin:0 auto;cursor:pointer;
+      background:radial-gradient(circle at 35% 30%,#FFD700,#E8B400,#7A5C00);
+      box-shadow:0 0 40px rgba(255,215,0,.5),0 0 80px rgba(255,215,0,.2),inset 0 0 30px rgba(255,255,255,.2);
+      display:flex;align-items:center;justify-content:center;font-size:52px;
+      transition:transform .08s;user-select:none;-webkit-touch-callout:none;touch-action:manipulation">
+      🔱
+    </div>
+    <div style="font-size:10px;color:rgba(255,215,0,.5);margin-top:8px;font-weight:700;letter-spacing:1px">TAP THE ORB</div>
+  </div>
+  <div id="god-game-res" style="display:none"></div>
+  <button class="m-close-bottom" onclick="closeM('god-game-m')">✕ Close</button>
+</div></div>
+
 <!-- EMAIL -->
 <div class="modal" id="em-m" onclick="ovClose(event,'em-m')"><div class="ms">
   <div class="mh"></div><button class="mc2" onclick="closeM('em-m')">✕</button>
@@ -1399,19 +1475,7 @@ body.golden-mode::after{content:'';position:fixed;inset:0;pointer-events:none;z-
     <input class="profile-input" id="profile-pseudo" placeholder="Enter your name..." maxlength="20">
     <button class="btn" style="margin-top:4px" onclick="saveProfile()">💾 Save Profile</button>
   </div>
-  <div style="margin-top:16px">
-    <div class="dvr"><div class="dvrl"></div><div class="dvrt">Transfer Save</div><div class="dvrl"></div></div>
-    <div class="profile-code-box">
-      <div class="profile-code-label">Your save code (copy this!)</div>
-      <div class="profile-code" id="profile-save-code">---</div>
-    </div>
-    <button class="btn2" style="margin-top:6px" onclick="copySaveCode()">📋 Copy Code</button>
-    <div style="margin-top:12px">
-      <div style="font-size:10px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Load from code</div>
-      <input class="profile-input" id="profile-load-code" placeholder="Paste save code here...">
-      <button class="btn2" style="margin-top:4px" onclick="loadSaveCode()">📥 Load Save</button>
-    </div>
-  </div>
+  <div style="display:none" id="profile-save-code">---</div>
   <div style="margin-top:16px">
     <div class="dvr"><div class="dvrl"></div><div class="dvrt">💎 Diamond Shop</div><div class="dvrl"></div></div>
     <div style="text-align:center;margin:6px 0">
@@ -1829,9 +1893,9 @@ const UNLOCKS={bj:100,rl:5000,sl:20000};
 
 // Empire casino unlocks (post-million)
 const EMPIRE_UNLOCKS=[
-  {id:'sc',coins:M1,  ico:'🏠',n:'Small Casino',  d:'+5,000/sec', cps:5000,  unlockMsg:'Small Casino Unlocked!',sub:'5,000 coins per second!'},
-  {id:'mc2',coins:M10, ico:'🏛️',n:'Medium Casino', d:'+50,000/sec',cps:50000, unlockMsg:'Medium Casino Unlocked!',sub:'50,000 coins per second!'},
-  {id:'gc',coins:M100,ico:'👑',n:'Grand Casino',  d:'+500,000/sec',cps:500000,unlockMsg:'Grand Casino Unlocked!',sub:'500,000 coins per second!'},
+  {id:'sc',coins:M1,  ico:'🏠',n:'Small Casino',  d:'+2,000/sec', cps:2000,  unlockMsg:'Small Casino Unlocked!',sub:'2,000 coins per second!'},
+  {id:'mc2',coins:M10, ico:'🏛️',n:'Medium Casino', d:'+15,000/sec',cps:15000, unlockMsg:'Medium Casino Unlocked!',sub:'15,000 coins per second!'},
+  {id:'gc',coins:M100,ico:'👑',n:'Grand Casino',  d:'+80,000/sec',cps:80000,unlockMsg:'Grand Casino Unlocked!',sub:'80,000 coins per second!'},
 ];
 const EMPIRE_UNL={sc:false,mc2:false,gc:false};
 
@@ -1902,18 +1966,18 @@ const MILESTONES=[
 ];
 // Click power upgrade — separate from CPS shop
 const CLICK_UPGRADES = [
-  {id:'cp1', ico:'👆', tier:1, bonus:1,  base:100,     mul:1.8,  max:20, label:'Click +1'},
-  {id:'cp2', ico:'✌️', tier:2, bonus:5,  base:5000,    mul:1.9,  max:10, label:'Click +5'},
-  {id:'cp3', ico:'🤚', tier:3, bonus:25, base:100000,  mul:2.0,  max:5,  label:'Click +25'},
+  {id:'cp1', ico:'👆', tier:1, bonus:1,  base:150,     mul:2.0,  max:15, label:'Click +1'},
+  {id:'cp2', ico:'✌️', tier:2, bonus:4,  base:8000,    mul:2.1,  max:8,  label:'Click +4'},
+  {id:'cp3', ico:'🤚', tier:3, bonus:15, base:200000,  mul:2.2,  max:4,  label:'Click +15'},
 ];
 
 const SHOP=[
-  {id:'ac', ico:IMG.Auto_Clicker,n:'Auto Clicker',  d:'+1/sec',    cps:1,    base:50,      mul:1.6,  max:50},
-  {id:'da', ico:IMG.Dealer,     n:'Dealer Asst.',  d:'+5/sec',    cps:5,    base:400,     mul:1.65, max:30},
-  {id:'vt', ico:IMG.VIP_Table,  n:'VIP Table',     d:'+20/sec',   cps:20,   base:3000,    mul:1.7,  max:20},
-  {id:'mg', ico:IMG.Manager,    n:'Manager',       d:'+100/sec',  cps:100,  base:20000,   mul:1.75, max:15},
-  {id:'em', ico:IMG.Empire_Shop,n:'Empire',        d:'+500/sec',  cps:500,  base:120000,  mul:1.8,  max:10},
-  {id:'mc', ico:IMG.Mega_Casino,n:'Mega Casino',   d:'+1,500/sec',cps:1500, base:500000,  mul:1.85, max:5},
+  {id:'ac', ico:IMG.Auto_Clicker,n:'Auto Clicker',  d:'+1/sec',    cps:1,    base:50,      mul:2.0,  max:40},
+  {id:'da', ico:IMG.Dealer,     n:'Dealer Asst.',  d:'+5/sec',    cps:5,    base:500,     mul:2.05, max:25},
+  {id:'vt', ico:IMG.VIP_Table,  n:'VIP Table',     d:'+20/sec',   cps:20,   base:4000,    mul:2.1,  max:18},
+  {id:'mg', ico:IMG.Manager,    n:'Manager',       d:'+80/sec',   cps:80,   base:30000,   mul:2.15, max:12},
+  {id:'em', ico:IMG.Empire_Shop,n:'Empire',        d:'+300/sec',  cps:300,  base:200000,  mul:2.2,  max:8},
+  {id:'mc', ico:IMG.Mega_Casino,n:'Mega Casino',   d:'+1,000/sec',cps:1000, base:1000000, mul:2.3,  max:4},
 ];
 
 /* ═══════════════════════════════════════
@@ -1935,7 +1999,7 @@ const G={
   dailyDone:false,
   socialDone:{ig:!!_social.ig, tw:!!_social.tw},
   socialPending:{ig:false, tw:false},
-  bets:{bj:10,rl:10,sl:5}, rlSel:'red',
+  bets:{bj:10,rl:10,sl:5,rps:10}, rlSel:'red',
   clickPower:1,
   luck:false, luckTimer:0,
   boost:false, boostMult:1, boostTimer:0,
@@ -2599,6 +2663,9 @@ async function bjStand(){
   bjEnd('stand')
 }
 async function bjEnd(reason){
+  BJOVER=true;
+  // Hide action buttons immediately
+  document.getElementById('bj-play').classList.add('hidden');
   const pv=bjV(BP),dv=bjV(BD),bet=G.bets.bj;
   const nat=pv===21&&BP.length===2;
   let cls,em,title,desc,txn='',closeMsg='';
@@ -3000,7 +3067,7 @@ function restartGame(){
     emailDone:false, emailFired:false, dailyDone:false,
     socialDone:{ig:!!_social.ig, tw:!!_social.tw},
     socialPending:{ig:false, tw:false},
-    bets:{bj:10,rl:10,sl:5}, rlSel:'red',
+    bets:{bj:10,rl:10,sl:5,rps:10}, rlSel:'red',
     clickPower:1,
     luck:false, luckTimer:0, boost:false, boostMult:1, boostTimer:0,
     victoryDone:false, empireDone:false,
@@ -3071,6 +3138,100 @@ function slMegaSpin(){
   updateGameInfo('sl');
   document.getElementById('sl-bv').textContent=fmtF(G.bets.sl);
   slSpin().then(function(){G.bets.sl=origBet;document.getElementById('sl-bv').textContent=fmtF(G.bets.sl);updateGameInfo('sl')});
+}
+
+/* ═══════════════════════════════════════
+   DIAMOND GAME MODES (RPS + GOD MODE)
+═══════════════════════════════════════ */
+// Init bets for RPS
+if(!G.bets.rps) G.bets.rps=10;
+
+function openDiamondGame(id){
+  if(id==='rps'){
+    if(!G.dshopOwned||!G.dshopOwned.rps){toast('🔒 Unlock with 💎 1 in the Diamond Shop!');return}
+    document.getElementById('rps-game-res').style.display='none';
+    document.getElementById('rps-bal').textContent='$ '+fmtBig(G.coins);
+    document.getElementById('rps-bet-d').textContent='$ '+fmtF(G.bets.rps);
+    document.getElementById('rps-bv').textContent=fmtF(G.bets.rps);
+    openM('rps-game-m');
+  }
+  if(id==='god'){
+    if(!G.dshopOwned||!G.dshopOwned.god){toast('🔒 Unlock with 💎 3 in the Diamond Shop!');return}
+    document.getElementById('god-bal').textContent='$ '+fmtBig(G.coins);
+    document.getElementById('god-taps').textContent='0';
+    G._godTaps=0;
+    document.getElementById('god-game-res').style.display='none';
+    openM('god-game-m');
+  }
+}
+
+// Update diamond game card visuals
+function updateDiamondGameCards(){
+  var rpsOwned=G.dshopOwned&&G.dshopOwned.rps;
+  var godOwned=G.dshopOwned&&G.dshopOwned.god;
+  var container=document.getElementById('diamond-games');
+  // Hide entire row if neither is owned
+  if(container)container.style.display=(rpsOwned||godOwned)?'grid':'none';
+  var rpsGc=document.getElementById('rps-gc');
+  var godGc=document.getElementById('god-gc');
+  if(rpsGc){rpsGc.style.display=rpsOwned?'':'none';if(rpsOwned)rpsGc.className='gc un'}
+  if(godGc){godGc.style.display=godOwned?'':'none';if(godOwned)godGc.className='gc un'}
+  var rpsSt=document.getElementById('rps-gc-st');
+  var godSt=document.getElementById('god-gc-st');
+  if(rpsSt&&rpsOwned)rpsSt.innerHTML='<span class="gc-status play">\u25b6 PLAY</span>';
+  if(godSt&&godOwned)godSt.innerHTML='<span class="gc-status play">\u25b6 PLAY</span>';
+}
+updateDiamondGameCards();
+
+// ── RPS GAME ──
+var RPS_ICO={rock:'🪨',paper:'📄',scissors:'✂️'};
+var RPS_BEATS={rock:'scissors',paper:'rock',scissors:'paper'};
+
+function rpsPlay(choice){
+  var bet=G.bets.rps;
+  if(G.coins<bet){toast(t('notEnoughCoins'));return}
+  // Dealer picks
+  var opts=['rock','paper','scissors'];
+  var dealer=opts[Math.floor(Math.random()*3)];
+  var box=document.getElementById('rps-game-res');
+  var won=RPS_BEATS[choice]===dealer;
+  var tie=choice===dealer;
+
+  G.totalGames++;
+  if(won){
+    var net=bet;addC(net);G.totalWins++;S.win();confetti();screenFlash('w');
+    box.className='rb w';box.style.display='block';
+    box.innerHTML='<span class="re">🏆</span><div class="rt" style="color:var(--win)">YOU WIN!</div><div class="rd">'+RPS_ICO[choice]+' vs '+RPS_ICO[dealer]+' — +'+fmtF(net)+' coins</div>';
+  }else if(tie){
+    box.className='rb t';box.style.display='block';
+    box.innerHTML='<span class="re">🤝</span><div class="rt" style="color:var(--blue)">TIE!</div><div class="rd">'+RPS_ICO[choice]+' vs '+RPS_ICO[dealer]+' — No coins lost</div>';
+  }else{
+    addC(-bet);S.lose();screenFlash('l');
+    box.className='rb l';box.style.display='block';
+    box.innerHTML='<span class="re">💔</span><div class="rt" style="color:var(--lose)">YOU LOSE</div><div class="rd">'+RPS_ICO[choice]+' vs '+RPS_ICO[dealer]+' — -'+fmtF(bet)+' coins</div>';
+  }
+  document.getElementById('rps-bal').textContent='$ '+fmtBig(G.coins);
+  refreshHUD();saveSession();
+}
+
+// ── GOD MODE GAME ── (massive tap rewards)
+function godTap(){
+  G._godTaps=(G._godTaps||0)+1;
+  var mult=Math.floor(10+Math.random()*40); // 10-50x per tap
+  var gain=Math.floor(G.clickPower*mult);
+  addC(gain);
+  // Visual feedback
+  var orb=document.getElementById('god-orb');
+  orb.style.transform='scale(.85)';setTimeout(function(){orb.style.transform=''},100);
+  spawnFlt(window.innerWidth/2,window.innerHeight/2-50,'+'+fmtBig(gain),20,'#FFD700');
+  // Particles every 3 taps
+  if(G._godTaps%3===0)confetti();
+  // Update display
+  document.getElementById('god-bal').textContent='$ '+fmtBig(G.coins);
+  document.getElementById('god-taps').textContent=G._godTaps;
+  scheduleHUD();
+  // Screen flash every 10 taps
+  if(G._godTaps%10===0){screenFlash('w');S.bigwin();}
 }
 
 /* ═══════════════════════════════════════
@@ -3359,7 +3520,7 @@ function setPrestige(n) {
   try { localStorage.setItem('cc_prestige', String(n)); } catch(e){}
 }
 let PRESTIGE_COUNT = getPrestige();
-const PRESTIGE_MULT_PER = 0.20; // +20% each prestige
+const PRESTIGE_MULT_PER = 0.10; // +10% each prestige (balanced for 5-10h gameplay)
 
 // Tiered prestige thresholds: 1@1M, 1@5M, 1@10M, 1@50M, 1@100M, 1@500M, 1@1B…
 const PRESTIGE_TIERS = [1_000_000, 5_000_000, 10_000_000, 50_000_000, 100_000_000, 500_000_000, 1_000_000_000];
@@ -3392,7 +3553,7 @@ function doPrestige() {
     coins:0, totalClicks:0, totalWins:0, totalGames:0, biggestWin:0, cps:0,
     startTime:Date.now(), milestones:new Set(),
     emailFired:false, dailyDone:false,
-    bets:{bj:10,rl:10,sl:5}, rlSel:'red',
+    bets:{bj:10,rl:10,sl:5,rps:10}, rlSel:'red',
     luck:false, luckTimer:0, boost:false, boostMult:1, boostTimer:0,
     victoryDone:false, empireDone:false,
     empireUp:{
@@ -3613,16 +3774,21 @@ function generateSaveCode(){
 }
 
 function copySaveCode(){
+  generateSaveCode(); // refresh code
   var code=document.getElementById('profile-save-code').textContent;
   if(!code||code==='---'){toast('No save code yet');return}
   if(navigator.clipboard){
-    navigator.clipboard.writeText(code).then(function(){toast('📋 Save code copied!')});
+    navigator.clipboard.writeText(code).then(function(){toast('📋 Save code copied! Paste it on another device')});
   }else{
     var ta=document.createElement('textarea');ta.value=code;ta.style.cssText='position:fixed;left:-9999px';
     document.body.appendChild(ta);ta.select();
-    try{document.execCommand('copy');toast('📋 Copied!')}catch(e){toast('Code: '+code.substring(0,20)+'...')}
+    try{document.execCommand('copy');toast('📋 Copied!')}catch(e){toast('❌ Copy failed')}
     ta.remove();
   }
+}
+function showLoadInput(){
+  var w=document.getElementById('load-input-wrap');
+  if(w)w.style.display=w.style.display==='none'?'block':'none';
 }
 
 function loadSaveCode(){
@@ -3675,9 +3841,8 @@ updateDiamondDisplay();
 ═══════════════════════════════════════ */
 var DSHOP_ITEMS=[
   {id:'rps',  name:'Rock Paper Scissors', desc:'New game mode!', ico:'✊', price:1},
-  {id:'x2',   name:'Double Boost', desc:'x2 all shop & click power', ico:'⚡', price:2},
-  {id:'gold', name:'Golden Mode', desc:'Full gold visual theme', ico:'👑', price:3},
-  {id:'god',  name:'GOD MODE', desc:'Ultimate game mode', ico:'🔱', price:5},
+  {id:'x2',   name:'Power Boost', desc:'x1.5 all shop & click power', ico:'⚡', price:2},
+  {id:'god',  name:'GOD MODE', desc:'Gold theme + animations + game mode', ico:'🔱', price:3},
 ];
 
 function buildDiamondShop(){
@@ -3712,24 +3877,41 @@ function buyDiamondItem(id){
   toast('🎉 '+item.name+' unlocked!');
   buildDiamondShop();
   applyDiamondEffects();
+  if(typeof updateDiamondGameCards==='function')updateDiamondGameCards();
 }
 
+var _godParticleInterval=null;
 function applyDiamondEffects(){
   if(!G.dshopOwned)return;
-  // x2 boost — double all shop CPS and click power
-  // (applied via multiplier in recalcCPS and recalcClickPower)
 
-  // Golden mode — add gold class to body
-  if(G.dshopOwned.gold){
-    document.body.classList.add('golden-mode');
+  // GOD MODE — gold theme + floating particles + animations
+  if(G.dshopOwned.god){
+    document.body.classList.add('god-mode');
+    if(!_godParticleInterval){
+      _godParticleInterval=setInterval(spawnGodParticle,600);
+    }
   }else{
-    document.body.classList.remove('golden-mode');
+    document.body.classList.remove('god-mode');
+    if(_godParticleInterval){clearInterval(_godParticleInterval);_godParticleInterval=null}
   }
 }
 applyDiamondEffects();
 
+function spawnGodParticle(){
+  var p=document.createElement('div');p.className='god-particle';
+  p.style.left=Math.random()*100+'%';
+  p.style.animationDuration=(3+Math.random()*3)+'s';
+  p.style.animationDelay=Math.random()*2+'s';
+  p.style.width=p.style.height=(2+Math.random()*4)+'px';
+  var colors=['#E8B400','#FFD84D','#FFA500','#fff'];
+  p.style.background=colors[Math.floor(Math.random()*colors.length)];
+  p.style.boxShadow='0 0 '+(4+Math.random()*6)+'px '+p.style.background;
+  document.body.appendChild(p);
+  setTimeout(function(){p.remove()},6000);
+}
+
 // Diamond multiplier for shop CPS (x2 if owned)
-function diamondMult(){return G.dshopOwned&&G.dshopOwned.x2?2:1}
+function diamondMult(){return G.dshopOwned&&G.dshopOwned.x2?1.5:1}
 
 /* ═══════════════════════════════════════
    REFERRAL & INVITE SYSTEM
@@ -3790,6 +3972,9 @@ function getShareText(){
 function shareGame(){
   // Check daily share limit (5/day)
   var shareData=getShareData();
+  // Cap at 10 total invites
+  var totalShares=parseInt(localStorage.getItem('cc_shares_total')||'0');
+  if(totalShares>=10){toast('📤 Max 10 invites reached!');return}
   if(shareData.count>=5){toast('📤 Max 5 shares per day!');return}
 
   // Web Share API (native mobile share sheet)
@@ -3828,9 +4013,11 @@ function onShareSuccess(){
   var sd=getShareData();
   sd.count++;sd.lastDate=new Date().toDateString();
   localStorage.setItem('cc_shares',JSON.stringify(sd));
-  // Reward: +1 diamond + 1000 coins
-  addDiamonds(1);addC(1000);confetti();saveSession();
-  toast('💎 +1 diamond & +1,000 coins!');
+  // Track total shares (capped at 10)
+  var total=parseInt(localStorage.getItem('cc_shares_total')||'0')+1;
+  localStorage.setItem('cc_shares_total',String(total));
+  addC(500);saveSession();
+  toast('📤 Link shared! +500 coins');
   updateInviteCount();
 }
 
@@ -3846,7 +4033,8 @@ function updateInviteCount(){
   var el=document.getElementById('invite-count');
   if(!el)return;
   var sd=getShareData();
-  el.textContent='Shared: '+sd.count+'/5 today • Code: '+MY_REF_CODE;
+  var total=parseInt(localStorage.getItem('cc_shares_total')||'0');
+  el.textContent=total+'/10 invites • Code: '+MY_REF_CODE;
 }
 updateInviteCount();
 
@@ -4124,6 +4312,10 @@ function acceptConsent(){
   try{localStorage.setItem('cc_consent','1')}catch(e){}
   var ov=document.getElementById('consent-overlay');
   if(ov){ov.style.transition='opacity .4s';ov.style.opacity='0';setTimeout(function(){ov.remove()},400)}
+  // Show goal message on first play
+  setTimeout(function(){
+    showNotif('🚀','OBJECTIVE','Reach 1 BILLION coins and become the next Elon Musk! 💰');
+  },1500);
 }
 
 /* ═══════════════════════════════════════
