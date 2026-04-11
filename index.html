@@ -1272,7 +1272,7 @@ body.minigame-paused #coin-el{
   <div class="echip"><div class="ech">🎁 +500 coins on sign-up</div></div>
   <input type="email" class="emi" id="em-in" placeholder="your@email.com" autocomplete="email">
   <button class="btn" onclick="submitEmail()">Save & Claim 500 Coins</button>
-  <div class="skip" onclick="closeM('em-m')">Skip for now</div>
+  <div class="skip" onclick="skipEmail()">Skip for now</div>
 </div></div>
 
 <!-- RPS FINAL -->
@@ -1348,6 +1348,10 @@ const T = {
   /* ─── SHOP ─── */
   shopTitle:       { en:'Upgrade Shop',   fr:'Boutique',         es:'Tienda',           zh:'升级商店' },
   shopSub:         { en:'Buy passive income — reach 1B faster', fr:'Revenu passif — atteignez 1 milliard', es:'Ingresos pasivos — llega a 1B', zh:'购买被动收入 — 更快达到10亿' },
+  savedOk:         { en:'Progress saved!', fr:'Progression sauvegardée !', es:'¡Progreso guardado!', zh:'进度已保存！' },
+  emailRequired:   { en:'Enter your email to unlock the Shop!', fr:'Entre ton email pour débloquer la Boutique !', es:'¡Ingresa tu email para desbloquear la Tienda!', zh:'输入邮箱解锁商店！' },
+  shopLockedMsg:   { en:'Shop unlocks after 1 minute — keep tapping!', fr:'La boutique s\'ouvre après 1 minute — continue de taper !', es:'La tienda se abre tras 1 minuto', zh:'商店1分钟后解锁' },
+  statsLockedMsg:  { en:'Stats unlock at 1,000,000 coins!', fr:'Stats débloquées à 1 000 000 pièces !', es:'Estadísticas a 1,000,000 monedas', zh:'统计在1,000,000金币时解锁' },
   maxReached:      { en:'Maximum reached!', fr:'Maximum atteint !', es:'¡Máximo alcanzado!', zh:'已达上限！' },
   notEnoughCoins:  { en:'Not enough coins!', fr:'Pas assez de pièces !', es:'¡Monedas insuficientes!', zh:'金币不足！' },
   purchased:       { en:'{ico} {n} purchased!', fr:'{ico} {n} acheté !', es:'¡{ico} {n} comprado!', zh:'{ico} {n}已购买！' },
@@ -1359,7 +1363,7 @@ const T = {
   emailBonus:      { en:'🎁 +500 coins on sign-up', fr:'🎁 +500 pièces à l\'inscription', es:'🎁 +500 monedas al registrarse', zh:'🎁 注册送500金币' },
   emailPlaceholder:{ en:'your@email.com',          fr:'votre@email.com',           es:'tu@email.com',             zh:'你的@邮箱.com' },
   emailBtn:        { en:'Save & Claim 500 Coins',  fr:'Sauvegarder & Réclamer 500', es:'Guardar y Reclamar 500',  zh:'保存并领取500金币' },
-  emailSkip:       { en:'Skip for now',            fr:'Ignorer pour l\'instant',   es:'Omitir por ahora',         zh:'暂时跳过' },
+  emailSkip:       { en:'No thanks (Shop stays locked)',  fr:'Non merci (Boutique reste bloquée)',  es:'No gracias (Tienda bloqueada)',  zh:'不了（商店保持锁定）' },
   emailInvalid:    { en:'Enter a valid email',     fr:'Email invalide',            es:'Email inválido',           zh:'请输入有效邮箱' },
   emailToast:      { en:'🎁 +500 coins! Progress saved!', fr:'🎁 +500 pièces ! Sauvegardé !', es:'🎁 +500 monedas! ¡Guardado!', zh:'🎁 +500金币！进度已保存！' },
   /* ─── BLACKJACK ─── */
@@ -1659,7 +1663,13 @@ const S={
   social:()=>[659,784,1047,1319].forEach((f,i)=>tone(f,'sine',.3,.22,i*.09)),
   cinematic:()=>{[220,277,330].forEach((f,i)=>tone(f,'triangle',.8,.15,i*.2));setTimeout(()=>[440,554,659].forEach((f,i)=>tone(f,'sine',.6,.18,i*.15)),800)},
 };
-function saveProgress(){openM('em-m')}
+function saveProgress(){
+  saveSession();
+  toast('💾 '+t('savedOk'));
+  // Small visual feedback on button
+  var btn=document.querySelector('.hbtn[onclick]');
+  if(!btn){document.querySelectorAll('.hbtn').forEach(function(b){if(b.textContent.includes('💾'))btn=b})}
+}
 function toggleSnd(){snd=!snd;document.getElementById('snd-btn').textContent=snd?'🔊':'🔇';toast(snd?t('soundOn'):t('soundOff'))}
 
 /* ═══════════════════════════════════════
@@ -2295,43 +2305,31 @@ function updateSocialButtons(){
 }
 
 function claimSoc(id){
-  // Already claimed (persistent across page reloads)
   if(G.socialDone[id]){toast(t('alreadySocial'));return}
-  // Prevent double-click during delay window
-  if(G.socialPending[id]){return}
+  if(G.socialPending[id])return;
 
-  // Open link
-  window.open(SOC_URL[id],'_blank');
+  // Mark as done IMMEDIATELY (before opening link — prevents page reload losing state)
+  G.socialDone[id]=true;
+  G.socialPending[id]=false;
+  saveSocialState();
 
-  // Start loading state
-  G.socialPending[id]=true;
+  // Give reward IMMEDIATELY (before browser navigates away)
+  addC(12500);
+  saveSession(); // save coins RIGHT NOW
+
+  // Visual effects
+  S.social();screenFlash('w');
+  for(var ci=0;ci<4;ci++)setTimeout(function(){confetti()},ci*200);
+  spawnFlt(window.innerWidth/2,window.innerHeight/2,'+12,500 🪙',26);
+  toast('🎉 +12,500 coins claimed!');
+
+  // Hide button
+  var btn=document.getElementById(id+'-b');
+  if(btn)btn.classList.add('claimed');
   updateSocialButtons();
-  toast('⏳ Following… reward in 12 seconds!');
 
-  // 1.5s delay before reward (simulates following verification)
-  setTimeout(()=>{
-    // Check again in case something changed
-    if(G.socialDone[id])return;
-    G.socialDone[id]=true;
-    G.socialPending[id]=false;
-
-    // Persist to localStorage so can't re-claim on reload
-    saveSocialState();
-
-    // Give reward — 12,500 coins
-    addC(12500);S.social();screenFlash('w');
-    for(var ci=0;ci<4;ci++)setTimeout(function(){confetti()},ci*200);
-
-    spawnFlt(window.innerWidth/2,window.innerHeight/2,'+12,500 🪙',26);
-    spawnPts(window.innerWidth/2,window.innerHeight/2,14);
-    showMicroDrop('🎉',t('rewardClaimed'),'+12,500 🪙');
-    toast('🎉 +12,500 coins claimed!');
-
-    // Hide the button with smooth animation
-    var btn=document.getElementById(id+'-b');
-    if(btn){btn.classList.add('claimed')}
-    updateSocialButtons()
-  },12000)
+  // Open link AFTER saving everything (small delay so save completes)
+  setTimeout(function(){window.open(SOC_URL[id],'_blank')},300);
 }
 
 /* ═══════════════════════════════════════
@@ -2371,7 +2369,14 @@ function submitEmail(){
     setTimeout(function(){form.remove();iframe.remove()},5000);
   }catch(e){}
   if(typeof gtag==='function')gtag('event','email_submit',{method:'google_forms'});
-  addC(500);S.bigwin();confetti();screenFlash('w');toast(t('emailToast'));closeM('em-m')
+  addC(500);S.bigwin();confetti();screenFlash('w');toast(t('emailToast'));closeM('em-m');
+  // Open shop after email submission
+  setTimeout(function(){switchTab('shop',document.getElementById('nv-shop'))},500);
+}
+
+function skipEmail(){
+  closeM('em-m');
+  toast('📧 '+t('emailRequired'));
 }
 
 /* ═══════════════════════════════════════
@@ -2917,8 +2922,10 @@ function slMegaSpin(){
    TABS
 ═══════════════════════════════════════ */
 function switchTab(n,btn){
-  if(n==='shop'&&!G.shopTabUnlocked){toast('🔒 Shop unlocks in 1 minute!');return;}
-  if(n==='stats'&&G.coins<M1&&!G.statsUnlocked){toast('🔒 Stats unlock at 1,000,000 coins!');return;}
+  if(n==='shop'&&!G.shopTabUnlocked){toast('🔒 '+t('shopLockedMsg'));return}
+  // Shop requires email — always block until email is given
+  if(n==='shop'&&!G.emailDone){openM('em-m');return}
+  if(n==='stats'&&G.coins<M1&&!G.statsUnlocked){toast('🔒 '+t('statsLockedMsg'));return}
   document.querySelectorAll('.nv').forEach(b=>b.classList.remove('a'));btn.classList.add('a');
   ['home','shop','stats'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.classList.toggle('hidden',t!==n)});
   if(n==='shop')document.getElementById('shop-pip').classList.remove('on');
