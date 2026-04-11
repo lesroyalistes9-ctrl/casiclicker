@@ -1222,9 +1222,9 @@ body.minigame-paused #coin-el{
   <div class="qbs"><span class="qb" onclick="qb('rl',5)">5</span><span class="qb" onclick="qb('rl',10)">10</span><span class="qb" onclick="qb('rl',25)">25</span><span class="qb" onclick="qb('rl',50)">50</span><span class="qb" onclick="qb('rl',100)">100</span><span class="qb" onclick="qb('rl',250)">250</span><span class="qb qb-half" onclick="qb('rl',hc())">50%</span><span class="qb qb-all" onclick="qb('rl',G.coins)">ALL</span></div>
   <div id="rl-wrap"><div class="rlptr"></div><canvas id="rl-cv" width="240" height="240"></canvas></div>
   <div class="rl-opts">
-    <div class="rlo red sel" id="rl-red" onclick="rlPk('red')">RED</div>
-    <div class="rlo blk" id="rl-blk" onclick="rlPk('blk')">BLACK</div>
-    <div class="rlo grn" id="rl-grn" onclick="rlPk('grn')">ZERO</div>
+    <div class="rlo red sel" id="rl-red" onclick="rlPk('red')">🔴 RED (2×)</div>
+    <div class="rlo blk" id="rl-blk" onclick="rlPk('blk')">⚫ BLACK (2×)</div>
+    <div class="rlo grn" id="rl-grn" onclick="rlPk('grn')">💚 GREEN (5×)</div>
   </div>
   <div id="rl-res" style="display:none"></div>
   <button class="btn" id="rl-sp" onclick="rlSpin()">Spin the Wheel!</button>
@@ -1394,9 +1394,9 @@ const T = {
   /* ─── ROULETTE ─── */
   rlTitle:         { en:'ROULETTE', fr:'ROULETTE', es:'RULETA', zh:'轮盘赌' },
   rlSub:           { en:'Pick color — spin for glory', fr:'Choisissez — tournez pour la gloire', es:'Elige color — gira', zh:'选颜色 — 旋转赢大奖' },
-  rlRed:           { en:'🔴 Red (2×)',   fr:'🔴 Rouge (2×)', es:'🔴 Rojo (2×)', zh:'🔴 红色 (2×)' },
-  rlBlack:         { en:'⚫ Black (2×)', fr:'⚫ Noir (2×)',  es:'⚫ Negro (2×)', zh:'⚫ 黑色 (2×)' },
-  rlGreen:         { en:'🟢 Zero (14×)', fr:'🟢 Zéro (14×)', es:'🟢 Cero (14×)', zh:'🟢 零 (14×)' },
+  rlRed:           { en:'🔴 RED (2×)',   fr:'🔴 ROUGE (2×)', es:'🔴 ROJO (2×)', zh:'🔴 红 (2×)' },
+  rlBlack:         { en:'⚫ BLACK (2×)', fr:'⚫ NOIR (2×)',  es:'⚫ NEGRO (2×)', zh:'⚫ 黑 (2×)' },
+  rlGreen:         { en:'💚 GREEN (5×)', fr:'💚 VERT (5×)', es:'💚 VERDE (5×)', zh:'💚 绿 (5×)' },
   rlSpin:          { en:'Spin the Wheel!', fr:'Tourner la roue !', es:'¡Girar la ruleta!', zh:'旋转轮盘！' },
   rlSpinAgain:     { en:'Spin Again', fr:'Tourner encore', es:'Girar de nuevo', zh:'再次旋转' },
   rlWin:           { en:'Win!', fr:'Gagné !', es:'¡Ganaste!', zh:'赢了！' },
@@ -2475,8 +2475,9 @@ async function bjAuto(){
 /* ═══════════════════════════════════════
    🎡 ROULETTE (fair math, ~35% win rate)
 ═══════════════════════════════════════ */
-const RL_ORD=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-const RL_COL={0:'g',1:'r',2:'b',3:'r',4:'b',5:'r',6:'b',7:'r',8:'b',9:'r',10:'b',11:'b',12:'r',13:'b',14:'r',15:'b',16:'r',17:'b',18:'r',19:'r',20:'b',21:'r',22:'b',23:'r',24:'b',25:'r',26:'b',27:'r',28:'b',29:'b',30:'r',31:'b',32:'r',33:'b',34:'r',35:'b',36:'r'};
+// Simplified wheel — 12 big segments: 5 red, 5 black, 2 green. Easy to read!
+const RL_ORD=['R','B','R','B','G','R','B','R','B','R','B','G'];
+const RL_COL_MAP={'R':'r','B':'b','G':'g'};
 const RL_SL=(2*Math.PI)/RL_ORD.length;
 let rlCtx=null,rlAngle=0,rlSpinning=false;
 
@@ -2488,54 +2489,81 @@ function rlInit(){
 }
 function rlDraw(rot){
   if(!rlCtx)return;
-  const W=240,cx=W/2,cy=W/2,r=W/2-3;rlCtx.clearRect(0,0,W,W);
-  for(let i=0;i<RL_ORD.length;i++){
-    const a0=rot+i*RL_SL,a1=a0+RL_SL;
+  var W=240,cx=W/2,cy=W/2,r=W/2-3;
+  rlCtx.clearRect(0,0,W,W);
+  // Draw big color segments
+  for(var i=0;i<RL_ORD.length;i++){
+    var a0=rot+i*RL_SL,a1=a0+RL_SL;
+    var c=RL_COL_MAP[RL_ORD[i]];
+    // Segment fill
     rlCtx.beginPath();rlCtx.moveTo(cx,cy);rlCtx.arc(cx,cy,r,a0,a1);rlCtx.closePath();
-    const col=RL_COL[RL_ORD[i]];
-    rlCtx.fillStyle=col==='g'?'#065f46':col==='r'?'#991b1b':'#111827';rlCtx.fill();
-    rlCtx.strokeStyle='#7A5C00';rlCtx.lineWidth=.7;rlCtx.stroke();
-    rlCtx.save();rlCtx.translate(cx,cy);rlCtx.rotate(a0+RL_SL/2);rlCtx.translate(r*.73,0);rlCtx.rotate(Math.PI/2);
-    rlCtx.fillStyle='#fff';rlCtx.font='bold 7px sans-serif';rlCtx.textAlign='center';rlCtx.textBaseline='middle';
-    rlCtx.fillText(RL_ORD[i],0,0);rlCtx.restore()
+    rlCtx.fillStyle=c==='g'?'#059669':c==='r'?'#b91c1c':'#1f2937';
+    rlCtx.fill();
+    // Segment border
+    rlCtx.strokeStyle='#E8B400';rlCtx.lineWidth=1.5;rlCtx.stroke();
+    // Label (emoji)
+    rlCtx.save();rlCtx.translate(cx,cy);rlCtx.rotate(a0+RL_SL/2);
+    rlCtx.translate(r*0.65,0);rlCtx.rotate(-rot-(a0+RL_SL/2));
+    rlCtx.font='bold 16px sans-serif';rlCtx.textAlign='center';rlCtx.textBaseline='middle';
+    rlCtx.fillStyle='#fff';
+    rlCtx.fillText(c==='r'?'🔴':c==='b'?'⚫':'💚',0,0);
+    rlCtx.restore();
   }
+  // Outer ring
   rlCtx.beginPath();rlCtx.arc(cx,cy,r,0,Math.PI*2);rlCtx.strokeStyle='#E8B400';rlCtx.lineWidth=3;rlCtx.stroke();
-  rlCtx.beginPath();rlCtx.arc(cx,cy,14,0,Math.PI*2);rlCtx.fillStyle='#7A5C00';rlCtx.fill();
-  rlCtx.beginPath();rlCtx.arc(cx,cy,8,0,Math.PI*2);rlCtx.fillStyle='#E8B400';rlCtx.fill()
+  // Inner hub
+  rlCtx.beginPath();rlCtx.arc(cx,cy,18,0,Math.PI*2);rlCtx.fillStyle='#7A5C00';rlCtx.fill();
+  rlCtx.beginPath();rlCtx.arc(cx,cy,12,0,Math.PI*2);rlCtx.fillStyle='#E8B400';rlCtx.fill();
+  rlCtx.beginPath();rlCtx.arc(cx,cy,6,0,Math.PI*2);rlCtx.fillStyle='#7A5C00';rlCtx.fill();
 }
 function rlPk(c){
   G.rlSel=c;['red','blk','grn'].forEach(x=>document.getElementById('rl-'+x).classList.remove('sel'));
   document.getElementById('rl-'+c).classList.add('sel')
 }
+// After wheel stops, read which segment is under the pointer
+function getSegmentAtPointer(){
+  var p=((-Math.PI/2-rlAngle)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
+  var idx=Math.floor(p/RL_SL)%RL_ORD.length;
+  return idx;
+}
+
 function rlSpin(){
   if(rlSpinning)return;if(G.coins<G.bets.rl){toast(t('notEnoughCoins'));return}
   rlSpinning=true;document.getElementById('rl-sp').disabled=true;
   document.getElementById('rl-res').style.display='none';S.spin();
-  // Fair outcome: pick pocket index (all 37 equally likely)
-  const li=rnd(0,RL_ORD.length-1),ln=RL_ORD[li],lc=RL_COL[ln];
-  const spins=5+Math.random()*3;
-  // Target: the pointer is at top (-PI/2). We need segment li under the pointer.
-  // Segment i starts at rot + i*RL_SL, center is rot + i*RL_SL + RL_SL/2
-  // For center to be at -PI/2: rot = -PI/2 - li*RL_SL - RL_SL/2
-  const tgtWheelA = -Math.PI/2 - li*RL_SL - RL_SL/2;
-  // Ensure we rotate forward (positive direction) by the right amount
-  const rawDelta = ((tgtWheelA - rlAngle) % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
-  const totalRot = spins*2*Math.PI + rawDelta;
-  const dur=4000+Math.random()*800;
-  const startA=rlAngle,startT=performance.now();
+  // Pick target segment (fair — all 37 equally likely)
+  var li=rnd(0,RL_ORD.length-1);
+  var spins=5+Math.random()*3;
+  // Target angle: segment li center at pointer (-PI/2)
+  // Segment i center on canvas is at: rot + i*SL + SL/2
+  // We need: rot + li*SL + SL/2 ≡ -PI/2 (mod 2PI)
+  // So: rot = -PI/2 - li*SL - SL/2
+  var tgtA = -Math.PI/2 - li*RL_SL - RL_SL/2;
+  var rawDelta = ((tgtA - rlAngle) % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
+  var totalRot = spins*2*Math.PI + rawDelta;
+  var dur=4000+Math.random()*800;
+  var startA=rlAngle,startT=performance.now();
   function eOut(t){return 1-Math.pow(1-t,4)}
   function frame(now){
-    const t=Math.min((now-startT)/dur,1),e=eOut(t);
+    var t=Math.min((now-startT)/dur,1),e=eOut(t);
     rlAngle=startA+totalRot*e;rlDraw(rlAngle);
     if(t<1)requestAnimationFrame(frame);
-    else{rlSpinning=false;rlResult(ln,lc)}
+    else{
+      rlSpinning=false;
+      // Read the ACTUAL segment under pointer (guarantees visual match)
+      var actualIdx=getSegmentAtPointer();
+      var actualSeg=RL_ORD[actualIdx];
+      var actualCol=RL_COL_MAP[actualSeg];
+      rlResult(actualSeg,actualCol);
+    }
   }
   requestAnimationFrame(frame)
 }
-function rlResult(num,col){
-  const bet=G.bets.rl,ce=col==='r'?'🔴':col==='b'?'⚫':'🟢';
-  let win=false,gross=0;
-  if(G.rlSel==='grn'&&num===0){win=true;gross=bet*14}
+function rlResult(seg,col){
+  var bet=G.bets.rl,ce=col==='r'?'🔴':col==='b'?'⚫':'💚';
+  var colName=col==='r'?'RED':col==='b'?'BLACK':'GREEN';
+  var win=false,gross=0;
+  if(G.rlSel==='grn'&&col==='g'){win=true;gross=bet*5}
   else if(G.rlSel==='red'&&col==='r'){win=true;gross=bet*2}
   else if(G.rlSel==='blk'&&col==='b'){win=true;gross=bet*2}
   G.totalGames++;
@@ -2543,12 +2571,12 @@ function rlResult(num,col){
   if(win){
     const{net,tax}=taxCalc(gross-bet,bet);const txn=tax>0?`<div class="rtx">🏠 House fee: ${fmtF(tax)}</div>`:'';
     box.className='rb w';box.style.display='block';
-    box.innerHTML='<span class="re">🎉</span><div class="rt">'+t('rlWin')+'</div><div class="rd">'+ce+' '+num+' — +'+fmtF(net)+' '+t('statsCoins')+'</div>'+txn;
+    box.innerHTML='<span class="re">🎉</span><div class="rt">'+t('rlWin')+'</div><div class="rd">'+ce+' '+colName+' — +'+fmtF(net)+' '+t('statsCoins')+'</div>'+txn;
     addC(net);G.totalWins++;S.win();screenFlash('w');confetti()
   }else{
     const nm=col==='g'?t('rlNear4'):G.rlSel==='red'&&col==='b'?t('rlNear1'):G.rlSel==='blk'&&col==='r'?t('rlNear2'):t('rlNear3');
     box.className='rb l';box.style.display='block';
-    box.innerHTML='<span class="re">💸</span><div class="rt">'+t('rlLose')+'</div><div class="rd">'+ce+' '+num+' — '+t('slLost',{n:fmtF(bet)})+'</div><div class="rcs">'+nm+'</div>';
+    box.innerHTML='<span class="re">💸</span><div class="rt">'+t('rlLose')+'</div><div class="rd">'+ce+' '+colName+' — '+t('slLost',{n:fmtF(bet)})+'</div><div class="rcs">'+nm+'</div>';
     addC(-bet);S.lose();screenFlash('l')
   }
   const sb=document.getElementById('rl-sp');sb.disabled=false;sb.textContent='Spin Again'
