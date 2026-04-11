@@ -750,6 +750,89 @@ body.minigame-paused #coin-el{
   transition:all .3s cubic-bezier(.34,1.4,.64,1);z-index:900;pointer-events:none;
   white-space:nowrap;max-width:calc(100vw - 32px);text-align:center}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ═══════ MOBILE FIT — everything visible without scrolling ═══════ */
+@media (max-height:900px){
+  /* Header: ultra compact */
+  #hdr{padding:4px 12px 3px}
+  .hr1{margin-bottom:3px}
+  .rank-pill{padding:2px 8px;font-size:10px}
+  .img-rank{width:18px;height:18px}
+  .hbtn{width:28px;height:28px;font-size:13px;border-radius:7px}
+  .img-logo{height:24px}
+  #coin-el{font-size:28px}
+  .coin-icon{width:22px;height:22px}
+  .coin-row{margin:0}
+  .cps-label,#cps-n{font-size:10px}
+  .cps-row{margin-top:0}
+  .prog-wrap{margin-top:4px}
+  .prog-labels{margin-bottom:2px}
+  .prog-label,#prog-pct{font-size:9px}
+  .prog-track{height:5px}
+  /* Streak bar: thinner */
+  #streak-wrap{padding:3px 8px;margin-top:4px;gap:4px}
+  .sl{font-size:9px}
+  .sd{width:7px;height:7px}
+  #streak-n{font-size:10px}
+  /* Event banner: compact */
+  #evt{margin:4px 12px 0;padding:6px 10px;border-radius:10px}
+  .ei{font-size:18px}.et{font-size:11px}.es{font-size:10px}
+  #evt-cd{font-size:18px}
+  /* Home tab: tighter gaps */
+  #tab-home{padding:6px 12px 0;gap:6px}
+  /* Tap button: responsive to screen */
+  #tw{width:min(170px,30vh);height:min(170px,30vh)}
+  #tap{width:min(150px,28vh);height:min(150px,28vh)}
+  .img-tap{width:min(110px,22vh);height:min(110px,22vh)}
+  .tl{font-size:7px;bottom:12px;letter-spacing:1px}
+  #cpt{font-size:10px;padding:2px 8px;bottom:-10px}
+  /* Stats: compact */
+  .s3{gap:4px}
+  .sp{padding:5px 3px;border-radius:6px}
+  .spv{font-size:14px}
+  .spl{font-size:7px;margin-top:2px;letter-spacing:.5px}
+  /* Daily: compact */
+  .daily{padding:7px 8px;gap:6px;border-radius:10px}
+  .img-daily{width:32px;height:32px}
+  .dt{font-size:12px}.ds{font-size:10px}
+  .da{padding:6px 12px;font-size:11px}
+  /* Games: compact */
+  .dvr{gap:6px}.dvrt{font-size:9px;letter-spacing:1.5px}
+  .g3{gap:5px}
+  .gc{padding:7px 3px 6px;border-radius:10px}
+  .img-game{width:38px;height:38px;margin-bottom:4px;border-radius:10px}
+  .gn{font-size:10px}.gc-wr{font-size:8px;margin-top:2px}
+  .gc-status{font-size:8px;margin-top:3px}
+  .gc-status.play{padding:3px 8px;font-size:9px}
+  /* All-in: thinner */
+  .allin{padding:10px;font-size:13px;border-radius:10px;margin-top:8px!important}
+  /* Social: compact */
+  .soc2{gap:6px}
+  .sb{padding:10px 6px;gap:4px;border-radius:10px}
+  .sb svg{width:20px;height:20px}
+  .sb-n{font-size:10px}.sb-r{font-size:11px;padding:1px 8px}
+  /* Best win */
+  .best-win-bar{padding:6px}
+  .best-win-bar span{font-size:11px}
+  /* Nav: thinner */
+  #nav{padding:4px 8px calc(4px + env(safe-area-inset-bottom));gap:2px}
+  .nv{padding:5px 2px;gap:2px;border-radius:8px}
+  .nv .ni{font-size:17px}.nv .nl{font-size:8px}
+  /* Scroll: less bottom padding */
+  #scroll{padding-bottom:calc(50px + env(safe-area-inset-bottom))}
+}
+
+/* Extra small screens (iPhone SE, older phones) */
+@media (max-height:700px){
+  #tw{width:min(140px,26vh);height:min(140px,26vh)}
+  #tap{width:min(120px,24vh);height:min(120px,24vh)}
+  .img-tap{width:min(90px,19vh);height:min(90px,19vh)}
+  #coin-el{font-size:24px}
+  .coin-icon{width:18px;height:18px}
+  .sp{padding:4px 2px}.spv{font-size:12px}
+  .img-game{width:32px;height:32px}
+  #hdr{padding:2px 10px 2px}
+}
+
 .hidden{display:none!important}
 </style>
 </head>
