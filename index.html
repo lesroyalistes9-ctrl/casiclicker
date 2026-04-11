@@ -741,6 +741,50 @@ body.minigame-paused #coin-el{
 </head>
 <body>
 
+<!-- IN-APP BROWSER REDIRECT — forces real browser (Chrome/Safari) -->
+<script>
+(function(){
+  var ua=navigator.userAgent||'';
+  // Detect Instagram, Twitter/X, Facebook, TikTok, Snapchat in-app browsers
+  var inApp=/Instagram|FBAN|FBAV|Twitter|Line\/|Snapchat|TikTok|BytedanceWebview|musical_ly/i.test(ua);
+  if(!inApp)return;
+
+  // Build redirect URL
+  var url=window.location.href;
+
+  // iOS: use intent to open in Safari
+  // Android: use intent to open in Chrome/default browser
+  var isIOS=/iPhone|iPad|iPod/i.test(ua);
+  var isAndroid=/Android/i.test(ua);
+
+  if(isAndroid){
+    // Android: intent:// scheme opens default browser
+    var intentUrl='intent://'+url.replace(/https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end';
+    window.location.href=intentUrl;
+  } else if(isIOS){
+    // iOS: try window.open, then fallback to showing a button
+    window.open(url,'_system');
+  }
+
+  // Fallback: show a splash screen with instructions
+  document.addEventListener('DOMContentLoaded',function(){
+    var d=document.createElement('div');
+    d.id='inapp-splash';
+    d.style.cssText='position:fixed;inset:0;z-index:99999;background:#06060C;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;font-family:Inter,sans-serif';
+    d.innerHTML='<div style="font-size:48px;margin-bottom:16px">🎰</div>'
+      +'<div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#E8B400;letter-spacing:1px;margin-bottom:8px">CASICLICKER</div>'
+      +'<div style="font-size:13px;color:#8A8270;margin-bottom:24px;line-height:1.6">'
+      +(isIOS
+        ?'Tap <b style="color:#EDE9DA">⋯</b> then <b style="color:#EDE9DA">Open in Safari</b><br>for the best experience'
+        :'Tap <b style="color:#EDE9DA">⋮</b> then <b style="color:#EDE9DA">Open in Chrome</b><br>for the best experience')
+      +'</div>'
+      +'<a href="'+url+'" target="_blank" style="display:block;width:100%;max-width:300px;padding:14px;background:linear-gradient(135deg,#7A5C00,#E8B400);border-radius:14px;color:#050400;font-size:15px;font-weight:900;text-decoration:none;letter-spacing:.3px">Open in Browser →</a>'
+      +'<div style="font-size:11px;color:#4A4638;margin-top:16px">The in-app browser has limited features</div>';
+    document.body.appendChild(d);
+  });
+})();
+</script>
+
 <!-- CONSENT POPUP — first launch only -->
 <div id="consent-overlay">
   <div id="consent-box">
