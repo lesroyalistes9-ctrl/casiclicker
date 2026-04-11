@@ -741,47 +741,76 @@ body.minigame-paused #coin-el{
 </head>
 <body>
 
-<!-- IN-APP BROWSER REDIRECT — forces real browser (Chrome/Safari) -->
+<!-- IN-APP BROWSER REDIRECT — forces real browser -->
 <script>
 (function(){
   var ua=navigator.userAgent||'';
-  // Detect Instagram, Twitter/X, Facebook, TikTok, Snapchat in-app browsers
   var inApp=/Instagram|FBAN|FBAV|Twitter|Line\/|Snapchat|TikTok|BytedanceWebview|musical_ly/i.test(ua);
   if(!inApp)return;
 
-  // Build redirect URL
-  var url=window.location.href;
-
-  // iOS: use intent to open in Safari
-  // Android: use intent to open in Chrome/default browser
+  var url=window.location.href.split('?')[0]; // clean URL
   var isIOS=/iPhone|iPad|iPod/i.test(ua);
   var isAndroid=/Android/i.test(ua);
+  var isIG=/Instagram/i.test(ua);
 
+  // Android: intent redirect works reliably
   if(isAndroid){
-    // Android: intent:// scheme opens default browser
-    var intentUrl='intent://'+url.replace(/https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end';
-    window.location.href=intentUrl;
-  } else if(isIOS){
-    // iOS: try window.open, then fallback to showing a button
-    window.open(url,'_system');
+    var intent='intent://'+url.replace(/https?:\/\//,'')+'#Intent;scheme=https;end';
+    window.location.href=intent;
   }
 
-  // Fallback: show a splash screen with instructions
+  // Fallback splash for iOS (and Android if intent fails)
   document.addEventListener('DOMContentLoaded',function(){
+    // Hide the game behind the splash
+    var app=document.getElementById('app');if(app)app.style.display='none';
+
     var d=document.createElement('div');
     d.id='inapp-splash';
-    d.style.cssText='position:fixed;inset:0;z-index:99999;background:#06060C;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;font-family:Inter,sans-serif';
-    d.innerHTML='<div style="font-size:48px;margin-bottom:16px">🎰</div>'
-      +'<div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#E8B400;letter-spacing:1px;margin-bottom:8px">CASICLICKER</div>'
-      +'<div style="font-size:13px;color:#8A8270;margin-bottom:24px;line-height:1.6">'
-      +(isIOS
-        ?'Tap <b style="color:#EDE9DA">⋯</b> then <b style="color:#EDE9DA">Open in Safari</b><br>for the best experience'
-        :'Tap <b style="color:#EDE9DA">⋮</b> then <b style="color:#EDE9DA">Open in Chrome</b><br>for the best experience')
+    d.style.cssText='position:fixed;inset:0;z-index:99999;background:#06060C;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;font-family:Inter,sans-serif';
+
+    // Arrow pointing to top-right corner (where ⋯ button is on IG/Twitter)
+    var arrow=isIG
+      ?'<div style="position:absolute;top:12px;right:24px;font-size:32px;color:#E8B400;animation:bounce-arrow 1s ease-in-out infinite">☝️</div>'
+        +'<style>@keyframes bounce-arrow{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}</style>'
+      :'';
+
+    var stepText=isIOS
+      ?(isIG
+        ?'1. Tap <b style="color:#fff">⋯</b> in the top right corner<br>2. Tap <b style="color:#fff">Open in Safari</b>'
+        :'1. Tap <b style="color:#fff">⋯</b> or share icon<br>2. Tap <b style="color:#fff">Open in Safari</b>')
+      :'1. Tap <b style="color:#fff">⋮</b> menu<br>2. Tap <b style="color:#fff">Open in browser</b>';
+
+    d.innerHTML=arrow
+      +'<div style="font-size:52px;margin-bottom:14px">🎰</div>'
+      +'<div style="font-family:Bebas Neue,sans-serif;font-size:32px;color:#E8B400;letter-spacing:1px;margin-bottom:6px">CASICLICKER</div>'
+      +'<div style="font-size:14px;color:#EDE9DA;margin-bottom:20px;font-weight:700">Open in your browser to play!</div>'
+      +'<div style="background:rgba(232,180,0,.08);border:1.5px solid rgba(232,180,0,.25);border-radius:16px;padding:18px 20px;margin-bottom:20px;max-width:320px;width:100%">'
+        +'<div style="font-size:13px;color:#8A8270;line-height:1.8">'+stepText+'</div>'
       +'</div>'
-      +'<a href="'+url+'" target="_blank" style="display:block;width:100%;max-width:300px;padding:14px;background:linear-gradient(135deg,#7A5C00,#E8B400);border-radius:14px;color:#050400;font-size:15px;font-weight:900;text-decoration:none;letter-spacing:.3px">Open in Browser →</a>'
-      +'<div style="font-size:11px;color:#4A4638;margin-top:16px">The in-app browser has limited features</div>';
+      +'<button onclick="copyLink()" style="width:100%;max-width:320px;padding:15px;background:linear-gradient(135deg,#7A5C00,#E8B400);border:none;border-radius:14px;color:#050400;font-size:15px;font-weight:900;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:.3px" id="copy-btn">📋 Copy Link & Open Browser</button>'
+      +'<div style="font-size:11px;color:#4A4638;margin-top:14px">Paste the link in Safari or Chrome</div>';
+
     document.body.appendChild(d);
   });
+
+  // Copy link to clipboard
+  window.copyLink=function(){
+    var btn=document.getElementById('copy-btn');
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){
+        btn.textContent='✅ Link copied!';btn.style.background='linear-gradient(135deg,#059669,#10b981)';
+        setTimeout(function(){btn.textContent='📋 Copy Link & Open Browser';btn.style.background=''},2000);
+      });
+    }else{
+      // Fallback: textarea copy
+      var ta=document.createElement('textarea');ta.value=url;ta.style.cssText='position:fixed;left:-9999px';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');btn.textContent='✅ Link copied!';btn.style.background='linear-gradient(135deg,#059669,#10b981)';
+        setTimeout(function(){btn.textContent='📋 Copy Link & Open Browser';btn.style.background=''},2000);
+      }catch(e){btn.textContent='❌ Copy failed — use the steps above'}
+      ta.remove();
+    }
+  };
 })();
 </script>
 
