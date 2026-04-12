@@ -4167,6 +4167,7 @@ setInterval(()=>{const can=SHOP.some(d=>G.coins>=costOf(d)&&G.up[d.id]<d.max);if
 ═══════════════════════════════════════ */
 checkOfflineEarnings();
 applyDiamondEffects(); // re-apply AFTER restore
+updateDiamondGameCards(); // show RPS/GOD cards if owned
 checkDailyReset(); // hide daily card if already claimed today
 // Restore unlocked tabs visually
 if(G.emailDone){G.shopTabUnlocked=true;var nvS=document.getElementById('nv-shop');if(nvS)nvS.classList.remove('locked')}
