@@ -2,26 +2,59 @@
   "name": "CasiClicker — Build Your Casino Empire",
   "short_name": "CasiClicker",
   "description": "Tap, play casino games, and build your empire! Free idle clicker game.",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "casiclicker",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#06060C",
   "theme_color": "#E8B400",
+  "launch_handler": { "client_mode": "focus-existing" },
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["games", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "Play",
+      "short_name": "Play",
+      "description": "Open CasiClicker and start tapping",
+      "url": "./index.html?sc=play",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Daily Reward",
+      "short_name": "Daily",
+      "description": "Grab today's streak bonus",
+      "url": "./index.html?sc=daily",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["games", "entertainment", "casual"],
   "lang": "en",
   "dir": "ltr"
 }

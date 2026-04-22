@@ -1,0 +1,11 @@
+# Dossiers à ne PAS déployer sur Netlify (économie bandwidth + confidentialité)
+_backup_*
+docs
+design_sources
+comptines_ia
+archive
+scripts
+.claude
+CHANGELOG_*.md
+*.ps1
+*.py
