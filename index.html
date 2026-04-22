@@ -6129,21 +6129,21 @@ function closeSharePopup(){
 /* ═══════════════════════════════════════
    BACKGROUND TIMERS
 ═══════════════════════════════════════ */
-// Reveal invite & diamond sections after 10 min (or immediately if already played 10min+)
+// Sprint 15 : diamond-pill TOUJOURS visible (accès direct au Prestige Vault, plus de gating)
+// Invite card gating conservé (10 min) pour éviter de spam le user dès le début
 (function(){
   var startTime=parseInt(localStorage.getItem('cc_start_time')||'0');
   if(!startTime){startTime=Date.now();localStorage.setItem('cc_start_time',String(startTime))}
   var elapsed=Date.now()-startTime;
-  var REVEAL_DELAY=600000; // 10 minutes
+  var REVEAL_DELAY=600000; // 10 minutes (invite uniquement)
+  // Force l'affichage du diamond-pill tout de suite
+  var dp=document.querySelector('.diamond-pill');if(dp)dp.style.display='';
   function revealInviteSection(){
     var ic=document.getElementById('invite-card');if(ic)ic.style.display='';
-    var dp=document.querySelector('.diamond-pill');if(dp)dp.style.display='';
   }
   if(elapsed>=REVEAL_DELAY){
     revealInviteSection();
   }else{
-    // Hide diamond pill initially
-    var dp=document.querySelector('.diamond-pill');if(dp)dp.style.display='none';
     setTimeout(function(){
       revealInviteSection();
       toast('🎁 Invite friends & earn diamonds!');

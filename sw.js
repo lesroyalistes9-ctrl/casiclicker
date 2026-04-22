@@ -1,7 +1,7 @@
 // CasiClicker Service Worker
-// v1.15.0 — Sprint 15 : Clean F2P (IAP/ads/LTO/Boost Shop supprimés, diamants = prestige only)
+// v1.15.1 — Sprint 15 hotfix : diamond-pill toujours visible dans le header (fix gating 10min)
 // Bump la version à chaque déploiement pour forcer le refresh.
-const CACHE_NAME = 'casiclicker-v1.15.0';
+const CACHE_NAME = 'casiclicker-v1.15.1';
 
 // Tous les assets statiques du jeu — pré-cachés à l'installation pour garantir l'offline.
 const ASSETS = [
