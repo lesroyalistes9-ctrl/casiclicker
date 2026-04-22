@@ -1,7 +1,7 @@
 // CasiClicker Service Worker
-// v1.14.0 — Sprint 14 release (Loot Box + Prestige Recap + BigWin + OneSignal + Dice 2d + HL chain + Roulette 37 + Slots 5 reels + LTO + Live Feed + etc.)
+// v1.15.0 — Sprint 15 : Clean F2P (IAP/ads/LTO/Boost Shop supprimés, diamants = prestige only)
 // Bump la version à chaque déploiement pour forcer le refresh.
-const CACHE_NAME = 'casiclicker-v1.14.0';
+const CACHE_NAME = 'casiclicker-v1.15.0';
 
 // Tous les assets statiques du jeu — pré-cachés à l'installation pour garantir l'offline.
 const ASSETS = [
@@ -10,8 +10,8 @@ const ASSETS = [
   './img_data.js',
   './manifest.json',
   './sw.js',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 // === INSTALL ===

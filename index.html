@@ -9,19 +9,19 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="CasiClicker">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <!-- Open Graph -->
 <meta property="og:title" content="CasiClicker — Build Your Casino Empire">
 <meta property="og:description" content="Tap, play casino games, and build your empire! Free idle clicker.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="icons/icon-512.png">
+<meta property="og:image" content="icon-512.png">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CasiClicker">
 <meta name="twitter:description" content="Free casino idle clicker game. Tap, bet, win!">
-<meta name="twitter:image" content="icons/icon-512.png">
+<meta name="twitter:image" content="icon-512.png">
 <!-- ════════════════════════════════════════════════════════════
      ANALYTICS — PostHog (Sprint 1 fix #6)
      1. Crée un compte sur https://eu.posthog.com (gratuit 1M events/mois).
@@ -254,10 +254,6 @@ body.theme-macau #app{background:radial-gradient(ellipse at top,#34000f 0%,#1000
    casinoAmbientStart() / casinoAmbientStop()
 */
 
-/* LTO banner shimmer */
-@keyframes ltoShine { 0%{background-position:0 0} 50%{background-position:200% 0} 100%{background-position:0 0} }
-#lto-banner:hover { filter: brightness(1.12); }
-#lto-banner:active { transform: translateY(1px); }
 
 /* Sprint 9 S9.5 — Mode épuré : respecte la préférence OS de motion réduit */
 @media (prefers-reduced-motion: reduce) {
@@ -689,18 +685,6 @@ input.bv-input:focus{border-color:var(--g)}
 .talent-item.maxed .talent-lvl{color:#E8B400}
 .talent-item.canup .talent-lvl{color:#22c55e}
 
-/* Sprint 3 S3.3 — IAP packs */
-.iap-pack{background:rgba(255,255,255,.05);border:1.5px solid rgba(96,165,250,.3);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative;display:flex;align-items:center;gap:12px}
-.iap-pack:hover{background:rgba(96,165,250,.12);transform:translateY(-1px)}
-.iap-pack:active{transform:translateY(0) scale(.98)}
-.iap-reco-pack{border-color:#E8B400;background:linear-gradient(135deg,rgba(232,180,0,.15),rgba(232,180,0,.05))}
-.iap-reco{position:absolute;top:-8px;right:10px;background:#E8B400;color:#000;font-size:9px;font-weight:800;padding:2px 8px;border-radius:6px;letter-spacing:.3px}
-.iap-amount{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#60a5fa;flex-shrink:0;min-width:100px}
-.iap-reco-pack .iap-amount{color:#E8B400}
-.iap-body{flex:1;min-width:0}
-.iap-label{font-size:11px;color:var(--txm);margin-top:-2px}
-.iap-bonus{color:#22c55e;font-weight:700}
-.iap-price{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--g);flex-shrink:0}
 
 /* Sprint 5 S5.2 — Daily Challenges */
 .dc-card{width:100%;background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(96,165,250,.04));border:1.5px solid rgba(34,197,94,.3);border-radius:var(--rm);padding:12px 14px;margin-top:6px}
@@ -727,18 +711,6 @@ input.bv-input:focus{border-color:var(--g)}
 .gc.un .gc-pb, .gc:not(.lk) .gc-pb{display:none}
 .gc-pb-fill{height:100%;background:linear-gradient(90deg,#E8B400,#c084fc);transition:width .4s ease;width:0%}
 
-/* Sprint 7 S7.3 — Boost shop items */
-.boost-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.03);margin-bottom:6px;border:1px solid rgba(96,165,250,.2);cursor:pointer;transition:all .2s}
-.boost-item:hover{background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.4)}
-.boost-item:active{transform:scale(.98)}
-.boost-item.boost-on{border-color:rgba(34,197,94,.5);background:linear-gradient(90deg,rgba(34,197,94,.12),rgba(34,197,94,.02))}
-.boost-item .boost-ico{font-size:24px;width:36px;text-align:center;flex-shrink:0}
-.boost-item .boost-body{flex:1;min-width:0}
-.boost-item .boost-name{font-size:12px;font-weight:800;color:var(--tx)}
-.boost-item .boost-desc{font-size:10px;color:var(--txm);margin-top:1px;line-height:1.3}
-.boost-item .boost-left{font-size:10px;color:#22c55e;font-weight:700;margin-top:2px}
-.boost-item .boost-price{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#60a5fa;flex-shrink:0}
-.boost-item.boost-on .boost-price{color:#22c55e}
 
 /* Sprint 9 S9.1 — Premium Shop items (gros prix, style aspirationnel) */
 .prem-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(232,180,0,.08),rgba(192,132,252,.04));margin-bottom:8px;border:1.5px solid rgba(232,180,0,.35);cursor:pointer;transition:all .2s;position:relative}
@@ -1555,12 +1527,6 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
 
       <!-- Games — reveals at 100 coins -->
       <div class="reveal-section" id="reveal-games" style="width:100%;display:none">
-      <!-- LTO BANNER inline (Sprint 10 fix Raphael : pas sticky, ne cache plus le header) -->
-      <div id="lto-banner" onclick="openIAPStore()" style="display:none;background:linear-gradient(90deg,#7a0e0e,#E8B400,#7a0e0e);background-size:200% 100%;animation:ltoShine 3s ease-in-out infinite;color:#fff;padding:10px 12px;text-align:center;cursor:pointer;font-size:12px;font-weight:800;letter-spacing:.3px;border-radius:var(--rm);margin:6px 0;box-shadow:0 3px 12px rgba(232,180,0,.35)">
-        <span id="lto-label">Limited offer</span>
-        <span style="margin:0 6px;opacity:.6">•</span>
-        <span>⏱ <span id="lto-count">24h</span></span>
-      </div>
             <!-- Sprint 13 Viral — Community counter (FOMO social) -->
       <!-- Sprint 14 — Hourly Loot Box -->
       <div class="chest-card" id="chest-card">
@@ -1923,24 +1889,13 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
       <div class="diamond-display" style="justify-content:center;font-size:16px;gap:6px">
         <span>💎</span><span id="profile-diamonds">0</span> <span style="font-size:11px;color:var(--txm)">diamonds</span>
       </div>
-      <div style="font-size:9px;color:var(--txd);margin-top:2px">Earn diamonds by inviting friends, or get more below.</div>
-      <!-- Sprint 3 S3.3 — acces au store IAP + rewarded ad -->
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button class="btn2" style="flex:1;background:linear-gradient(135deg,#0c4a6e,#60a5fa);color:#fff;border:none;font-size:11px;padding:8px" onclick="closeM('profile-modal');openIAPStore()">💎 Acheter</button>
-        <button class="btn2" style="flex:1;background:linear-gradient(135deg,#166534,#22c55e);color:#fff;border:none;font-size:11px;padding:8px" onclick="watchAdForDiamonds()">🎥 Pub +2💎</button>
-      </div>
+      <div style="font-size:9px;color:var(--txd);margin-top:2px" id="profile-earn-hint">Gagne des diamants via prestige, achievements et challenges.</div>
     </div>
     <div class="dshop-grid" id="dshop-list"></div>
   </div>
-  <!-- Sprint 7 S7.3 — Boost Shop (consommables diamants) -->
+  <!-- Sprint 9 S9.1 — Premium Shop (items 500-3000 💎, endgame diamonds-only — Sprint 15 : SEUL shop du jeu) -->
   <div style="margin-top:16px">
-    <div class="dvr"><div class="dvrl"></div><div class="dvrt" id="boost-shop-title">💎 Boost Shop</div><div class="dvrl"></div></div>
-    <div style="font-size:10px;color:var(--txd);text-align:center;margin:4px 0 8px" id="boost-shop-sub"></div>
-    <div id="boost-shop-list"></div>
-  </div>
-  <!-- Sprint 9 S9.1 — Premium Shop (items 500-3000 💎 pour justifier IAP whale) -->
-  <div style="margin-top:16px">
-    <div class="dvr"><div class="dvrl"></div><div class="dvrt" id="premium-shop-title" style="color:#E8B400">💎💎 Premium Vault</div><div class="dvrl"></div></div>
+    <div class="dvr"><div class="dvrl"></div><div class="dvrt" id="premium-shop-title" style="color:#E8B400">💎💎 Prestige Vault</div><div class="dvrl"></div></div>
     <div style="font-size:10px;color:var(--txd);text-align:center;margin:4px 0 8px" id="premium-shop-sub"></div>
     <div id="premium-shop-list"></div>
   </div>
@@ -2117,21 +2072,6 @@ body.god-mode #coin-el{color:#FFD700;animation:godCoinGlow 2s ease-in-out infini
   </div>
   <button class="btn" style="background:linear-gradient(135deg,#4a0080,#9333ea);color:#fff" id="cc-confirm-ok">Confirm</button>
   <button class="btn2" style="margin-top:8px" id="cc-confirm-cancel">Cancel</button>
-</div></div>
-
-<!-- IAP STORE MODAL (Sprint 3 S3.3, Sprint 4 i18n, Sprint 7 close X) -->
-<div class="modal" id="iap-modal">
-<div class="ms" style="background:linear-gradient(160deg,#0c1830,#1a0028);max-width:440px">
-  <div class="mh"></div><button class="mc2" onclick="closeM('iap-modal')">✕</button>
-  <div style="text-align:center;padding:4px 0 12px">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#60a5fa;letter-spacing:1px" id="iap-title">💎 DIAMOND STORE</div>
-    <div style="font-size:11px;color:var(--txd);margin-top:4px" id="iap-sub"></div>
-    <div style="font-size:10px;color:#fbbf24;margin-top:6px" id="iap-mode-banner"></div>
-  </div>
-  <div id="iap-root"></div>
-  <button class="btn2" onclick="watchAdForDiamonds();closeM('iap-modal')" style="background:linear-gradient(135deg,#166534,#22c55e);color:#fff;border:none;margin-top:6px" id="iap-free-ad"></button>
-  <button class="btn2" style="margin-top:8px" onclick="closeM('iap-modal')">Fermer</button>
-  <div style="font-size:9px;color:var(--txd);text-align:center;margin-top:10px" id="iap-footer"></div>
 </div></div>
 
 <script>
@@ -2379,8 +2319,6 @@ const T = {
   newGame:         { en:'New game! Good luck 🎲', fr:'Nouveau jeu ! Bonne chance 🎲', es:'¡Nuevo juego! ¡Buena suerte 🎲!', zh:'新游戏！祝你好运 🎲' },
   luckyTitle:      { en:'LUCKY TIME!',   fr:'MOMENT CHANCE !', es:'¡MOMENTO SUERTE!', zh:'幸运时刻！' },
   luckySub:        { en:'All gains ×2 for 10s!', fr:'Gains ×2 pendant 10s !', es:'¡Ganancias ×2 por 10s!', zh:'所有收益×2，持续10秒！' },
-  boostTitle:      { en:'{n}× BOOST!',   fr:'{n}× BOOST !',   es:'¡{n}× BOOST!',   zh:'{n}×加速！' },
-  boostSub:        { en:'{n}× clicks for 5s', fr:'{n}× clics pendant 5s', es:'{n}× clics por 5s', zh:'{n}×点击，持续5秒' },
   jackpotTitle:    { en:'JACKPOT MOMENT!', fr:'MOMENT JACKPOT !', es:'¡MOMENTO JACKPOT!', zh:'大奖时刻！' },
   jackpotSub:      { en:'+{n} coins raining down!', fr:'+{n} pièces qui pleuvent !', es:'¡+{n} monedas lloviendo!', zh:'+{n}金币如雨而下！' },
   empirePhase:     { en:'Empire Phase Begins!', fr:'La phase Empire commence !', es:'¡Comienza la fase Imperio!', zh:'帝国阶段开始！' },
@@ -2410,7 +2348,7 @@ const T = {
   betLabel:        { en:'Bet', fr:'Mise', es:'Apuesta', zh:'下注' },
 
   /* ═══════════════════════════════════════════════════════
-     Sprint 4 i18n — Talents, new achievements, post-1B milestones, IAP
+     Sprint 4 i18n — Talents, new achievements, post-1B milestones
      ═══════════════════════════════════════════════════════ */
 
   /* ─── Talents modal — UI ─── */
@@ -2497,19 +2435,6 @@ const T = {
   ms1T_t:    { en:'ONE TRILLION!', fr:'UN BILLION !', es:'¡UN BILLÓN!', zh:'1万亿！' },
   ms1T_s:    { en:'You are THE casino titan. Respect.', fr:'Tu es LE titan du casino. Respect.', es:'Eres EL titán del casino. Respeto.', zh:'你是赌场巨头。致敬。' },
 
-  /* ─── IAP + Monetization (Sprint 3 S3.3) ─── */
-  iapTitle:          { en:'💎 DIAMOND STORE', fr:'💎 STORE DE DIAMANTS', es:'💎 TIENDA DE DIAMANTES', zh:'💎 钻石商店' },
-  iapSub:            { en:'Support the dev & progress faster', fr:'Soutiens le dev et progresse plus vite', es:'Apoya al dev y avanza más rápido', zh:'支持开发者，加速进展' },
-  iapModeDev:        { en:'⚠ DEV mode — no real payment (SDKs not connected)', fr:'⚠ Mode DEV — aucun paiement réel (SDKs non connectés)', es:'⚠ Modo DEV — sin pago real (SDKs sin conectar)', zh:'⚠ 开发模式 — 无真实支付 (SDK未连接)' },
-  iapBtnBuy:         { en:'💎 Buy', fr:'💎 Acheter', es:'💎 Comprar', zh:'💎 购买' },
-  iapBtnAd:          { en:'🎥 Ad +2💎', fr:'🎥 Pub +2💎', es:'🎥 Anuncio +2💎', zh:'🎥 广告 +2💎' },
-  iapFreeAd:         { en:'🎥 Free: watch 1 ad for +2 💎', fr:'🎥 Gratuit : regarde 1 pub pour +2 💎', es:'🎥 Gratis: mira 1 anuncio por +2 💎', zh:'🎥 免费：看广告获得 +2 💎' },
-  iapFooter:         { en:'Purchases handled by RevenueCat. No card stored.', fr:'Achats gérés par RevenueCat. Aucune CB stockée.', es:'Compras con RevenueCat. No se guardan tarjetas.', zh:'由RevenueCat处理。不存储支付信息。' },
-  iapPackBonus:      { en:'+{p} bonus', fr:'+{p} bonus', es:'+{p} bonus', zh:'+{p} 赠送' },
-  iapPackBest:       { en:'🔥 BEST OFFER', fr:'🔥 MEILLEURE OFFRE', es:'🔥 MEJOR OFERTA', zh:'🔥 最佳优惠' },
-  iapSimulated:      { en:'💎 [DEV] Pack {label} simulated: +{n} 💎', fr:'💎 [DEV] Pack {label} simulé : +{n} 💎', es:'💎 [DEV] Pack {label} simulado: +{n} 💎', zh:'💎 [开发] 模拟 {label}: +{n} 💎' },
-  iapAdPending:      { en:'📺 [DEV] Ad simulated (3s)...', fr:'📺 [DEV] Pub simulée (3s)...', es:'📺 [DEV] Anuncio simulado (3s)...', zh:'📺 [开发] 模拟广告 (3秒)...' },
-  iapAdReward:       { en:'🎁 +{n} diamonds — thanks!', fr:'🎁 +{n} diamants — merci !', es:'🎁 +{n} diamantes — ¡gracias!', zh:'🎁 +{n} 钻石 — 谢谢！' },
 
   /* ─── Daily Challenges (Sprint 5 S5.2) ─── */
   dcTitle:       { en:'Daily Challenges', fr:'Défis Quotidiens', es:'Retos Diarios', zh:'每日挑战' },
@@ -2555,27 +2480,6 @@ const T = {
   shareTierUnlock10:{ en:'🏆 10 shares! +50 💎 + Ambassador badge', fr:'🏆 10 partages ! +50 💎 + badge Ambassadeur', es:'🏆 ¡10 compartidos! +50 💎', zh:'🏆 10次！+50 💎' },
   shareQR:         { en:'Share IRL (scan)', fr:'Partage IRL (scan)', es:'Compartir presencial', zh:'面对面分享（扫码）' },
 
-  /* ─── Diamond Boost Shop consumables (Sprint 7 S7.3) ─── */
-  boostShopTitle:  { en:'💎 Boost Shop', fr:'💎 Boost Shop', es:'💎 Potenciadores', zh:'💎 强化商店' },
-  boostShopSub:    { en:'Consumable boosts — spend diamonds to accelerate', fr:'Boosts consommables — dépense tes diamants pour accélérer', es:'Potenciadores consumibles — gasta diamantes', zh:'消耗型强化 — 花费钻石加速进度' },
-  boostActive:     { en:'ACTIVE', fr:'ACTIF', es:'ACTIVO', zh:'已激活' },
-  boostRemaining:  { en:'{m}m {s}s', fr:'{m}min {s}s', es:'{m}m {s}s', zh:'{m}分{s}秒' },
-  boost_cps_2x_n:  { en:'Double CPS', fr:'Double CPS', es:'Doble CPS', zh:'双倍CPS' },
-  boost_cps_2x_d:  { en:'x2 passive income for 1 hour', fr:'x2 revenu passif pendant 1h', es:'x2 ingresos pasivos 1h', zh:'被动收入x2持续1小时' },
-  boost_click_3x_n:{ en:'Triple Click', fr:'Triple Clic', es:'Triple Clic', zh:'三倍点击' },
-  boost_click_3x_d:{ en:'x3 click power for 30 min', fr:'x3 puissance de clic 30 min', es:'x3 clic 30 min', zh:'点击力x3 持续30分钟' },
-  boost_offline_n: { en:'Offline Turbo', fr:'Offline Turbo', es:'Offline Turbo', zh:'离线加速' },
-  boost_offline_d: { en:'Offline cap: 2h → 8h for 24 hours', fr:'Cap offline 2h → 8h pendant 24h', es:'Offline 2h → 8h durante 24h', zh:'离线上限2h→8h持续24小时' },
-  boost_lucky_n:   { en:'Lucky Streak', fr:'Série Chanceuse', es:'Racha Suerte', zh:'幸运连击' },
-  boost_lucky_d:   { en:'Permanent Lucky x2 for 10 minutes', fr:'Lucky x2 permanent pendant 10 min', es:'Lucky x2 permanente 10 min', zh:'持久幸运x2 持续10分钟' },
-  boost_daily_n:   { en:'Instant Daily', fr:'Daily Instantané', es:'Daily Instantáneo', zh:'立即完成每日' },
-  boost_daily_d:   { en:'Complete 1 daily challenge instantly', fr:'Complète 1 défi quotidien tout de suite', es:'Completa 1 reto diario al instante', zh:'立即完成1个每日挑战' },
-  boost_prestige_n:{ en:'Skip Prestige CD', fr:'Skip CD Prestige', es:'Saltar CD Prestigio', zh:'跳过声望冷却' },
-  boost_prestige_d:{ en:'Reset prestige cooldown now', fr:'Reset le cooldown prestige', es:'Reinicia el enfriamiento de prestigio', zh:'重置声望冷却' },
-  boostBought:     { en:'⚡ {name} activated!', fr:'⚡ {name} activé !', es:'⚡ ¡{name} activado!', zh:'⚡ {name} 已激活！' },
-  boostNoDaily:    { en:'No daily challenge to complete!', fr:'Aucun défi quotidien à compléter !', es:'¡Ningún reto diario pendiente!', zh:'没有待完成的每日挑战！' },
-  boostCDCleared:  { en:'⏱️ Prestige cooldown reset!', fr:'⏱️ Cooldown prestige reset !', es:'⏱️ ¡CD de prestigio reiniciado!', zh:'⏱️ 声望冷却已重置！' },
-  boostNotEnough:  { en:'Need {n} 💎 (you have {have})', fr:'Besoin de {n} 💎 (tu en as {have})', es:'Necesitas {n} 💎 (tienes {have})', zh:'需要 {n} 💎 (你有 {have})' },
 
   /* ─── 2 nouveaux mini-jeux (Sprint 7 S7.4) ─── */
   cfTitle:    { en:'COIN FLIP',       fr:'PILE OU FACE',     es:'CARA O CRUZ',      zh:'抛硬币' },
@@ -2605,7 +2509,7 @@ const T = {
   dsVault_d: { en:'+1 💎 for every coin milestone reached', fr:'+1 💎 à chaque milestone de coins', es:'+1 💎 por cada hito de monedas', zh:'每个金币里程碑+1 💎' },
 
   /* ─── Premium Shop (Sprint 9 S9.1 — utilités pour justifier Whale pack 7500 💎) ─── */
-  premiumTitle:  { en:'💎💎 Premium Vault', fr:'💎💎 Coffre Premium', es:'💎💎 Bóveda Premium', zh:'💎💎 高级金库' },
+  premiumTitle:  { en:'💎💎 Prestige Vault', fr:'💎💎 Coffre Prestige', es:'💎💎 Bóveda Prestigio', zh:'💎💎 声望金库' },
   premiumSub:    { en:'High-tier items — serious upgrades', fr:'Items haut-de-gamme — upgrades sérieux', es:'Items premium — upgrades serios', zh:'高级物品 — 重大升级' },
   premUltBundle_n: { en:'Ultimate Bundle', fr:'Pack Ultime', es:'Pack Definitivo', zh:'终极套装' },
   premUltBundle_d: { en:'Unlock ALL 5 Diamond Shop items in one go (save 20%)', fr:'Débloque les 5 items du Diamond Shop (économise 20%)', es:'Desbloquea los 5 items Diamond Shop (ahorra 20%)', zh:'一次解锁所有5个钻石商店物品（省20%）' },
@@ -2646,11 +2550,6 @@ const T = {
   drExact:   { en:'🎯 Exact',         fr:'🎯 Exact',          es:'🎯 Exacto',         zh:'🎯 精确' },
   drWin:     { en:'🎲 {dice}! WIN +{n}', fr:'🎲 {dice} ! GAGNÉ +{n}', es:'🎲 ¡{dice}! +{n}', zh:'🎲 {dice}！赢得 +{n}' },
   drLose:    { en:'🎲 {dice} — lost {n}', fr:'🎲 {dice} — perdu {n}', es:'🎲 {dice} — perdiste {n}', zh:'🎲 {dice} — 失去 {n}' },
-  /* i18n LTO */
-  ltoEndsIn:  { en:'Ends in {t}',       fr:'Termine dans {t}',     es:'Termina en {t}',       zh:'{t} 后结束' },
-  ltoMega30:  { en:'FLASH -30% MEGA PACK',  fr:'FLASH -30% PACK MEGA',   es:'FLASH -30% PACK MEGA',     zh:'兆礼包 -30%' },
-  ltoPro20:   { en:'FLASH -20% PRO PACK',    fr:'FLASH -20% PACK PRO',     es:'FLASH -20% PACK PRO',       zh:'专业礼包 -20%' },
-  ltoWhale15: { en:'VIP -15% WHALE PACK', fr:'VIP -15% PACK WHALE',  es:'VIP -15% PACK WHALE',    zh:'鲸鱼礼包 -15%' },
 
 
 };
@@ -3306,11 +3205,12 @@ function dcRender(){
    Reward : 20 💎 + 1 point de talent bonus. Reset lundi minuit local.
 ═══════════════════════════════════════════════════════ */
 const WEEKLY_CHALLENGES_POOL = [
-  {id:'wc_tap_10k',    ico:'👆', target:10000, reward_diamonds:20, nameKey:'wc_tap_10k_n'},
-  {id:'wc_win_25',     ico:'🏆', target:25,    reward_diamonds:20, nameKey:'wc_win_25_n'},
-  {id:'wc_prestige_1', ico:'⭐', target:1,     reward_diamonds:20, nameKey:'wc_prestige_1_n'},
-  {id:'wc_lucky_15',   ico:'🔥', target:15,    reward_diamonds:20, nameKey:'wc_lucky_15_n'},
-  {id:'wc_shop_20',    ico:'🛒', target:20,    reward_diamonds:20, nameKey:'wc_shop_20_n'}
+  // Sprint 15 — reward_diamonds bumpé 20 → 30 (target 'slow & rewarding' : 30-50💎/weekly)
+  {id:'wc_tap_10k',    ico:'👆', target:10000, reward_diamonds:30, nameKey:'wc_tap_10k_n'},
+  {id:'wc_win_25',     ico:'🏆', target:25,    reward_diamonds:30, nameKey:'wc_win_25_n'},
+  {id:'wc_prestige_1', ico:'⭐', target:1,     reward_diamonds:50, nameKey:'wc_prestige_1_n'},
+  {id:'wc_lucky_15',   ico:'🔥', target:15,    reward_diamonds:30, nameKey:'wc_lucky_15_n'},
+  {id:'wc_shop_20',    ico:'🛒', target:20,    reward_diamonds:30, nameKey:'wc_shop_20_n'}
 ];
 
 function wcWeekKey(){
@@ -3516,7 +3416,7 @@ function recalcClickPower(){
   const diaMult = (typeof diamondMult==='function' ? diamondMult() : 1);
   const talentMult = (typeof talentClickMultiplier==='function' ? talentClickMultiplier() : 1);
   // Sprint 7 S7.3 — boost "Triple Click" (x3 click power timed)
-  const boostClick = (typeof boostActive === 'function' && boostActive('click_3x')) ? 3 : 1;
+  const boostClick = 1;
   G.clickPower = Math.floor(baseClick * diaMult * talentMult * boostClick);
   // Update cpt display
   const cptEl = document.getElementById('cpt');
@@ -3537,7 +3437,7 @@ function recalcCPS(){
   const empireCPS=EMPIRE_UNLOCKS.reduce((s,eu)=>s+eu.cps*(G.empireUp[eu.id]||0),0);
   const talentMult = (typeof talentCPSMultiplier==='function' ? talentCPSMultiplier() : 1);
   // Sprint 7 S7.3 — boost "Double CPS" (x2 timed)
-  const boostCPS = (typeof boostActive === 'function' && boostActive('cps_2x')) ? 2 : 1;
+  const boostCPS = 1;
   G.cps=(shopCPS+empireCPS)*prestigeMultiplier()*(typeof diamondMult==='function'?diamondMult():1)*talentMult*boostCPS;
 }
 
@@ -3705,7 +3605,7 @@ function handleTap(x,y){
   let gain=G.clickPower*golden;
   if(G.boost)gain*=G.boostMult;
   // Sprint 2 A.3 — multiplicateur lucky module par talent + Sprint 7 — boost "Lucky Streak"
-  const _isLucky = G.luck || (typeof boostActive === 'function' && boostActive('lucky'));
+  const _isLucky = G.luck;
   if(_isLucky)gain*=(G.luckMult || 2);
 
   // Streak — visual only, no coin bonus
@@ -3889,7 +3789,7 @@ let idleA=0;
 setInterval(()=>{
   if(MINIGAME_OPEN)return;
   if(G.cps<=0)return;
-  const _isLucky = G.luck || (typeof boostActive === 'function' && boostActive('lucky'));
+  const _isLucky = G.luck;
   const rate=G.cps*(_isLucky?(G.luckMult || 2):1);
   idleA+=rate/20;
   if(idleA>=1){const e=Math.floor(idleA);idleA-=e;addC(e,true);scheduleHUD()}
@@ -5375,7 +5275,7 @@ function checkOfflineEarnings() {
     // Sprint 7 S7.3 — boost "Offline Turbo" : cap x4 (2h → 8h) tant que actif
     // Sprint 9 S9.1 — Premium "Infinite Offline" : supprime le cap
     const _hasInf = (typeof hasPremium === 'function' && hasPremium('inf_offline'));
-    const _cap = _hasInf ? Infinity : ((typeof boostActive === 'function' && boostActive('offline')) ? OFFLINE_CAP_SECS * 4 : OFFLINE_CAP_SECS);
+    const _cap = _hasInf ? Infinity : OFFLINE_CAP_SECS;
     const elapsed = Math.min((Date.now() - sess.ts) / 1000, _cap);
     if (elapsed < 60) return;
     const earned = Math.floor(sess.cps * elapsed);
@@ -5495,6 +5395,12 @@ function doPrestige() {
   localStorage.setItem('cc_prestige_time',String(_lastPrestigeTime));
   PRESTIGE_COUNT++;
   setPrestige(PRESTIGE_COUNT);
+  // Sprint 15 — DIAMOND REWARD (core loop : prestige = seule vraie source)
+  // Formule slow & rewarding : 50💎 base + 10💎 par prestige count, cap 200💎
+  const _prestigeDiamonds = Math.min(200, 50 + (PRESTIGE_COUNT - 1) * 10);
+  if (typeof addDiamonds === 'function') addDiamonds(_prestigeDiamonds);
+  try{ if(window.CCAnalytics) CCAnalytics.track('prestige_diamonds_granted', {prestige:PRESTIGE_COUNT, diamonds:_prestigeDiamonds}); }catch(e){}
+  setTimeout(function(){ if(typeof toast==='function') toast('💎 +' + _prestigeDiamonds + ' diamants — prestige reward !'); }, 1200);
   // Sprint 3 S3.1 — talent "Prestige Keeper" : garde N niveau(x) aleatoire(s) de shop
   const keeperN = (typeof talentLvl === 'function') ? talentLvl('diamond','prestige_keeper') : 0;
   const keptUp = {ac:0,da:0,vt:0,mg:0,em:0,mc:0};
@@ -5716,7 +5622,6 @@ function updateProfileModal(){
   generateSaveCode();
   buildDiamondShop();
   // Sprint 7 S7.3 — rafraîchit le Boost Shop à chaque ouverture
-  if (typeof renderBoostShop === 'function') renderBoostShop();
   // Sprint 9 S9.1 — Premium Shop
   if (typeof renderPremiumShop === 'function') renderPremiumShop();
 }
@@ -5906,7 +5811,7 @@ function buyPremium(id){
   if (!item) return;
   if (G.premiumOwned && G.premiumOwned[id]) { toast('Already owned'); return; }
   const have = G.diamonds || 0;
-  if (have < item.price) { toast(t('boostNotEnough', {n:item.price, have:have})); return; }
+  if (have < item.price) { toast(t('respecNotEnough', {n:item.price, have:have})); return; }
   // Confirm pour les achats > 1000 💎 (evite les clics accidentels)
   const doBuy = () => {
     G.diamonds = have - item.price;
@@ -5970,261 +5875,7 @@ function renderPremiumShop(){
 // Helpers runtime check pour les items Premium
 function hasPremium(id){ return !!(G.premiumOwned && G.premiumOwned[id]); }
 
-/* ═══════════════════════════════════════════════════════
-   DIAMOND BOOST SHOP — consommables (Sprint 7 S7.3)
-   Timed boosts qui s'activent a l'achat, appliques dans recalcCPS/ClickPower/idle/offline.
-   But : creer un pipeline recurrent d'usage de diamants pour driver IAP + rewarded ads.
-═══════════════════════════════════════════════════════ */
-if(!G.activeBoosts) G.activeBoosts = {};
 
-const BOOSTS_POOL = [
-  {id:'cps_2x',     ico:'💰', price:10, duration_ms:3600000, get n(){return t('boost_cps_2x_n')},   get d(){return t('boost_cps_2x_d')}},
-  {id:'click_3x',   ico:'👆', price:8,  duration_ms:1800000, get n(){return t('boost_click_3x_n')}, get d(){return t('boost_click_3x_d')}},
-  {id:'offline',    ico:'⏳', price:15, duration_ms:86400000,get n(){return t('boost_offline_n')},  get d(){return t('boost_offline_d')}},
-  {id:'lucky',      ico:'🔥', price:6,  duration_ms:600000,  get n(){return t('boost_lucky_n')},    get d(){return t('boost_lucky_d')}},
-  {id:'daily',      ico:'⚡', price:3,  duration_ms:0,        get n(){return t('boost_daily_n')},    get d(){return t('boost_daily_d')}},  // one-shot
-  {id:'prestige_cd',ico:'⏱️', price:5,  duration_ms:0,        get n(){return t('boost_prestige_n')}, get d(){return t('boost_prestige_d')}}  // one-shot
-];
-
-function boostActive(id){
-  return !!(G.activeBoosts && G.activeBoosts[id] && G.activeBoosts[id] > Date.now());
-}
-
-function boostTimeLeft(id){
-  if (!boostActive(id)) return 0;
-  return Math.max(0, G.activeBoosts[id] - Date.now());
-}
-
-function buyBoost(id){
-  const boost = BOOSTS_POOL.find(b => b.id === id);
-  if (!boost) return;
-  const haveDia = G.diamonds || 0;
-  if (haveDia < boost.price) {
-    toast(t('boostNotEnough', {n: boost.price, have: haveDia}));
-    return;
-  }
-
-  // One-shot boosts
-  if (id === 'daily') {
-    // Complete 1 daily challenge (le moins avance)
-    dcEnsureState();
-    const todays = dcGetTodayChallenges();
-    const pending = todays.filter(c => !G.dailyChal.done[c.id]);
-    if (pending.length === 0) { toast(t('boostNoDaily')); return; }
-    G.diamonds = haveDia - boost.price;
-    const target = pending[0];
-    dcInc(target.id, target.target); // force la complétion
-    updateDiamondDisplay && updateDiamondDisplay();
-    saveSession && saveSession();
-    try{ if(window.CCAnalytics) CCAnalytics.track('boost_bought', {id:id, price:boost.price}); }catch(e){}
-    return;
-  }
-  if (id === 'prestige_cd') {
-    _lastPrestigeTime = 0;
-    try{ localStorage.setItem('cc_prestige_time','0'); }catch(e){}
-    G.diamonds = haveDia - boost.price;
-    toast(t('boostCDCleared'));
-    updateDiamondDisplay && updateDiamondDisplay();
-    saveSession && saveSession();
-    try{ if(window.CCAnalytics) CCAnalytics.track('boost_bought', {id:id, price:boost.price}); }catch(e){}
-    renderBoostShop();
-    return;
-  }
-
-  // Timed boosts
-  // Si le boost est deja actif, on ajoute le temps (stack)
-  const base = boostActive(id) ? G.activeBoosts[id] : Date.now();
-  G.activeBoosts[id] = base + boost.duration_ms;
-  G.diamonds = haveDia - boost.price;
-  toast(t('boostBought', {name: boost.n}));
-  S.buy && S.buy(); confetti && confetti();
-  updateDiamondDisplay && updateDiamondDisplay();
-  if (typeof recalcCPS === 'function') recalcCPS();
-  if (typeof recalcClickPower === 'function') recalcClickPower();
-  saveSession && saveSession();
-  try{ if(window.CCAnalytics) CCAnalytics.track('boost_bought', {id:id, price:boost.price}); }catch(e){}
-  renderBoostShop();
-}
-
-function fmtBoostTime(ms){
-  const total_s = Math.max(0, Math.floor(ms/1000));
-  const m = Math.floor(total_s/60);
-  const s = total_s % 60;
-  return t('boostRemaining', {m:m, s:s});
-}
-
-function renderBoostShop(){
-  const el = document.getElementById('boost-shop-list');
-  if (!el) return;
-  const titleEl = document.getElementById('boost-shop-title');
-  if (titleEl) titleEl.textContent = t('boostShopTitle');
-  const subEl = document.getElementById('boost-shop-sub');
-  if (subEl) subEl.textContent = t('boostShopSub');
-
-  el.innerHTML = BOOSTS_POOL.map(function(b){
-    const active = boostActive(b.id);
-    const left = active ? fmtBoostTime(boostTimeLeft(b.id)) : '';
-    return '<div class="boost-item' + (active ? ' boost-on' : '') + '" onclick="buyBoost(\'' + b.id + '\')">'
-      + '<div class="boost-ico">' + b.ico + '</div>'
-      + '<div class="boost-body">'
-      +   '<div class="boost-name">' + b.n + '</div>'
-      +   '<div class="boost-desc">' + b.d + '</div>'
-      +   (active ? '<div class="boost-left">' + t('boostActive') + ' · ' + left + '</div>' : '')
-      + '</div>'
-      + '<div class="boost-price">' + (active ? '+' : '') + '💎 ' + b.price + '</div>'
-      + '</div>';
-  }).join('');
-}
-
-// Refresh auto des countdowns toutes les 5s
-setInterval(function(){
-  const el = document.getElementById('boost-shop-list');
-  if (el && el.offsetParent !== null) renderBoostShop();
-}, 5000);
-
-/* ═══════════════════════════════════════════════════════
-   MONETISATION (Sprint 3 S3.3)
-   Adapter layer qui route vers RevenueCat + AdMob quand les SDKs
-   sont connectes. En DEV, tout est simule (diamants donnes en fake).
-   Pour passer en prod : cf. docs/sprints/CHANGELOG_Sprint3.md
-═══════════════════════════════════════════════════════ */
-window.CCMonetization = {
-  // Flag a passer a true quand Raphael aura branche RevenueCat + AdMob
-  SDKS_READY: false,
-
-  DIAMOND_PACKS: [
-    {id:'starter', price_eur:0.99, diamonds:50,   bonus:0,     label:'Starter'},
-    {id:'pro',     price_eur:4.99, diamonds:300,  bonus:50,    label:'Pro'},
-    {id:'mega',    price_eur:19.99,diamonds:1500, bonus:500,   label:'Mega', recommended:true},
-    {id:'whale',   price_eur:49.99,diamonds:5000, bonus:2500,  label:'Whale'},
-  ],
-
-  REWARDED_AD_DIAMONDS: 2,
-
-  purchaseIAP: function(packId){
-    const self = this;
-    const pack = self.DIAMOND_PACKS.find(p => p.id === packId);
-    if (!pack) return Promise.resolve(false);
-
-    if (self.SDKS_READY) {
-      return self._realIAP(pack);
-    }
-    // Mode DEV : simule l'achat sans paiement reel
-    return new Promise(function(resolve){
-      const total = pack.diamonds + pack.bonus;
-      addDiamonds(total);
-      toast(t('iapSimulated', {label: pack.label, n: total}));
-      S.bigwin && S.bigwin(); confetti(); screenFlash && screenFlash('w');
-      try{ if(window.CCAnalytics) CCAnalytics.track('iap_simulated', {pack:packId, diamonds_granted:total, price_eur:pack.price_eur}); }catch(e){}
-      resolve(true);
-    });
-  },
-
-  showRewardedAd: function(onReward){
-    const self = this;
-    if (self.SDKS_READY) {
-      return self._realAd(onReward);
-    }
-    // Mode DEV : simule 3s d'attente (en prod c'est 15-30s)
-    toast(t('iapAdPending'));
-    setTimeout(function(){
-      // Sprint 4 S4.2 — flag 'rewarded_ad_reward' override (A/B testing)
-      const flagReward = (window.CCAnalytics && CCAnalytics.getFlag) ? CCAnalytics.getFlag('rewarded_ad_reward', null) : null;
-      const reward = flagReward != null ? parseInt(flagReward, 10) : self.REWARDED_AD_DIAMONDS;
-      addDiamonds(reward);
-      toast(t('iapAdReward', {n: reward}));
-      S.lucky && S.lucky();
-      try{ if(window.CCAnalytics) CCAnalytics.track('rewarded_ad_watched', {reward_amount:reward, simulated:true}); }catch(e){}
-      if (typeof onReward === 'function') onReward(reward);
-    }, 3000);
-  },
-
-  // === STUBS a remplacer par l'integration reelle ===
-
-  _realIAP: function(pack){
-    // Exemple avec RevenueCat Web Billing :
-    //   return window.Purchases.getCustomerInfo().then(info => {
-    //     return window.Purchases.purchaseProduct(pack.id);
-    //   }).then(tx => {
-    //     if (tx.userCancelled) return false;
-    //     addDiamonds(pack.diamonds + pack.bonus);
-    //     // Verification server-side recommandee
-    //     return true;
-    //   });
-    toast('Erreur : SDK IAP non connecte');
-    return Promise.resolve(false);
-  },
-
-  _realAd: function(onReward){
-    // Exemple avec AdMob (via Capacitor plugin ou WebView bridge) :
-    //   window.admob.rewarded.prepare({adId:'...'}).then(()=>{
-    //     return window.admob.rewarded.show();
-    //   }).then(result => {
-    //     if (result && result.rewarded) onReward(this.REWARDED_AD_DIAMONDS);
-    //   });
-    toast('Erreur : SDK ads non connecte');
-    if (typeof onReward === 'function') onReward(0);
-  }
-};
-
-function openIAPStore(){
-  const root = document.getElementById('iap-root');
-  if (!root) return;
-  // Sprint 5 S5.1 — flag 'iap_mega_price_eur' override dynamique (A/B testing)
-  try {
-    if (window.CCAnalytics && CCAnalytics.getFlag) {
-      const megaPack = window.CCMonetization.DIAMOND_PACKS.find(p => p.id === 'mega');
-      if (megaPack) {
-        const flagPrice = parseFloat(CCAnalytics.getFlag('iap_mega_price_eur', megaPack.price_eur));
-        if (!isNaN(flagPrice) && flagPrice > 0) megaPack.price_eur = flagPrice;
-      }
-    }
-  } catch(e){}
-  // Sprint 4 — labels i18n
-  const setText = (id, key) => { const e = document.getElementById(id); if (e) e.textContent = t(key); };
-  setText('iap-title', 'iapTitle');
-  setText('iap-sub', 'iapSub');
-  setText('iap-free-ad', 'iapFreeAd');
-  setText('iap-footer', 'iapFooter');
-  // Masque la banniere dev si les SDKs sont prets
-  const banner = document.getElementById('iap-mode-banner');
-  if (banner) {
-    banner.style.display = window.CCMonetization.SDKS_READY ? 'none' : '';
-    banner.textContent = t('iapModeDev');
-  }
-
-  root.innerHTML = window.CCMonetization.DIAMOND_PACKS.map(function(p){
-    const total = p.diamonds + p.bonus;
-    const bonus = p.bonus > 0 ? ' <span class="iap-bonus">' + t('iapPackBonus',{p:p.bonus}) + '</span>' : '';
-    const reco = p.recommended ? '<div class="iap-reco">' + t('iapPackBest') + '</div>' : '';
-    return '<div class="iap-pack' + (p.recommended ? ' iap-reco-pack' : '') + '" onclick="purchaseIAPPack(\'' + p.id + '\')">'
-      + reco
-      + '<div class="iap-amount">💎 ' + total + '</div>'
-      + '<div class="iap-body">'
-      +   '<div class="iap-label"><b>' + p.label + '</b>' + bonus + '</div>'
-      +   '<div style="font-size:10px;color:var(--txd)">' + p.diamonds + ' 💎' + (p.bonus ? ' + ' + p.bonus + ' free' : '') + '</div>'
-      + '</div>'
-      + '<div class="iap-price">' + p.price_eur.toFixed(2) + '€</div>'
-      + '</div>';
-  }).join('');
-  openM('iap-modal');
-  try{ if(window.CCAnalytics) CCAnalytics.track('iap_store_opened'); }catch(e){}
-}
-
-function purchaseIAPPack(packId){
-  window.CCMonetization.purchaseIAP(packId).then(function(success){
-    if (success) {
-      // Close modal after a short delay pour montrer le toast
-      setTimeout(function(){ closeM('iap-modal'); }, 800);
-    }
-  });
-}
-
-function watchAdForDiamonds(){
-  window.CCMonetization.showRewardedAd(function(reward){
-    // addDiamonds est deja appele a l'interieur de showRewardedAd
-  });
-}
 
 /* ═══════════════════════════════════════
    REFERRAL & INVITE SYSTEM
@@ -6599,86 +6250,6 @@ var _achIv=setInterval(function(){checkAchievements();var allDone=ACHS.every(fun
    ASSET IMAGES INIT — loads all image src
 ═══════════════════════════════════════ */
 
-/* LIMITED-TIME OFFERS (Sprint 10 S10.3) */
-const LTO_OFFERS = [
-  {id:'mega_30',  packId:'mega',  discount:0.30, durationMs:24*3600*1000, labelKey:'ltoMega30'},
-  {id:'pro_20',   packId:'pro',   discount:0.20, durationMs:24*3600*1000, labelKey:'ltoPro20'},
-  {id:'whale_15', packId:'whale', discount:0.15, durationMs:48*3600*1000, labelKey:'ltoWhale15'}
-];
-let _ltoTimer = null;
-function ltoRestorePrices(){
-  if (!window.CCMonetization) return;
-  window.CCMonetization.DIAMOND_PACKS.forEach(function(p){ if (p._origPrice){ p.price_eur = p._origPrice; delete p._origPrice; }});
-}
-function ltoApply(){
-  if (!G.lto || !window.CCMonetization) return;
-  const pack = window.CCMonetization.DIAMOND_PACKS.find(function(p){return p.id === G.lto.packId});
-  if (!pack) return;
-  if (!pack._origPrice) pack._origPrice = pack.price_eur;
-  pack.price_eur = Math.round(pack._origPrice * (1 - G.lto.discount) * 100) / 100;
-}
-function ltoUpdateCountdown(){
-  if (!G.lto) return;
-  const ms = G.lto.expiresAt - Date.now();
-  if (ms <= 0){ ltoEnd(); return; }
-  const h = Math.floor(ms / 3600000);
-  const m = Math.floor((ms % 3600000) / 60000);
-  const s = Math.floor((ms % 60000) / 1000);
-  const countEl = document.getElementById('lto-count');
-  if (countEl) countEl.textContent = (h>0?h+'h ':'') + String(m).padStart(2,'0') + 'm ' + String(s).padStart(2,'0') + 's';
-  const lblEl = document.getElementById('lto-label');
-  if (lblEl && G.lto.labelKey && typeof t === 'function') lblEl.textContent = t(G.lto.labelKey);
-}
-function ltoEnd(){
-  const el = document.getElementById('lto-banner');
-  if (el) el.style.display = 'none';
-  G.lto = null;
-  ltoRestorePrices();
-  if (_ltoTimer) { clearInterval(_ltoTimer); _ltoTimer = null; }
-  saveSession && saveSession();
-}
-function ltoShowBanner(){
-  const el = document.getElementById('lto-banner');
-  if (!el || !G.lto) return;
-  el.style.display = '';
-  ltoUpdateCountdown();
-  if (_ltoTimer) clearInterval(_ltoTimer);
-  _ltoTimer = setInterval(ltoUpdateCountdown, 1000);
-}
-function ltoCheck(){
-  if (G.lto && G.lto.expiresAt > Date.now()){ ltoApply(); ltoShowBanner(); return; }
-  if (G.lto && G.lto.expiresAt <= Date.now()){ ltoEnd(); }
-  let sessions = 0;
-  try { sessions = parseInt(localStorage.getItem('cc_sessions')||'0', 10); } catch(e){}
-  if (sessions < 3) return;
-  if (!G.ltoSeen) G.ltoSeen = {};
-  const available = LTO_OFFERS.filter(function(o){return !G.ltoSeen[o.id]});
-  if (!available.length){
-    const last = parseInt(localStorage.getItem('cc_lto_last_reset')||'0', 10);
-    if (Date.now() - last > 14*24*3600*1000) {
-      G.ltoSeen = {};
-      try { localStorage.setItem('cc_lto_last_reset', String(Date.now())); } catch(e){}
-    }
-    return;
-  }
-  const pick = available[Math.floor(Math.random() * available.length)];
-  G.lto = {
-    offerId: pick.id, packId: pick.packId, discount: pick.discount,
-    labelKey: pick.labelKey, expiresAt: Date.now() + pick.durationMs
-  };
-  G.ltoSeen[pick.id] = true;
-  ltoApply();
-  ltoShowBanner();
-  try{ if(window.CCAnalytics) CCAnalytics.track('lto_shown', {offer_id:pick.id, discount:pick.discount}); }catch(e){}
-  saveSession && saveSession();
-}
-// Session counter
-try {
-  const n = parseInt(localStorage.getItem('cc_sessions')||'0', 10);
-  localStorage.setItem('cc_sessions', String(n + 1));
-} catch(e){}
-// Delayed LTO check after all modules loaded
-setTimeout(function(){ if (typeof ltoCheck === 'function') ltoCheck(); }, 800);
 
 
 /* Sprint 11 S11.8 — Casino Ambiance helpers */
@@ -6829,7 +6400,8 @@ function chestFormat(ms){
 }
 function chestOpen(){
   if (!chestReady()) return;
-  // Weighted random reward (60% coins, 30% diamonds, 10% boost)
+  // Sprint 15 — Weighted random reward (60% coins, 40% diamonds)
+  // Boost reward path removed (no more boost system)
   const r = Math.random();
   let kind, amount, label;
   if (r < 0.60){
@@ -6837,20 +6409,15 @@ function chestOpen(){
     amount = Math.max(500, Math.floor((G.cps||10) * 600 + Math.random()*((G.cps||10)*1200))); // ~10-30 min of CPS
     addC(amount);
     label = fmtF(amount) + ' ' + t('chestCoins');
-  } else if (r < 0.90){
+  } else {
     kind = 'diamonds';
-    amount = r < 0.82 ? 1 : (r < 0.88 ? 3 : 5);
+    // Tier system : 60% common (1-2💎), 30% rare (3-5💎), 10% epic (6-10💎)
+    const rr = Math.random();
+    if (rr < 0.60) amount = 1 + Math.floor(Math.random()*2);        // 1-2
+    else if (rr < 0.90) amount = 3 + Math.floor(Math.random()*3);   // 3-5
+    else amount = 6 + Math.floor(Math.random()*5);                  // 6-10
     if (typeof addDiamonds === 'function') addDiamonds(amount);
     label = amount + ' 💎';
-  } else {
-    kind = 'boost';
-    const boostIds = ['cps_2x','click_3x','lucky'];
-    const bId = boostIds[Math.floor(Math.random()*boostIds.length)];
-    if (!G.activeBoosts) G.activeBoosts = {};
-    const duration = bId === 'cps_2x' ? 1800000 : (bId === 'click_3x' ? 900000 : 300000);
-    G.activeBoosts[bId] = (G.activeBoosts[bId] && G.activeBoosts[bId] > Date.now() ? G.activeBoosts[bId] : Date.now()) + duration;
-    amount = '15m';
-    label = bId.replace('_',' ') + ' boost!';
   }
   G.chestReadyAt = Date.now() + CHEST_CD_MS;
   toast('🎁 ' + label);
