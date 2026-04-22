@@ -3619,7 +3619,9 @@ function checkUnlocks(){
       UNL[id]=true;
       if(lk){lk.style.transition='opacity .5s';lk.style.opacity='0';setTimeout(()=>lk.style.display='none',500)}
       if(card){card.classList.remove('lk');card.classList.add('un','unlocking');setTimeout(()=>card.classList.remove('unlocking'),900)}
-      showNotif('🎰',name+' '+t('unlocked'),t('needCoins',{n:fmtF(th)}).replace('to unlock',''));S.unlock()
+      showNotif('🎰',name+' '+t('unlocked'),t('needCoins',{n:fmtF(th)}).replace('to unlock',''));S.unlock();
+      // Sprint 14 fix — retire immédiatement le bouton "Try once" maintenant que c'est unlocked
+      if (typeof demoRefresh === 'function') demoRefresh();
     }
     // Sprint 8 S8.3 — progress bar sur les cards locked
     const pb = document.getElementById(id+'-pb');
@@ -3636,6 +3638,8 @@ function checkUnlocks(){
 function checkMS(prev,curr){
   for(const m of MILESTONES){
     if(prev<m.v&&curr>=m.v&&!G.milestones.has(m.v)){
+      // Sprint 15 — trigger push opt-in prompt au 1er milestone 1K (joueur engagé, pas overwhelmed)
+      if (m.v === 1000 && typeof viralPushOptIn === 'function') setTimeout(viralPushOptIn, 2500);
       G.milestones.add(m.v);
       // Milestone reward: small coin bonus
       const bonus=Math.floor(m.v*0.02);
@@ -6904,8 +6908,14 @@ function demoUse(id){
 function demoRefresh(){
   ['cf','bj','rl','dr','hl','sl'].forEach(function(id){
     const card = document.getElementById(id+'-c');
-    if (!card || UNL[id]) return;
+    if (!card) return;
     let btn = card.querySelector('.gc-demo');
+    // Sprint 14 fix — si la card est unlocked, retirer le bouton Try once (il ne sert plus)
+    if (UNL[id]) {
+      if (btn) btn.remove();
+      return;
+    }
+    // Card locked : assure que le bouton existe
     if (!btn){
       btn = document.createElement('button');
       btn.className = 'gc-demo';
@@ -7035,10 +7045,11 @@ function bigwinSaveImage(){
   } catch(e){ toast('❌ Save failed'); }
 }
 
-/* ---- 5. ONESIGNAL push hooks (activation via APP_ID placeholder) ---- */
+/* ---- 5. ONESIGNAL push notifications (Sprint 14 S14.5 activé Sprint 15) ---- */
 (function initOneSignal(){
-  const ONESIGNAL_APP_ID = 'ONESIGNAL_APP_ID_PLACEHOLDER';
-  if (ONESIGNAL_APP_ID === 'ONESIGNAL_APP_ID_PLACEHOLDER') return; // pas connecté
+  const ONESIGNAL_APP_ID = 'cc92ba94-6573-49a3-8587-a2d63c9206d8'; // Raphael's Org App
+  // Ne charge pas sur localhost (dev) pour éviter les erreurs de permissions
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
   // Loader OneSignal v16
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   const s = document.createElement('script');
@@ -7046,10 +7057,29 @@ function bigwinSaveImage(){
   s.defer = true;
   document.head.appendChild(s);
   window.OneSignalDeferred.push(function(OneSignal){
-    OneSignal.init({ appId: ONESIGNAL_APP_ID, allowLocalhostAsSecureOrigin: true, serviceWorkerParam:{scope:'/'} });
+    OneSignal.init({
+      appId: ONESIGNAL_APP_ID,
+      serviceWorkerParam: { scope: '/' },
+      serviceWorkerPath: 'OneSignalSDKWorker.js',
+      welcomeNotification: { disable: true }, // on laisse OneSignal gérer les notifs programmées
+      notifyButton: { enable: false } // le bouton bell flottant est désactivé (on triggerera la permission au bon moment)
+    });
     try { if (window.CCAnalytics) CCAnalytics.track('push_sdk_loaded'); } catch(e){}
   });
 })();
+
+/* Prompt pour s'abonner au moment opportun (après 1er milestone 1K coins) */
+function viralPushOptIn(){
+  if (typeof OneSignalDeferred === 'undefined') return;
+  if (G._pushAsked) return;
+  G._pushAsked = true;
+  window.OneSignalDeferred.push(function(OneSignal){
+    try {
+      OneSignal.Slidedown.promptPush({ force: true });
+      try { if (window.CCAnalytics) CCAnalytics.track('push_prompt_shown'); } catch(e){}
+    } catch(e){}
+  });
+}
 
 (function initImages(){
   var e;
