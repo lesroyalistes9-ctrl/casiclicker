@@ -3704,7 +3704,7 @@ function checkMS(prev,curr){
   for(const m of MILESTONES){
     if(prev<m.v&&curr>=m.v&&!G.milestones.has(m.v)){
       // Sprint 15 — trigger push opt-in prompt au 1er milestone 1K (joueur engagé, pas overwhelmed)
-      if (m.v === 1000 && typeof viralPushOptIn === 'function') setTimeout(viralPushOptIn, 2500);
+      // Sprint 16 — push opt-in déclenché par timer (5 min + 1h), plus par milestone coins
       G.milestones.add(m.v);
       // Milestone reward: small coin bonus
       const bonus=Math.floor(m.v*0.02);
@@ -6930,18 +6930,41 @@ function bigwinSaveImage(){
   });
 })();
 
-/* Prompt pour s'abonner au moment opportun (après 1er milestone 1K coins) */
-function viralPushOptIn(){
+/* Sprint 16 — Push opt-in scheduler : 1 prompt à 5 min, 1 autre à 1h max.
+   Skippe si l'user a déjà accepté ou refusé définitivement (browser permission).
+   Persiste via localStorage pour survivre aux refresh. */
+function viralPushOptIn(promptIndex){
   if (typeof OneSignalDeferred === 'undefined') return;
-  if (G._pushAsked) return;
-  G._pushAsked = true;
+  // Vérifie le state navigateur : si déjà denied ou granted, stop
+  try {
+    if ('Notification' in window) {
+      if (Notification.permission === 'denied') { try { localStorage.setItem('cc_push_prompts_shown', '2'); } catch(e){} return; }
+      if (Notification.permission === 'granted') { try { localStorage.setItem('cc_push_prompts_shown', '2'); } catch(e){} return; }
+    }
+  } catch(e){}
+  // Check compteur persistant (0, 1, ou 2)
+  let shownCount = 0;
+  try { shownCount = parseInt(localStorage.getItem('cc_push_prompts_shown') || '0', 10); } catch(e){}
+  if (shownCount >= 2) return;
+  if (shownCount >= (promptIndex || 1)) return; // on a déjà montré ce prompt ou au-delà
+  try { localStorage.setItem('cc_push_prompts_shown', String(shownCount + 1)); } catch(e){}
   window.OneSignalDeferred.push(function(OneSignal){
     try {
       OneSignal.Slidedown.promptPush({ force: true });
-      try { if (window.CCAnalytics) CCAnalytics.track('push_prompt_shown'); } catch(e){}
+      try { if (window.CCAnalytics) CCAnalytics.track('push_prompt_shown', {prompt_index: promptIndex || 1, total_shown: shownCount + 1}); } catch(e){}
     } catch(e){}
   });
 }
+
+// Sprint 16 — Scheduler : lance les 2 prompts au bon moment
+(function schedulePushPrompts(){
+  // Ne schedule pas sur localhost
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
+  // Timer 1 : 5 min après load
+  setTimeout(function(){ viralPushOptIn(1); }, 5 * 60 * 1000);
+  // Timer 2 : 60 min après load (si user toujours là)
+  setTimeout(function(){ viralPushOptIn(2); }, 60 * 60 * 1000);
+})();
 
 (function initImages(){
   var e;

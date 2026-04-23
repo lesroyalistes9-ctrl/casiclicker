@@ -1,7 +1,7 @@
 // CasiClicker Service Worker
-// v1.16.0 — Sprint 16 : 1T ultimate goal + UX polish (juicy tap, mega win, prestige teaser, diamond history, countdown)
+// v1.16.1 — Sprint 16 hotfix : push opt-in rescheduled (5min + 1h only, plus déclenché par coins)
 // Bump la version à chaque déploiement pour forcer le refresh.
-const CACHE_NAME = 'casiclicker-v1.16.0';
+const CACHE_NAME = 'casiclicker-v1.16.1';
 
 // Tous les assets statiques du jeu — pré-cachés à l'installation pour garantir l'offline.
 const ASSETS = [
