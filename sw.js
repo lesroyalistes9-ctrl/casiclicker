@@ -1,7 +1,7 @@
 // CasiClicker Service Worker
-// v1.15.3 — Sprint 15 hotfix : Suppression 'Try once' demo (locked = locked)
+// v1.16.0 — Sprint 16 : 1T ultimate goal + UX polish (juicy tap, mega win, prestige teaser, diamond history, countdown)
 // Bump la version à chaque déploiement pour forcer le refresh.
-const CACHE_NAME = 'casiclicker-v1.15.3';
+const CACHE_NAME = 'casiclicker-v1.16.0';
 
 // Tous les assets statiques du jeu — pré-cachés à l'installation pour garantir l'offline.
 const ASSETS = [
