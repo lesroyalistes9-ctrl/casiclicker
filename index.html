@@ -3336,7 +3336,8 @@ const G={
   luck:false, luckTimer:0,
   boost:false, boostMult:1, boostTimer:0,
   victoryDone:false,   // 1M RPS gate cleared
-  empireDone:false,    // 1B empire reached
+  empireDone:false,    // 1B milestone (non-blocking)
+  trillionDone:false,  // 1T trillion victory (true end)
   empireUp:{sc:0,mc2:0,gc:0}, // empire casino owned counts
   up:{ac:0,da:0,vt:0,mg:0,em:0,mc:0},
   cup:{cp1:0,cp2:0,cp3:0},
@@ -3371,8 +3372,10 @@ function addC(n,silent=false){
     checkEmpireUnlocks(prev,G.coins);
     // 1M = RPS final challenge gate
     if(G.coins>=M1&&!G.victoryDone)triggerFinal();
-    // 1B = ultimate empire victory
+    // 1B = empire milestone (non-blocking toast/notif)
     if(G.coins>=GOAL&&!G.empireDone)triggerEmpireVictory();
+    // 1T = vraie fin du jeu (cinematic + modal)
+    if(G.coins>=1e12&&!G.trillionDone)triggerTrillionVictory();
   }
   refreshHUD()
 }
@@ -3490,7 +3493,15 @@ function refreshHUD(){
 }
 
 function updateGameCards(){
-  var games=[{id:'bj',th:100},{id:'rl',th:5000},{id:'sl',th:20000}];
+  // Sprint 15 fix — TOUS les 6 mini-jeux + thresholds alignés avec checkUnlocks()
+  var games=[
+    {id:'cf',th:500},
+    {id:'bj',th:5000},
+    {id:'rl',th:50000},
+    {id:'dr',th:100000},
+    {id:'hl',th:250000},
+    {id:'sl',th:1000000}
+  ];
   games.forEach(function(g){
     var st=document.getElementById(g.id+'-st');
     if(!st)return;
@@ -3801,6 +3812,8 @@ setInterval(()=>{
   checkEmpireUnlocks(G.coins-G.cps,G.coins);
   if(G.coins>=M1&&!G.victoryDone)triggerFinal();
   if(G.coins>=GOAL&&!G.empireDone)triggerEmpireVictory();
+  // Sprint 15 — 1T trillion victory (vraie fin)
+  if(G.coins>=1e12&&!G.trillionDone)triggerTrillionVictory();
 },1000);
 
 /* ═══════════════════════════════════════
@@ -4439,26 +4452,59 @@ function closeVic1M(){
   showNotif('🏠',t('empirePhase'),t('empirePhaseMsg'));
 }
 
-/* ── EMPIRE VICTORY (1B) ── */
+/* ── 1B EMPIRE MILESTONE (non-blocking depuis Sprint 15) ──
+   Le joueur continue sa partie, on affiche juste un notif + confetti.
+   La vraie fin est à 1T (voir triggerTrillionVictory) */
 function triggerEmpireVictory(){
   G.empireDone=true;
   try{ if(window.CCAnalytics) CCAnalytics.track('empire_victory_1b', {playtime_s: Math.round((Date.now()-(G.startTime||Date.now()))/1000), prestige_count: PRESTIGE_COUNT}); }catch(e){}
-  S.cinematic();
+  // Feedback sonore + visuel non bloquant
+  S.bigwin && S.bigwin();
+  for(let i=0;i<10;i++)setTimeout(()=>confetti&&confetti(),i*250);
+  screenFlash && screenFlash('w');
+  // Toast + notif lateral (pas de modal bloquante)
+  toast('🏛️ 1 MILLIARD ! Tu as construit un empire du casino !');
+  showNotif('🏛️', '1 BILLION!', 'Casino Empire built — objectif final : 1 TRILLION 🪐');
+  // Reward : bonus diamants one-shot pour marquer le palier
+  if (typeof addDiamonds === 'function') addDiamonds(25);
+  setTimeout(function(){ toast('💎 +25 diamants — milestone 1B !'); }, 1500);
+  saveSession && saveSession();
+}
+
+/* ── 1T TRILLION VICTORY (vraie fin du jeu depuis Sprint 15) ── */
+function triggerTrillionVictory(){
+  G.trillionDone=true;
+  try{ if(window.CCAnalytics) CCAnalytics.track('trillion_victory', {playtime_s: Math.round((Date.now()-(G.startTime||Date.now()))/1000), prestige_count: PRESTIGE_COUNT}); }catch(e){}
+  S.cinematic && S.cinematic();
   const cin=document.getElementById('cinematic');
+  if(!cin){ showTrillionVictory(); return; }
+  // Réutilise le cinematic avec des textes trillionaire
   const phrases=[
-    {t:t('empCin1t'),s:t('empCin1s')},
-    {t:t('empCin2t'),s:t('empCin2s')},
-    {t:t('empCin3t'),s:t('empCin3s')},
+    {t:'1,000,000,000,000', s:'One trillion coins.'},
+    {t:t('ms1T_t')||'ONE TRILLION!', s:t('ms1T_s')||'You are THE casino titan.'},
+    {t:'TITAN STATUS', s:'Respect — the game is yours.'}
   ];
   cin.classList.add('on');
   let i=0;
   function ph(){
-    if(i>=phrases.length){cin.classList.remove('on');setTimeout(showEmpireVictory,400);return}
+    if(i>=phrases.length){cin.classList.remove('on');setTimeout(showTrillionVictory,400);return}
     document.getElementById('cin-t').textContent=phrases[i].t;
     document.getElementById('cin-s').textContent=phrases[i].s;
     i++;setTimeout(ph,2200)
   }
   setTimeout(ph,300)
+}
+
+function showTrillionVictory(){
+  // Réutilise le modal #vic mais customize les textes pour 1T
+  const titleEl = document.querySelector('#vic .vt');
+  if (titleEl) titleEl.textContent = 'CASINO TITAN';
+  const subEl = document.getElementById('vic-sub');
+  if (subEl) subEl.innerHTML = 'You hit 1 TRILLION coins.<br>You are THE casino titan.';
+  const emojiEl = document.getElementById('vic-emoji');
+  if (emojiEl) emojiEl.textContent = '🪐';
+  // Appelle showEmpireVictory qui fait le reste (stats, share card, overlay)
+  showEmpireVictory();
 }
 
 function showEmpireVictory(){
@@ -4606,7 +4652,7 @@ function restartGame(){
     bets:{bj:10,rl:10,sl:5,rps:10}, rlSel:'red',
     clickPower:1,
     luck:false, luckTimer:0, boost:false, boostMult:1, boostTimer:0,
-    victoryDone:false, empireDone:false,
+    victoryDone:false, empireDone:false, trillionDone:false,
     empireUp:{sc:0, mc2:0, gc:0},
     up:{ac:0,da:0,vt:0,mg:0,em:0,mc:0},
     cup:{cp1:0, cp2:0, cp3:0},
@@ -5230,7 +5276,7 @@ function saveSession() {
       up: G.up, cup: G.cup,
       shopVisible: G.shopVisible, cpVisible: G.cpVisible,
       shopTabUnlocked: G.shopTabUnlocked, emailDone: G.emailDone,
-      dailyDone: G.dailyDone, victoryDone: G.victoryDone, empireDone: G.empireDone, statsUnlocked: G.statsUnlocked||false,
+      dailyDone: G.dailyDone, victoryDone: G.victoryDone, empireDone: G.empireDone, trillionDone: G.trillionDone||false, statsUnlocked: G.statsUnlocked||false,
       empireUp: G.empireUp, prevRank: G.prevRank,
       diamonds: G.diamonds||0, dshopOwned: G.dshopOwned||{},
       milestones: Array.from(G.milestones||[]),
@@ -5261,6 +5307,7 @@ function checkOfflineEarnings() {
     if(sess.dailyDone) G.dailyDone=sess.dailyDone;
     if(sess.victoryDone) G.victoryDone=sess.victoryDone;
     if(sess.empireDone) G.empireDone=sess.empireDone;
+    if(sess.trillionDone) G.trillionDone=sess.trillionDone;
     if(sess.empireUp) G.empireUp=sess.empireUp;
     if(sess.prevRank!==undefined) G.prevRank=sess.prevRank;
     if(sess.statsUnlocked) G.statsUnlocked=sess.statsUnlocked;
@@ -5422,7 +5469,7 @@ function doPrestige() {
     emailFired:false, dailyDone:false,
     bets:{bj:10,rl:10,sl:5,rps:10}, rlSel:'red',
     luck:false, luckTimer:0, boost:false, boostMult:1, boostTimer:0,
-    victoryDone:false, empireDone:false,
+    victoryDone:false, empireDone:false, trillionDone:false,
     empireUp:{
       sc: EMPIRE_UNL.sc  ? 1 : 0,
       mc2: EMPIRE_UNL.mc2 ? 1 : 0,

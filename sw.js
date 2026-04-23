@@ -1,7 +1,7 @@
 // CasiClicker Service Worker
-// v1.15.1 — Sprint 15 hotfix : diamond-pill toujours visible dans le header (fix gating 10min)
+// v1.15.2 — Sprint 15 hotfix : PLAY button sur 6 mini-jeux + 1B non-bloquant + 1T trillion victory
 // Bump la version à chaque déploiement pour forcer le refresh.
-const CACHE_NAME = 'casiclicker-v1.15.1';
+const CACHE_NAME = 'casiclicker-v1.15.2';
 
 // Tous les assets statiques du jeu — pré-cachés à l'installation pour garantir l'offline.
 const ASSETS = [
