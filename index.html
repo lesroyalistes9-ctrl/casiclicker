@@ -206,9 +206,6 @@
 @keyframes chestPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 rgba(232,180,0,.6)}50%{transform:scale(1.05);box-shadow:0 0 16px rgba(232,180,0,.6)}}
 
 /* Sprint 14 — Demo button sur cards locked */
-.gc.lk .gc-demo{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:9px;font-weight:800;padding:3px 10px;border:none;border-radius:6px;cursor:pointer;z-index:2;letter-spacing:.3px;display:none}
-.gc.lk .gc-demo.show{display:block;animation:demoPulse 2s ease-in-out infinite}
-@keyframes demoPulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.08)}}
 
 /* Sprint 14 — Prestige Recap Wrapped */
 #prestige-recap-modal .ms{max-width:380px;background:linear-gradient(160deg,#1a0040,#0d0a1a,#2a0060);color:#fff}
@@ -2532,9 +2529,7 @@ const T = {
   chestCoins:     { en:'coins',  fr:'pièces',  es:'monedas',  zh:'金币' },
   chestDiamonds:  { en:'💎',     fr:'💎',       es:'💎',        zh:'💎' },
   chestBoost:     { en:'boost',  fr:'boost',    es:'boost',     zh:'强化' },
-  demoTryBtn:     { en:'🎰 Try once',  fr:'🎰 Essai',  es:'🎰 Probar',   zh:'🎰 试玩' },
   demoCooldown:   { en:'Next demo in {t}', fr:'Prochaine démo dans {t}', es:'Próxima en {t}', zh:'{t}后可再试' },
-  demoSpin:       { en:'🎲 Free spin — no win kept', fr:'🎲 Essai gratuit — gains non conservés', es:'🎲 Tiro gratis — sin ganancia', zh:'🎲 免费试玩 — 不保留收益' },
   prestigeRecapTitle: { en:'PRESTIGE RECAP', fr:'RÉCAP PRESTIGE', es:'RESUMEN PRESTIGIO', zh:'声望回顾' },
   prestigeRecapSub:   { en:'Here is your run', fr:'Voici ton run', es:'Tu partida', zh:'本轮回顾' },
   prestigeShareRecap: { en:'📤 Share my run',   fr:'📤 Partager mon run', es:'📤 Compartir', zh:'📤 分享' },
@@ -3531,8 +3526,6 @@ function checkUnlocks(){
       if(lk){lk.style.transition='opacity .5s';lk.style.opacity='0';setTimeout(()=>lk.style.display='none',500)}
       if(card){card.classList.remove('lk');card.classList.add('un','unlocking');setTimeout(()=>card.classList.remove('unlocking'),900)}
       showNotif('🎰',name+' '+t('unlocked'),t('needCoins',{n:fmtF(th)}).replace('to unlock',''));S.unlock();
-      // Sprint 14 fix — retire immédiatement le bouton "Try once" maintenant que c'est unlocked
-      if (typeof demoRefresh === 'function') demoRefresh();
     }
     // Sprint 8 S8.3 — progress bar sur les cards locked
     const pb = document.getElementById(id+'-pb');
@@ -6497,52 +6490,6 @@ function chestRender(){
 }
 setInterval(chestRender, 30000); // refresh toutes les 30s
 setTimeout(chestRender, 600);    // au boot
-
-/* ---- 2. DEMO minigames gated (1/heure) ---- */
-const DEMO_CD = 3600000; // 1h cooldown
-function demoCanUse(id){
-  if (!G.demoLastUse) G.demoLastUse = {};
-  return Date.now() - (G.demoLastUse[id] || 0) > DEMO_CD;
-}
-function demoUse(id){
-  G.demoLastUse = G.demoLastUse || {};
-  G.demoLastUse[id] = Date.now();
-  saveSession && saveSession();
-  toast(t('demoSpin'));
-  try { if (window.CCAnalytics) CCAnalytics.track('demo_spin_used', {game:id}); } catch(e){}
-  // Ouvre le mini-jeu en mode démo. On set un flag temporaire puis on ouvre.
-  G._demoMode = id;
-  // Temporarily allow opening
-  const wasUnlocked = UNL[id];
-  UNL[id] = true;
-  try { openGame(id); } catch(e){}
-  // Restore après 100ms (l'ouverture a eu lieu)
-  setTimeout(function(){ UNL[id] = wasUnlocked; }, 150);
-}
-function demoRefresh(){
-  ['cf','bj','rl','dr','hl','sl'].forEach(function(id){
-    const card = document.getElementById(id+'-c');
-    if (!card) return;
-    let btn = card.querySelector('.gc-demo');
-    // Sprint 14 fix — si la card est unlocked, retirer le bouton Try once (il ne sert plus)
-    if (UNL[id]) {
-      if (btn) btn.remove();
-      return;
-    }
-    // Card locked : assure que le bouton existe
-    if (!btn){
-      btn = document.createElement('button');
-      btn.className = 'gc-demo';
-      btn.innerHTML = '🎰 Try once';
-      btn.onclick = function(e){ e.stopPropagation(); demoUse(id); };
-      card.appendChild(btn);
-    }
-    if (demoCanUse(id)) btn.classList.add('show');
-    else btn.classList.remove('show');
-  });
-}
-setInterval(demoRefresh, 30000);
-setTimeout(demoRefresh, 800);
 
 /* ---- 3. PRESTIGE RECAP (Spotify Wrapped style) ---- */
 let _recapSlides = [];
